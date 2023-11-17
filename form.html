@@ -46,7 +46,7 @@
 	<label>ISBN 上12桁</label>
 	<input id=digits readonly>
 	<label>書籍名</label>（自動入力）
-	<textarea id=bookName placeholder=書籍名 readonly></textarea>
+	<input id=bookName placeholder=書籍名 readonly>
 	<label>氏名</label>（姓名間に空白を入れてください）
 	<input id=userName>
 	<label>申請種別</label>
@@ -56,14 +56,16 @@
 		<label><input name=type value=返却 type=radio>返却</label>
 	</div>
 	<label class=貸出>貸出日</label>
-	<input class=貸出 id=date type=date>
+	<input class=貸出 id=borrowDate type=date>
+	<label class=返却>貸出日</label>
+	<input class=返却 id=returnDate type=date>
 	<label class=返却>お薦めコメント（任意）</label>
 	<textarea class=返却 id=comment></textarea>
 	<button disabled id=submit></button>
 </form>
 <script type=module>
 	digits.value=new URL(location).searchParams.get("digits")
-	date.value=new Date().toLocaleDateString("sv")
+	returnDate.value=borrowDate.value=new Date().toLocaleDateString("sv")
 
 	if(!/^97[89]\d{9}$/.test(digits.value)) alert("URLのパラメーター digits が不正です。")
 
