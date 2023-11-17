@@ -92,7 +92,8 @@
 		const url=new URL("https://script.google.com")
 		url.pathname="macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec"
 		const payloadSource={digits:digits.value,userName:userName.value,type:form.type.value}
-		if(form.type.value=="貸出") payloadSource.date=date.value
+		if(form.type.value=="貸出") payloadSource.borrowDate=borrowDate.value
+		if(form.type.value=="返却") payloadSource.returnDate=returnDate.value
 		if(form.type.value=="返却") payloadSource.comment=comment.value
 		const response=await fetch(url,{method:"post",body:JSON.stringify(payloadSource)})
 		submit.innerText="申請済"
