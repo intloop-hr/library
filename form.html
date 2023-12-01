@@ -40,7 +40,7 @@
 <script type=module>
 	digits.value=new URL(location).searchParams.get("digits")
 	date.value=new Date().toLocaleDateString("sv")
-	oninput=async()=>{
+	oninput=()=>{
 		for(const element of document.querySelectorAll(".貸出")){
 			element.style.display=form.type.value=="貸出"?"":"none"
 		}
@@ -55,11 +55,7 @@
 		submit.disabled||=/\d+/.test(userName.value)
 		submit.innerText="申請"
 	}
-	await oninput()
-	if(!/^97[89]\d{9}$/.test(digits.value)){
-		await new Promise(setTimeout)
-		alert("URLのパラメーター digits が不正です。")
-	}
+	oninput()
 
 	submit.onclick=async()=>{
 		event.preventDefault()
@@ -73,6 +69,11 @@
 		const response=await fetch(url,{method:"post",body:JSON.stringify(payloadSource)})
 		submit.innerText="申請済"
 		alert(await response.text())
+	}
+
+	if(!/^97[89]\d{9}$/.test(digits.value)){
+		await new Promise(setTimeout)
+		alert("URLのパラメーター digits が不正です。")
 	}
 
 	/*
