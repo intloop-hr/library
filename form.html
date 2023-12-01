@@ -40,7 +40,7 @@
 <script type=module>
 	digits.value=new URL(location).searchParams.get("digits")
 	date.value=new Date().toLocaleDateString("sv")
-	oninput=()=>{
+	oninput=async()=>{
 		for(const element of document.querySelectorAll(".貸出")){
 			element.style.display=form.type.value=="貸出"?"":"none"
 		}
@@ -55,7 +55,7 @@
 		submit.disabled||=/\d+/.test(userName.value)
 		submit.innerText="申請"
 	}
-	oninput()
+	await oninput()
 	if(!/^97[89]\d{9}$/.test(digits.value)){
 		await new Promise(setTimeout)
 		alert("URLのパラメーター digits が不正です。")
