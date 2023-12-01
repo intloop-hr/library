@@ -61,7 +61,7 @@
 				location="form.html?digits="+codeResult.code.slice(0,-1)
 				return
 			}
-			setTimeout(play)
+			await video.play()//setTimeout(play)
 		}
 		setTimeout($)
 	}().catch(alert)
