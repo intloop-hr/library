@@ -1,24 +1,11 @@
 <meta content=width=device-width name=viewport>
 <link href=style.css rel=stylesheet>
 <style>
-	html,body{
-		height:100%
-	}
-	body{
-		background:#000;color:#fff
-	}
-	br{
-		display:none
-	}
-	canvas,video{
-		display:block;height:100%;width:100%
-	}
-	canvas{
-		object-fit:contain;position:absolute;top:0
-	}
-	#description{
-		font-weight:bold;padding:8px 16px;position:absolute;top:0
-	}
+	html,body{height:100%}
+	body{background:#000;color:#fff}
+	canvas,video{display:block;height:100%;width:100%}
+	canvas{object-fit:contain;position:absolute;top:0}
+	#description{font-weight:bold;padding:8px 16px;position:absolute;top:0}
 </style>
 <title>INTLOOPライブラリー</title>
 <video id=video playsinline>
@@ -26,14 +13,11 @@
 <canvas id=drawingBuffer>
 </canvas>
 <div id=description>裏表紙のISBNバーコードにカメラを向けてください。（ISBNは、97 で始まる13桁）</div>
-<script src=https://cdn.jsdelivr.net/npm/quagga>
-</script>
+<script src=https://cdn.jsdelivr.net/npm/quagga></script>
 <script type=module>
 	video.srcObject=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}})
+	await video.play()
 
-	await new Promise(function $(resolve){
-		video.videoWidth*video.videoHeight?resolve():setTimeout($,undefined,resolve)
-	})
 	drawingBuffer.width=1.25*video.videoWidth
 	drawingBuffer.height=1.25*video.videoHeight
 	const canvas=document.createElement("canvas")
@@ -45,7 +29,6 @@
 	const reducer=(result,value,index)=>index%2?result+3*value:result+ +value
 	const play=async()=>await video.play()
 
-	await video.play()
 	await async function $(){
 		canvas.getContext("2d").drawImage(video,0,0)
 		const results=await new Promise(resolve=>{
