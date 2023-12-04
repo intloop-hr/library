@@ -45,8 +45,9 @@
 			drawingBuffer.getContext("2d").strokeStyle=codeResult?"#f00":"#00f"
 			drawingBuffer.getContext("2d").stroke()
 		}
-		for(const{codeResult,codeResult:{code}}of results??""){
+		for(const{codeResult}of results??""){
 			if(codeResult===undefined) continue
+			const{code}=codeResult
 			if(!isbnRegExp.test(code)) continue
 			if(code.slice(-1)!=9-[...code.slice(0,-1)].reduce(reducer,-1)%10) continue
 			canvas.removeAttribute("style")
