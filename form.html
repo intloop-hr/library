@@ -62,6 +62,7 @@
 		submit.disabled||=!form.type.value
 		submit.disabled||=!/\S+\s+\S+/.test(userName.value)
 		submit.disabled||=Array.prototype.some.call(userName.value,letter=>!usableLetters.includes(letter))
+		submit.disabled||=new Date(date.value)>new Date
 		submit.innerText="申請"
 	}
 	submit.onclick=async()=>{
