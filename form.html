@@ -62,7 +62,9 @@
 		submit.disabled||=!isbnRegExp.test(digits.value) 
 		submit.disabled||=!form.type.value
 		submit.disabled||=userNameRegExp.test(userName.value)
-		submit.disabled||=Array.prototype.some.call(userName.value,letter=>!usableLetters.includes(letter))
+		for(const letter of userName.value){
+			submit.disabled||=!usableLetters.includes(letter)
+		}
 		submit.disabled||=new Date(date.value)>new Date
 		submit.innerText="申請"
 	}
