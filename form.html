@@ -45,7 +45,7 @@
     const usableLetterRegExp=/^[^\d\x00-\x1f\x7f-\x9f\uff00-\uffff]$/
 	for(let number=1;number<0x10101/*0xee41*/;++number){
 		const text=decoder.decode(new Uint8Array(numberToArray(number)))
-		if(!usableLetterRegExp.test(text)) continue
+		if(usableLetterRegExp.test(text)); else continue
 		usableLetters+=text
 	}
 	const isbnRegExp=/^97[89]\d{9}$/
@@ -61,11 +61,10 @@
 		submit.disabled||=!isbnRegExp.test(digits.value) 
 		submit.disabled||=!form.type.value
 		submit.disabled||=!/\S+\s+\S+/.test(userName.value)
-		submit.disabled||=[...userName.value].some(letter=>!usableLetters.includes(letter))
+		submit.disabled||=Array.prototype.some.call(userName.value,letter=>!usableLetters.includes(letter))
 		submit.innerText="申請"
 	}
 	submit.onclick=async()=>{
-		//event.preventDefault()
 		submit.disabled=true
 		submit.innerText="申請中"
 		const url="https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec"
