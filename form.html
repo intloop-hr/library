@@ -18,9 +18,9 @@
 <title>INTLOOPライブラリー 申請フォーム</title>
 <form id=form>
 	<label>ISBN 上12桁</label>（自動入力）
-	<input id=digits readonly>
+	<input name=digits readonly>
 	<label>氏名</label>（姓名間 空白必須）
-	<input id=userName>
+	<input name=userName>
 	<label>申請種別</label>
 	<div id=flex>
 		<label><input name=type value=貸出 type=radio>貸出</label>
@@ -29,14 +29,14 @@
 	</div>
 	<label class=borrow>貸出日</label>
 	<label class=return>返却日</label>
-	<input id=date type=date>
+	<input id=date name=date type=date>
 	<label class=return>お薦めコメント（任意）</label>
-	<textarea class=return id=comment></textarea>
+	<textarea class=return name=comment></textarea>
 	<button disabled id=submit></button>
 </form>
 <script type=module>
-	digits.value=new URL(location).searchParams.get("digits")
-	date.value=new Date().toLocaleDateString("sv")
+	form.digits.value=new URL(location).searchParams.get("digits")
+	form.date.value=new Date().toLocaleDateString("sv")
 	const decoder=new TextDecoder("sjis")
 	decoder.xxx=function(number){
 		const array=[]
@@ -67,28 +67,34 @@
 		}
 		date.style.display=form.type.value=="貸出"||form.type.value=="返却"?"":"none"
 		submit.disabled=false
-		submit.disabled||=!isbnRegExp.test(digits.value) 
+		submit.disabled||=!isbnRegExp.test(form.digits.value) 
 		submit.disabled||=!form.type.value
-		submit.disabled||=userNameRegExp.test(userName.value)
-		for(const letter of userName.value){
+		submit.disabled||=userNameRegExp.test(form.userName.value)
+		for(const letter of form.userName.value){
 			submit.disabled||=!usableLetters.includes(letter)
 		}
-		submit.disabled||=new Date(date.value)>new Date
+		submit.disabled||=new Date(form.date.value)>new Date
 		submit.innerText="申請"
 	}
 	submit.onclick=async()=>{
 		submit.disabled=true
 		submit.innerText="申請中"
 		const url="https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec"
-		const payloadSource={digits:digits.value,userName:userName.value,type:form.type.value}
-		if(form.type.value=="貸出"||form.type.value=="返却") payloadSource.date=date.value
-		if(form.type.value=="返却") payloadSource.comment=comment.value
+		const payloadSource={digits:form.digits.value,userName:form.userName.value,type:form.type.value}
+		switch(form.type.value){
+			case"貸出":
+			payloadSource.date=form.date.value
+			break
+			case"返却":
+			payloadSource.date=form.date.value
+			payloadSource.comment=form.comment.value
+		}
 		const response=await fetch(url,{method:"post",body:JSON.stringify(payloadSource)})
 		submit.innerText="申請済"
 		alert(await response.text())
 	}
 	oninput()
-	if(isbnRegExp.test(digits.value)); else{
+	if(isbnRegExp.test(form.digits.value)); else{
 		await new Promise(setTimeout)
 		alert("URLのパラメーター digits が不正です。")
 	}
