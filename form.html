@@ -43,7 +43,7 @@
 		const array=[]
 		while(number){
 			array.unshift(--number%0x100)
-			number>>=0o10
+			number>>=0x8
 		}
 		return this.decode(new Uint8Array(array))
 	}
