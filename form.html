@@ -76,10 +76,10 @@
 		submit.disabled||=new Date(date.value)>new Date
 		submit.innerText="申請"
 	}
+	const url="https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec"
 	submit.onclick=async()=>{
 		submit.disabled=true
 		submit.innerText="申請中"
-		const url="https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec"
 		const payloadSource={digits:digits.value,userName:userName.value,type:type.value}
 		switch(type.value){
 			case"貸出":
