@@ -48,6 +48,7 @@
 		if(!usableLetterRegExp.test(text)) continue
 		usableLetters+=text
 	}
+	const isbnRegExp=/^97[89]\d{9}$/
 	oninput=()=>{
 		for(const element of document.querySelectorAll(".貸出")){
 			element.style.display=form.type.value=="貸出"?"":"none"
@@ -57,19 +58,17 @@
 		}
 		date.style.display=form.type.value=="貸出"||form.type.value=="返却"?"":"none"
 		submit.disabled=false
-		submit.disabled||=!/^97[89]\d{9}$/.test(digits.value) 
+		submit.disabled||=!isbnRegExp.test(digits.value) 
 		submit.disabled||=!form.type.value
 		submit.disabled||=!/\S+\s+\S+/.test(userName.value)
-		submit.disabled||=/\d+/.test(userName.value)
 		submit.disabled||=[...userName.value].some(letter=>!usableLetters.includes(letter))
 		submit.innerText="申請"
 	}
 	submit.onclick=async()=>{
-		event.preventDefault()
+		//event.preventDefault()
 		submit.disabled=true
 		submit.innerText="申請中"
-		const url=new URL("https://script.google.com")
-		url.pathname="macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec"
+		const url="https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec"
 		const payloadSource={digits:digits.value,userName:userName.value,type:form.type.value}
 		if(form.type.value=="貸出"||form.type.value=="返却") payloadSource.date=date.value
 		if(form.type.value=="返却") payloadSource.comment=comment.value
@@ -78,7 +77,7 @@
 		alert(await response.text())
 	}
 	oninput()
-	if(/^97[89]\d{9}$/.test(digits.value)); else{
+	if(isbnRegExp.test(digits.value)); else{
 		await new Promise(setTimeout)
 		alert("URLのパラメーター digits が不正です。")
 	}
