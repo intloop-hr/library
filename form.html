@@ -27,11 +27,11 @@
 		<label><input name=type value=延長 type=radio>延長</label>
 		<label><input name=type value=返却 type=radio>返却</label>
 	</div>
-	<label class=貸出>貸出日</label>
-	<label class=返却>返却日</label>
+	<label class=borrow>貸出日</label>
+	<label class=return>返却日</label>
 	<input id=date type=date>
-	<label class=返却>お薦めコメント（任意）</label>
-	<textarea class=返却 id=comment></textarea>
+	<label class=return>お薦めコメント（任意）</label>
+	<textarea class=return id=comment></textarea>
 	<button disabled id=submit></button>
 </form>
 <script type=module>
@@ -56,12 +56,14 @@
 	}
 	const isbnRegExp=/^97[89]\d{9}$/
 	const userNameRegExp=/^\s*\S*\s*$/
+	const borrowElements=document.querySelectorAll(".borrow")
+	const returnElements=document.querySelectorAll(".return")
 	oninput=()=>{
-		for(const element of document.querySelectorAll(".貸出")){
-			element.style.display=form.type.value=="貸出"?"":"none"
+		for(const{style}of borrowElements){
+			style.display=form.type.value=="貸出"?"":"none"
 		}
-		for(const element of document.querySelectorAll(".返却")){
-			element.style.display=form.type.value=="返却"?"":"none"
+		for(const{style}of returnElements){
+			style.display=form.type.value=="返却"?"":"none"
 		}
 		date.style.display=form.type.value=="貸出"||form.type.value=="返却"?"":"none"
 		submit.disabled=false
