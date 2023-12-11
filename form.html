@@ -42,12 +42,10 @@
 	}
 	const decoder=new TextDecoder("sjis")
 	let usableLetters=""
-    const unusableLetterRegExp=/\d|[\x00-\x1f\x7f-\x9f\uff00-\uffff]/
+    const usableLetterRegExp=/^[^\d\x00-\x1f\x7f-\x9f\uff00-\uffff]$/
 	for(let number=1;number<0x10101/*0xee41*/;++number){
 		const text=decoder.decode(new Uint8Array(numberToArray(number)))
-		if(text.length!=1) continue
-		if(unusableLetterRegExp.test(text)) continue
-		if(text=="\ufffd") continue
+		if(!usableLetterRegExp.test(text)) continue
 		usableLetters+=text
 	}
 	oninput=()=>{
