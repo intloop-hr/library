@@ -49,6 +49,7 @@
 		usableLetters+=text
 	}
 	const isbnRegExp=/^97[89]\d{9}$/
+	const userNameRegExp=/^\s*\S*\s*$/
 	oninput=()=>{
 		for(const element of document.querySelectorAll(".貸出")){
 			element.style.display=form.type.value=="貸出"?"":"none"
@@ -60,7 +61,7 @@
 		submit.disabled=false
 		submit.disabled||=!isbnRegExp.test(digits.value) 
 		submit.disabled||=!form.type.value
-		submit.disabled||=!/\S+\s+\S+/.test(userName.value)
+		submit.disabled||=userNameRegExp.test(userName.value)
 		submit.disabled||=Array.prototype.some.call(userName.value,letter=>!usableLetters.includes(letter))
 		submit.disabled||=new Date(date.value)>new Date
 		submit.innerText="申請"
