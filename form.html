@@ -10,28 +10,28 @@
 	input[type=date]{display:inline-block;height:calc(1em + 16px)}
 	input[type=radio]{display:none}
 	button,label:has(input:checked){background:#000;color:#fff}
-	button,label:has(input:checked),label:not(:has(input)){font-weight:bold}
+	button,label:has(input:checked){font-weight:bold}
 	label:has(input){flex-grow:1}
 	:disabled{opacity:calc(2/3)}
 	.flex{display:flex;column-gap:16px}
 </style>
 <title>INTLOOPライブラリー 申請フォーム</title>
 <form>
-	<label>ISBN 上12桁</label>（自動入力）
+	<label><strong>ISBN 上12桁</strong></label>（自動入力）
 	<input name=digits readonly>
-	<label>氏名</label>（姓名間 空白必須）
+	<label><strong>氏名</strong></label>（姓名間 空白必須）
 	<input name=userName>
-	<label>申請種別</label>
+	<label><strong>申請種別</strong></label>
 	<div class=flex>
 		<label><input name=type value=貸出 type=radio>貸出</label>
 		<label><input name=type value=延長 type=radio>延長</label>
 		<label><input name=type value=返却 type=radio>返却</label>
 	</div>
-	<label class=borrow>貸出日</label>
-	<label class=return>返却日</label>
+	<label class=borrow><strong>貸出日</strong></label>
+	<label class=return><strong>返却日</strong></label>
 	<input name=date type=date>
-	<label class=return>お薦めコメント</label>
-	<textarea class=return name=comment placeholder=任意></textarea>
+	<label class=return><strong>お薦めコメント</strong>（任意）</label>
+	<textarea class=return name=comment></textarea>
 	<button disabled name=submit></button>
 </form>
 <script type=module>
