@@ -37,7 +37,8 @@
 <script type=module>
 	digits.value=new URL(location).searchParams.get("digits")
 	date.value=new Date().toLocaleDateString("sv")
-	TextDecoder.prototype.xxx=function(number){
+	const decoder=new TextDecoder("sjis")
+	decoder.xxx=function(number){
 		const array=[]
 		while(number){
 			array.unshift(--number%0x100)
@@ -46,7 +47,6 @@
 		}
 		return this.decode(new Uint8Array(array))
 	}
-	const decoder=new TextDecoder("sjis")
 	let usableLetters=""
     const usableLetterRegExp=/^[^\d\x00-\x1f\x7f-\x9f\uff00-\uffff]$/
 	for(let number=1;number<0x10101/*0xee41*/;++number){
