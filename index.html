@@ -29,9 +29,6 @@
 	const resolver=resolve=>{
 		Quagga.decodeSingle(constraits,resolve)
 	}
-	const waiter=resolve=>{
-		setTimeout(resolve,1)
-	}
 	const checker=({codeResult})=>codeResult&&isbnRegExp.test(codeResult.code)
 	await async function $(){
 		canvas.getContext("2d").drawImage(video,0,0)
@@ -60,7 +57,10 @@
 				const bookInfo=["ISBN: "+code]
 				if(authors!==undefined) bookInfo.unshift("著者: "+authors.join("、"))
 				if(title!==undefined) bookInfo.unshift("題名: "+title)
-				await new Promise(waiter)
+				const date=+new Date
+				await new Promise(setTimeout)
+				while(date==+new Date);
+				await new Promise(setTimeout)
 				if(confirm("図書の内容は以下ですか?\n\n"+bookInfo.join("\n"))); else continue
 				location="form.html?digits="+code.slice(0,-1)
 			}
@@ -71,7 +71,10 @@
 		}
 		setTimeout($)
 	}().catch(async error=>{
-		await new Promise(waiter)
+		const date=+new Date
+		await new Promise(setTimeout)
+		while(date==+new Date);
+		await new Promise(setTimeout)
 		alert(error)
 	})
 	onpageshow=()=>{
