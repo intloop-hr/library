@@ -76,6 +76,7 @@
 		submit.disabled||=new Date(date.value)>new Date
 		submit.innerText="申請"
 	}
+	oninput()
 	const url="https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec"
 	submit.onclick=async()=>{
 		submit.disabled=true
@@ -93,7 +94,6 @@
 		submit.innerText="申請済"
 		alert(await response.text())
 	}
-	oninput()
 	if(isbnRegExp.test(digits.value)); else{
 		const date=+new Date
 		await new Promise(setTimeout)
