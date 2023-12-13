@@ -70,7 +70,7 @@
 			drawingBuffer.getContext("2d").clearRect(0,0,1.25*video.videoWidth,1.25*video.videoHeight)
 		}
 		setTimeout($)
-	}().catch(error=>{
+	}().catch(async error=>{
 		await new Promise(waiter)
 		alert(error)
 	})
