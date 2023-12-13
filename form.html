@@ -95,7 +95,7 @@
 	}
 	oninput()
 	if(isbnRegExp.test(digits.value)); else{
-		await new Promise(setTimeout)
+		await new Promise(resolve=>setTimeout(resolve,1))
 		alert("URLのパラメーター digits が不正です。")
 	}
 </script>
