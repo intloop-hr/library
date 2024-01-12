@@ -42,10 +42,13 @@
 	try{
 		while(true){
 			canvas.getContext("2d").drawImage(video,0,0) // videoのフレーム更新を待たずにcanvasに再描画してる?
-			constraits.src=canvas.toDataURL()
+			const xxx=canvas.toDataURL()
+			const urlIsOK=xxx!=constraits.src
+			constraits.src=xxx
 			const{promise,resolve}=Promise.withResolvers()
 			Quagga.decodeSingle(constraits,resolve)
 			await promise
+			if(urlIsOK); else continue
 			drawingBuffer.getContext("2d").clearRect(0,0,1.25*video.videoWidth,1.25*video.videoHeight)
 			for(const{box,codeResult}of await promise??""){
 				drawingBuffer.getContext("2d").beginPath()
