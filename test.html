@@ -45,9 +45,9 @@
 			constraits.src=canvas.toDataURL()
 			const{promise,resolve}=Promise.withResolvers()
 			Quagga.decodeSingle(constraits,resolve)
-			const{length}=await promise
+			await promise
 			drawingBuffer.getContext("2d").clearRect(0,0,1.25*video.videoWidth,1.25*video.videoHeight)
-			if(length<2); else continue
+			if((await promise).length<2); else continue
 			for(const{box,codeResult}of await promise){
 				drawingBuffer.getContext("2d").beginPath()
 				drawingBuffer.getContext("2d").moveTo(...box[0])
