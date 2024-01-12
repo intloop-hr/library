@@ -48,8 +48,8 @@
 			const{promise,resolve}=Promise.withResolvers()
 			Quagga.decodeSingle(constraits,resolve)
 			await promise
-			if(urlIsOK); else continue
 			drawingBuffer.getContext("2d").clearRect(0,0,1.25*video.videoWidth,1.25*video.videoHeight)
+			if(urlIsOK); else continue
 			for(const{box,codeResult}of await promise??""){
 				drawingBuffer.getContext("2d").beginPath()
 				drawingBuffer.getContext("2d").moveTo(...box[0])
@@ -65,7 +65,7 @@
 				const{code}=codeResult
 				if(isbnRegExp.test(code)); else continue
 				if(code.slice(-1)!=9-[...code.slice(0,-1)].reduce(reducer,-1)%10) continue
-				description.innerText+=" "+code
+				// description.innerText+=" "+code
 				// canvas.removeAttribute("style")
 				video.pause()
 				const response=await fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:"+code)
