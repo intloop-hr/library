@@ -44,9 +44,8 @@
 			constraits.src=canvas.toDataURL()
 			const{promise,resolve}=Promise.withResolvers()
 			const xxx=Quagga.decodeSingle(constraits,resolve)
-			console.log(xxx)
+			throw(xxx)
 			await promise
-			throw"ここまでOK"
 
 			drawingBuffer.getContext("2d").clearRect(0,0,1.25*video.videoWidth,1.25*video.videoHeight)
 			for(const{box,codeResult}of await promise??""){
@@ -59,6 +58,7 @@
 				drawingBuffer.getContext("2d").strokeStyle=codeResult?"#f00":"#00f"
 				drawingBuffer.getContext("2d").stroke()
 			}
+			throw"ここまでOK"
 			for(const{codeResult}of await promise??""){
 				if(codeResult); else continue
 
