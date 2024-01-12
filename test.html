@@ -80,14 +80,12 @@
 					location="form.html?digits="+code.slice(0,-1)
 					await Promise.withResolvers().promise
 				}
+				const{promise,resolve}=Promise.withResolvers()
+				setTimeout(resolve,500)
+				await promise
 			}
 			await video.play()
 			// canvas.setAttribute("style","display:none")
-			{
-				const{promise,resolve}=Promise.withResolvers()
-				video.addEventListener("timeupdate",resolve)
-				await promise
-			}
 		}
 	} catch(error){
 		alert(error)
