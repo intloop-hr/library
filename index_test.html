@@ -21,6 +21,14 @@
 		if(event.persisted); else return
 		location=""
 	}
+	Promise.withResolvers??=function(){
+		const result={}
+		result.promise=new this((resolve,reject)=>{
+			result.resolve=resolve
+			result.reject=reject
+		})
+		return result
+	}
 
 	video.srcObject=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}})
 	await video.play()
