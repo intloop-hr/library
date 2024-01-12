@@ -42,7 +42,6 @@
 	try{
 		while(true){
 			canvas.getContext("2d").drawImage(video,0,0) // videoのフレーム更新を待たずにcanvasに再描画してる?
-			await new Promise(r=>setTimeout(r,100))
 			constraits.src=canvas.toDataURL()
 			const{promise,resolve}=Promise.withResolvers()
 			Quagga.decodeSingle(constraits,resolve)
