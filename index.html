@@ -47,7 +47,8 @@
 			Quagga.decodeSingle(constraits,resolve)
 			await promise
 			drawingBuffer.getContext("2d").clearRect(0,0,1.25*video.videoWidth,1.25*video.videoHeight)
-			for(const{box,codeResult}of await promise??""){
+			if(await promise); else continue
+			for(const{box,codeResult}of await promise){
 				drawingBuffer.getContext("2d").beginPath()
 				drawingBuffer.getContext("2d").moveTo(...box[0])
 				drawingBuffer.getContext("2d").lineTo(...box[1])
@@ -57,7 +58,7 @@
 				drawingBuffer.getContext("2d").strokeStyle=codeResult?"#f00":"#00f"
 				drawingBuffer.getContext("2d").stroke()
 			}
-			for(const{codeResult}of await promise??""){
+			for(const{codeResult}of await promise){
 				if(codeResult); else continue
 				const{code}=codeResult
 				if(isbnRegExp.test(code)); else continue
