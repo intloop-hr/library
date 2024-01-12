@@ -73,8 +73,8 @@
 					await new Promise(setTimeout)
 					while(date==+new Date);
 					await new Promise(setTimeout)
-					if(confirm("図書の内容は以下ですか?\n\n"+bookInfo.join("\n"))); else continue//iOSで、キャンセルを押すと不調になる
-					location="form.html?digits="+code.slice(0,-1)
+					location=confirm("図書の内容は以下ですか?\n\n"+bookInfo.join("\n"))?"form.html?digits="+code.slice(0,-1):""
+					await Promise.withResolvers().promise
 				}
 				canvas.setAttribute("style","display:none")
 			}
