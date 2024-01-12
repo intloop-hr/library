@@ -14,7 +14,7 @@
 </canvas>
 <canvas id=drawingBuffer>
 </canvas>
-<div id=description>裏表紙のバーコードにカメラを向けてください。</div>
+<div id=description>裏表紙のバーコードを読み取ってください。</div>
 <script src=https://cdn.jsdelivr.net/npm/quagga></script>
 <script type=module>
 	onpageshow=()=>{
@@ -73,7 +73,8 @@
 					await new Promise(setTimeout)
 					while(date==+new Date);
 					await new Promise(setTimeout)
-					location=confirm("図書の内容は以下ですか?\n\n"+bookInfo.join("\n"))?"form.html?digits="+code.slice(0,-1):""
+					if(confirm("図書の内容は以下ですか?\n\n"+bookInfo.join("\n"))); else continue
+					location="form.html?digits="+code.slice(0,-1)
 					await Promise.withResolvers().promise
 				}
 				canvas.setAttribute("style","display:none")
