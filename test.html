@@ -45,7 +45,6 @@
 			const{promise,resolve}=Promise.withResolvers()
 			Quagga.decodeSingle(constraits,resolve)
 			await promise
-
 			drawingBuffer.getContext("2d").clearRect(0,0,1.25*video.videoWidth,1.25*video.videoHeight)
 			for(const{box,codeResult}of await promise??""){
 				drawingBuffer.getContext("2d").beginPath()
@@ -57,7 +56,6 @@
 				drawingBuffer.getContext("2d").strokeStyle=codeResult?"#f00":"#00f"
 				drawingBuffer.getContext("2d").stroke()
 			}
-			throw"ここまでOK"
 			for(const{codeResult}of await promise??""){
 				if(codeResult); else continue
 
@@ -66,13 +64,11 @@
 				if(code.slice(-1)!=9-[...code.slice(0,-1)].reduce(reducer,-1)%10) continue
 
 				video.pause() // canvas.removeAttribute("style")
-				/*
 				{
 					const{promise,resolve}=Promise.withResolvers()
 					video.addEventListener("pause",resolve)
 					await promise
 				}
-				*/
 				const response=await fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:"+code)
 
 				const{items}=await response.json()
