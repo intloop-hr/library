@@ -41,14 +41,10 @@
 	const reducer=(result,value,index)=>index%2?result+3*value:result+ +value
 	try{
 		while(true){
-			// canvas.setAttribute("style","display:none")
-			canvas.getContext("2d").drawImage(video,0,0)
 			constraits.src=canvas.toDataURL()
-			{
-				const{promise,resolve}=Promise.withResolvers()
-				Quagga.decodeSingle(constraits,resolve)
-				await promise
-			}
+			const{promise,resolve}=Promise.withResolvers()
+			Quagga.decodeSingle(constraits,resolve)
+			await promise
 
 			drawingBuffer.getContext("2d").clearRect(0,0,1.25*video.videoWidth,1.25*video.videoHeight)
 			for(const{box,codeResult}of await promise??""){
@@ -99,7 +95,7 @@
 				setTimeout(resolve,500)
 				await promise
 			}
-			await video.play()
+			await video.play() // canvas.setAttribute("style","display:none")
 		}
 	} catch(error){
 		alert(error)
