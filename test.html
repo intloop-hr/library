@@ -63,7 +63,8 @@
 				if(isbnRegExp.test(code)); else continue
 				if(code.slice(-1)!=9-[...code.slice(0,-1)].reduce(reducer,-1)%10) continue
 				description.innerText+=" "+code
-				video.pause() // canvas.removeAttribute("style")
+				// canvas.removeAttribute("style")
+				video.pause()
 				const response=await fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:"+code)
 				const{items}=await response.json()
 				for(const{volumeInfo}of items??[{volumeInfo:{}}]){
@@ -80,7 +81,8 @@
 					await Promise.withResolvers().promise
 				}
 			}
-			await video.play() // canvas.setAttribute("style","display:none")
+			await video.play()
+			// canvas.setAttribute("style","display:none")
 		}
 	} catch(error){
 		alert(error)
