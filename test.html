@@ -48,8 +48,7 @@
 			await promise
 			drawingBuffer.getContext("2d").clearRect(0,0,1.25*video.videoWidth,1.25*video.videoHeight)
 			if(await promise); else continue
-			const{length}=await promise
-			if(length<2) continue
+			if((await promise).filter($=>$.codeResult).length<2) continue
 			for(const{box,codeResult}of await promise){
 				drawingBuffer.getContext("2d").beginPath()
 				drawingBuffer.getContext("2d").moveTo(...box[0])
