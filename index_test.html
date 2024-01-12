@@ -41,7 +41,7 @@
 	const reducer=(result,value,index)=>index%2?result+3*value:result+ +value
 	const checker=({codeResult})=>codeResult&&isbnRegExp.test(codeResult.code)
 	try{
-		await async function $(){
+		while(true){
 			canvas.getContext("2d").drawImage(video,0,0)
 			constraits.src=canvas.toDataURL()
 			const{promise,resolve}=Promise.withResolvers()
@@ -74,21 +74,21 @@
 					await new Promise(setTimeout)
 					while(date==+new Date);
 					await new Promise(setTimeout)
-					if(confirm("図書の内容は以下ですか?\n\n"+bookInfo.join("\n"))); else continue
+					if(confirm("図書の内容は以下ですか?\n\n"+bookInfo.join("\n"))); else continue//iOSにて、キャンセルを押すと不調になる
 					location="form.html?digits="+code.slice(0,-1)
 				}
 				canvas.setAttribute("style","display:none")
 			}
-			if(results&&results.some(checker)){
-				drawingBuffer.getContext("2d").clearRect(0,0,1.25*video.videoWidth,1.25*video.videoHeight)
-			}
-			setTimeout($)
-		}()
+			if(results); else continue
+			if(results.some(checker)); else continue
+			drawingBuffer.getContext("2d").clearRect(0,0,1.25*video.videoWidth,1.25*video.videoHeight)
+		}
 	} catch(error){
 		const date=+new Date
 		await new Promise(setTimeout)
 		while(date==+new Date);
 		await new Promise(setTimeout)
 		alert(error)
+		location=""
 	}
 </script>
