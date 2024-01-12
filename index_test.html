@@ -79,9 +79,11 @@
 					}
 					canvas.setAttribute("style","display:none")
 				}
-				const checker=({codeResult})=>codeResult&&isbnRegExp.test(codeResult.code)
-				if(results.some(checker)){
+				for(const{codeResult}of results){
+					if(codeResult); else continue
+					if(isbnRegExp.test(codeResult.code)); else continue
 					drawingBuffer.getContext("2d").clearRect(0,0,1.25*video.videoWidth,1.25*video.videoHeight)
+					break
 				}
 			}
 			setTimeout($)
