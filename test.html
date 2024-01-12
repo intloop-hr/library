@@ -41,7 +41,7 @@
 	const reducer=(result,value,index)=>index%2?result+3*value:result+ +value
 	try{
 		while(true){
-			canvas.getContext("2d").drawImage(video,0,0)
+			canvas.getContext("2d").drawImage(video,0,0) // 再描画が正しくなされてないのでは?
 			constraits.src=canvas.toDataURL()
 			const{promise,resolve}=Promise.withResolvers()
 			Quagga.decodeSingle(constraits,resolve)
@@ -83,6 +83,9 @@
 			}
 			await video.play()
 			// canvas.setAttribute("style","display:none")
+			await new Promise(resolve=>{
+				setTimeout(resolve,500)
+			})
 		}
 	} catch(error){
 		alert(error)
