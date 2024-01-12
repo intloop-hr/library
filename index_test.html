@@ -39,7 +39,7 @@
 	const constraits={decoder:{multiple:true,readers:["ean_reader"]},locator:{halfSample:true}}
 	const isbnRegExp=/^97[89]\d{10}$/
 	const reducer=(result,value,index)=>index%2?result+3*value:result+ +value
-	const checker=({codeResult})=>codeResult&&isbnRegExp.test(codeResult.code)
+	//const checker=({codeResult})=>codeResult&&isbnRegExp.test(codeResult.code)
 	try{
 		while(true){
 			canvas.getContext("2d").drawImage(video,0,0)
@@ -48,7 +48,8 @@
 			Quagga.decodeSingle(constraits,resolve)
 			const results=await promise
 			drawingBuffer.getContext("2d").clearRect(0,0,1.25*video.videoWidth,1.25*video.videoHeight)
-			for(const{box,codeResult}of results??""){
+			if(results); else continue
+			for(const{box,codeResult}of results/*??""*/){
 				drawingBuffer.getContext("2d").beginPath()
 				drawingBuffer.getContext("2d").moveTo(...box[0])
 				drawingBuffer.getContext("2d").lineTo(...box[1])
@@ -58,7 +59,7 @@
 				drawingBuffer.getContext("2d").strokeStyle=codeResult?"#f00":"#00f"
 				drawingBuffer.getContext("2d").stroke()
 			}
-			for(const{codeResult}of results??""){
+			for(const{codeResult}of results/*??""*/){
 				if(codeResult===undefined) continue
 				const{code}=codeResult
 				if(isbnRegExp.test(code)); else continue
@@ -79,9 +80,17 @@
 				}
 				canvas.setAttribute("style","display:none")
 			}
-			if(results); else continue
+			//if(results); else continue
+			for(const{codeResult}of results){
+				if(codeResult); else continue
+				if(isbnRegExp.test(codeResult.code)); else continue
+				drawingBuffer.getContext("2d").clearRect(0,0,1.25*video.videoWidth,1.25*video.videoHeight)
+				break
+			}
+			/*
 			if(results.some(checker)); else continue
 			drawingBuffer.getContext("2d").clearRect(0,0,1.25*video.videoWidth,1.25*video.videoHeight)
+			*/
 		}
 	} catch(error){
 		const date=+new Date
