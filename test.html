@@ -45,9 +45,8 @@
 			constraits.src=canvas.toDataURL()
 			const{promise,resolve}=Promise.withResolvers()
 			Quagga.decodeSingle(constraits,resolve)
-			const results=await promise
 			drawingBuffer.getContext("2d").clearRect(0,0,1.25*video.videoWidth,1.25*video.videoHeight)
-			for(const{box,codeResult}of results??""){
+			for(const{box,codeResult}of await promise??""){
 				drawingBuffer.getContext("2d").beginPath()
 				drawingBuffer.getContext("2d").moveTo(...box[0])
 				drawingBuffer.getContext("2d").lineTo(...box[1])
@@ -57,7 +56,7 @@
 				drawingBuffer.getContext("2d").strokeStyle=codeResult?"#f00":"#00f"
 				drawingBuffer.getContext("2d").stroke()
 			}
-			for(const{codeResult}of results??""){
+			for(const{codeResult}of await promise??""){
 				if(codeResult===undefined) continue
 				const{code}=codeResult
 				if(isbnRegExp.test(code)); else continue
@@ -80,7 +79,7 @@
 			}
 			canvas.setAttribute("style","display:none")
 			/*
-			for(const{codeResult}of results??""){
+			for(const{codeResult}of await promise??""){
 				if(codeResult); else continue
 				if(isbnRegExp.test(codeResult.code)); else continue
 				drawingBuffer.getContext("2d").clearRect(0,0,1.25*video.videoWidth,1.25*video.videoHeight)
