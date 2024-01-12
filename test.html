@@ -43,8 +43,10 @@
 		while(true){
 			constraits.src=canvas.toDataURL()
 			const{promise,resolve}=Promise.withResolvers()
-			Quagga.decodeSingle(constraits,resolve)
+			const xxx=Quagga.decodeSingle(constraits,resolve)
+			console.log(xxx)
 			await promise
+			throw"ここまでOK"
 
 			drawingBuffer.getContext("2d").clearRect(0,0,1.25*video.videoWidth,1.25*video.videoHeight)
 			for(const{box,codeResult}of await promise??""){
