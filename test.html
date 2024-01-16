@@ -6,14 +6,14 @@
 	canvas,svg,video{display:block;height:100%;width:100%}
 	canvas,svg{object-fit:contain;position:absolute;top:0}
 	#description{font-weight:bold;padding:8px 16px;position:absolute;top:0}
+	path{fill:none;stroke:#000;stroke-width:1}
 </style>
 <title>INTLOOPライブラリー</title>
 <video id=video playsinline>
 </video>
 <canvas id=canvas style=display:none>
 </canvas>
-<svg id=drawingBuffer>
-</svg>
+<svg id=drawingBuffer></svg>
 <div id=description>裏表紙のバーコードを読み取ってください。</div>
 <script src=https://cdn.jsdelivr.net/npm/quagga></script>
 <script type=module>
@@ -32,10 +32,9 @@
 
 	video.srcObject=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}})
 	await video.play()
-	drawingBuffer.setAttribute("width",1.25*video.videoWidth)
-	drawingBuffer.setAttribute("height",1.25*video.videoHeight)
 	canvas.width=video.videoWidth
 	canvas.height=video.videoHeight
+	drawingBuffer.setAttribute("viewBox","0,0,"+video.videoWidth+","+video.videoHeight)
 	const constraits={decoder:{multiple:true,readers:["ean_reader"]},locator:{halfSample:true}}
 	const isbnRegExp=/^97[89]\d{10}$/
 	const reducer=(result,value,index)=>index%2?result+3*value:result+ +value
@@ -50,17 +49,14 @@
 				child.remove()
 			}
 			if(await promise); else continue
-			console.log(await promise)
 			for(const{box,codeResult}of await promise){
 				for(const x of box){
-					x[0]=Math.round(x[0])
-					x[1]=Math.round(x[1])
+					x[0]=Math.round(x[0]*.8)
+					x[1]=Math.round(x[1]*.8)
 				}
-				const path=document.createElement("path")
-				path.style.fill="none"
-				path.style.stroke=codeResult?"#f00":"#00f"
-				path.style.strokeWidth=2
-				path.setAttribute("d","M"+box.join("L")+"Z")
+				const path=document.createElementNS("http://www.w3.org/2000/svg","path")
+				path.setAttribute("style",codeResult?"stroke:#f00":"stroke:#00f")
+				path.setAttribute("d","M"+box.join("L").replaceAll(","," ")+"Z")
 				drawingBuffer.append(path)
 			}
 			for(const{codeResult}of await promise){
