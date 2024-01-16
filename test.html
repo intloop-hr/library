@@ -49,6 +49,9 @@
 			await promise
 			if(await promise); else continue
 			for(const{box,codeResult}of await promise){
+				for(const i of box){
+					box[i]=box[i].map(Math.round).join(" ")
+				}
 				drawingBuffer.querySelector("path").setAttribute("d","M"+box.join("L")+"Z")
 				drawingBuffer.querySelector("path").style.stroke=codeResult?"#f00":"#00f"
 			}
