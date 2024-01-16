@@ -13,7 +13,6 @@
 <canvas id=canvas style=display:none>
 </canvas>
 <svg id=drawingBuffer>
-	<path style=fill:none;stroke-width:2 />
 </svg>
 <div id=description>裏表紙のバーコードを読み取ってください。</div>
 <script src=https://cdn.jsdelivr.net/npm/quagga></script>
@@ -47,14 +46,21 @@
 			const{promise,resolve}=Promise.withResolvers()
 			Quagga.decodeSingle(constraits,resolve)
 			await promise
+			const(const child of drawingBuffer.children){
+				child.remove()
+			}
 			if(await promise); else continue
 			for(const{box,codeResult}of await promise){
 				for(const x of box){
 					x[0]=Math.round(x[0])
 					x[1]=Math.round(x[1])
 				}
-				drawingBuffer.querySelector("path").setAttribute("d","M"+box.join("L")+"Z")
-				drawingBuffer.querySelector("path").style.stroke=codeResult?"#f00":"#00f"
+				const path=document.createElement("path")
+				path.style.fill="none"
+				path.style.stroke=codeResult?"#f00":"#00f"
+				path.style.strokeWidth=2
+				path.setAttribute("d","M"+box.join("L")+"Z")
+				drawingBuffer.append(path)
 			}
 			for(const{codeResult}of await promise){
 				if(codeResult); else continue
