@@ -50,6 +50,7 @@
 				child.remove()
 			}
 			if(await promise); else continue
+			console.log(await promise)
 			for(const{box,codeResult}of await promise){
 				for(const x of box){
 					x[0]=Math.round(x[0])
