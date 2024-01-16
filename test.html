@@ -40,14 +40,14 @@
 	const reducer=(result,value,index)=>index%2?result+3*value:result+ +value
 	try{
 		while(true){
+			for(const child of drawingBuffer.children){
+				child.remove()
+			}
 			canvas.getContext("2d").drawImage(video,0,0)
 			constraits.src=canvas.toDataURL()
 			const{promise,resolve}=Promise.withResolvers()
 			Quagga.decodeSingle(constraits,resolve)
 			await promise
-			for(const child of drawingBuffer.children){
-				child.remove()
-			}
 			if(await promise); else continue
 			for(const{box,codeResult}of await promise){
 				for(const x of box){
