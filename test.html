@@ -3,8 +3,8 @@
 <style>
 	html,body{height:100%}
 	body{background:#000;color:#fff}
-	canvas,video{display:block;height:100%;width:100%}
-	canvas{object-fit:contain;position:absolute;top:0}
+	canvas,svg,video{display:block;height:100%;width:100%}
+	canvas,svg{object-fit:contain;position:absolute;top:0}
 	#description{font-weight:bold;padding:8px 16px;position:absolute;top:0}
 </style>
 <title>INTLOOPライブラリー</title>
@@ -49,9 +49,6 @@
 			await promise
 			if(await promise); else continue
 			for(const{box,codeResult}of await promise){
-				for(const i of box){
-					box[i]=box[i].map(Math.round).join(" ")
-				}
 				drawingBuffer.querySelector("path").setAttribute("d","M"+box.join("L")+"Z")
 				drawingBuffer.querySelector("path").style.stroke=codeResult?"#f00":"#00f"
 			}
