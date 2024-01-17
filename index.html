@@ -82,11 +82,11 @@
 					await Promise.withResolvers().promise
 				}
 			}
-			if(video.paused) break
 		} catch(error){
 			alert(error)
 			location=""
 		}
+		if(video.paused) break
 	}
 	location=""
 </script>
