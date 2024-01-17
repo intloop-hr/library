@@ -42,13 +42,13 @@
 	const isbnRegExp=/^97[89]\d{10}$/
 	const reducer=(result,value,index)=>index%2?result+3*value:result+ +value
 	const pathDs={blue:"",red:""}
-	try{
-		while(true){
-			pathDs.red=pathDs.blue=""
-			canvas.getContext("2d").drawImage(video,0,0)
-			constraits.src=canvas.toDataURL()
-			const{promise,resolve}=Promise.withResolvers()
-			Quagga.decodeSingle(constraits,resolve)
+	while(true){
+		pathDs.red=pathDs.blue=""
+		canvas.getContext("2d").drawImage(video,0,0)
+		constraits.src=canvas.toDataURL()
+		const{promise,resolve}=Promise.withResolvers()
+		Quagga.decodeSingle(constraits,resolve)
+		try{
 			for(const{box,codeResult}of await promise??""){
 				for(const point of box){
 					point[0]=Math.round(point[0]*.8)
@@ -83,11 +83,10 @@
 				}
 			}
 			if(video.paused) break
+		} catch(error){
+			alert(error)
+			location=""
 		}
-	} catch(error){
-		alert(error)
-	} finally{
-		location=""
-		await Promise.withResolvers().promise
 	}
+	location=""
 </script>
