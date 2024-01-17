@@ -47,7 +47,6 @@
 			constraits.src=canvas.toDataURL()
 			const{promise,resolve}=Promise.withResolvers()
 			Quagga.decodeSingle(constraits,resolve)
-			await promise
 			if(await promise); else continue
 			for(const{box,codeResult}of await promise){
 				for(const x of box){
