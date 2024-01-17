@@ -13,7 +13,10 @@
 </video>
 <canvas id=canvas style=display:none>
 </canvas>
-<svg id=drawingBuffer></svg>
+<svg id=drawingBuffer>
+	<path id=bluePath style=stroke:#00f />
+	<path id=redPath style=stroke:#f00 />
+</svg>
 <div id=description>裏表紙のバーコードを読み取ってください。</div>
 <script src=https://cdn.jsdelivr.net/npm/quagga></script>
 <script type=module>
@@ -38,26 +41,24 @@
 	const constraits={decoder:{multiple:true,readers:["ean_reader"]},locator:{halfSample:true}}
 	const isbnRegExp=/^97[89]\d{10}$/
 	const reducer=(result,value,index)=>index%2?result+3*value:result+ +value
+	const pathDs={blue:"",red:""}
 	try{
 		while(true){
-			for(const child of drawingBuffer.children){
-				child.remove()
-			}
+			pathDs.red=pathDs.blue=""
 			canvas.getContext("2d").drawImage(video,0,0)
 			constraits.src=canvas.toDataURL()
 			const{promise,resolve}=Promise.withResolvers()
 			Quagga.decodeSingle(constraits,resolve)
 			if(await promise); else continue
 			for(const{box,codeResult}of await promise){
-				for(const x of box){
-					x[0]=Math.round(x[0]*.8)
-					x[1]=Math.round(x[1]*.8)
+				for(const point of box){
+					point[0]=Math.round(point[0]*.8)
+					point[1]=Math.round(point[1]*.8)
 				}
-				const path=document.createElementNS("http://www.w3.org/2000/svg","path")
-				path.setAttribute("style",codeResult?"stroke:#f00":"stroke:#00f")
-				path.setAttribute("d","M"+box.join("L").replaceAll(","," ")+"Z")
-				drawingBuffer.append(path)
+				pathDs[codeResult?"red":"blue"]+="M"+box.join("L").replaceAll(","," ")+"Z"
 			}
+			bluePath.setAttribute("d",pathDs.blue)
+			redPath.setAttribute("d",pathDs.red)
 			for(const{codeResult}of await promise){
 				if(codeResult); else continue
 				const{code}=codeResult
