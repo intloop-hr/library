@@ -79,7 +79,7 @@
 					}
 					if(confirm("図書の内容は以下ですか?\n\n"+bookInfo.join("\n"))); else continue
 					location="form.html?digits="+code.slice(0,-1)
-					await Promise.withResolvers().promise
+					await Promise.race("")
 				}
 			}
 		} catch(error){
