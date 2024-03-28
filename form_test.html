@@ -33,7 +33,7 @@
 	<label class=return><strong>返却日</strong></label>
 	<input name=date type=date>
 	<label class=return><strong>お薦めコメント</strong>（任意）</label>
-	<textarea class=return name=comment></textarea>
+	<textarea class=return name=comment title=JSONパースエラー予防のため、改行文字やダブルクォーテーションなどは使用できません。></textarea>
 	<button disabled name=submit></button>
 </form>
 <script type=module>
@@ -76,7 +76,7 @@
 			submit.disabled||=!usableLetters.includes(letter)
 		}
 		submit.disabled||=new Date(date.value)>new Date
-		submit.disabled||=/[\x00-\x1f]|"|\\/.test(comment.value)
+		submit.disabled||=/[\x00-\x1f"\\]/.test(comment.value)
 		submit.innerText="申請"
 	}
 	oninput()
