@@ -50,10 +50,10 @@
 		return this.decode(new Uint8Array(array))
 	}
 	let usableLetters=""
-    const usableLetterRegExp=/^[^\d\x00-\x1f\x7f-\x9f\uff00-\uffff]$/
+    const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
 	for(let number=1;number<0xee41/*0x10101*/;++number){
 		const text=decoder.decodeFromInteger(number)
-		if(usableLetterRegExp.test(text)); else continue
+		if(unusableLetterRegExp.test(text)); else continue
 		usableLetters+=text
 	}
 	const isbnRegExp=/^97[89]\d{9}$/
@@ -76,6 +76,10 @@
 			submit.disabled||=!usableLetters.includes(letter)
 		}
 		submit.disabled||=new Date(date.value)>new Date
+		submit.disabled||=comment.value.includes("\"")
+		if(comment.value.includes("\"")){
+			alert("ダブルクォーテーションは使えません。(Google スプレッドシートとの連携の都合上です。)")
+		}
 		submit.innerText="申請"
 	}
 	oninput()
@@ -92,8 +96,7 @@
 			payloadSource.date=date.value
 			payloadSource.comment=comment.value
 		}
-		const body=JSON.stringify(payloadSource).replaceAll("\\\"","\\u0022")
-		const response=await fetch(url,{method:"post",body})
+		const response=await fetch(url,{method:"post",body:JSON.stringify(payloadSource)})
 		submit.innerText="申請済"
 		alert(await response.text())
 	}
