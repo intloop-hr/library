@@ -77,12 +77,13 @@
 		}
 		submit.disabled||=new Date(date.value)>new Date
 		submit.disabled||=comment.value.includes("\"")
-		if(comment.value.includes("\"")){
-			alert("ダブルクォーテーションは使えません。(Google スプレッドシートとの連携の都合上です。)")
-		}
 		submit.innerText="申請"
 	}
 	oninput()
+	comment.onblur=function(){
+		if(this.value.includes("\"")); else return
+		alert("ダブルクォーテーションは使えません。(Google スプレッドシートとの連携の都合上です。)")
+	}
 	const url="https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec"
 	submit.onclick=async()=>{
 		submit.disabled=true
