@@ -77,16 +77,8 @@
 		}
 		submit.disabled||=!type.value
 
-		if(userName.style.color){
-			// 正しければ、黒くする。
-			let toLetBeBlack=!invalidUserNameRegExp.test(userName.value)
-			for(const letter of userName.value){
-				if(usableLetters.includes(letter)) continue
-				toLetBeBlack=false
-			}
-			if(toLetBeBlack){
-				userName.style.color=""
-			}
+		if(event.target==userName){
+			userName.style.color=""
 		}
 
 		submit.disabled||=invalidUserNameRegExp.test(userName.value)
