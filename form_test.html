@@ -69,11 +69,11 @@
 		}
 		date.style.display=type.value=="貸出"||type.value=="返却"?"":"none"
 		submit.disabled=false
-		if(correctIsbnRegExp.test(digits.value)); else{
+		if(correctIsbnRegExp.test(digits.value)){
+			digits.style.color=""
+		} else{
 			submit.disabled||=true
 			digits.style.color="#f00"
-		} else{
-			digits.style.color=""
 		}
 		submit.disabled||=!type.value
 		if(invalidUserNameRegExp.test(userName.value)){
