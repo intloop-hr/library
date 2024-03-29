@@ -72,30 +72,30 @@
 		if(correctIsbnRegExp.test(digits.value)){
 			digits.style.color=""
 		} else{
-			submit.disabled||=true
+			submit.disabled=true
 			digits.style.color="#f00"
 		}
 		submit.disabled||=!type.value
 		if(invalidUserNameRegExp.test(userName.value)){
 			userName.style.color="#f00"
-			submit.disabled||=true
+			submit.disabled=true
 		} else{
 			userName.style.color=""
 		}
 		for(const letter of userName.value){
 			if(usableLetters.includes(letter)) continue
 			userName.style.color="#f00"
-			submit.disabled||=true
+			submit.disabled=true
 		}
 		if(new Date(date.value)>new Date){
 			date.style.color="#f00"
-			submit.disabled||=true
+			submit.disabled=true
 		} else{
 			date.style.color=""
 		}
 		if(comment.value.includes("\"")){
 			comment.style.color="#f00"
-			submit.disabled||=true
+			submit.disabled=true
 		} else{
 			comment.style.color=""
 		}
