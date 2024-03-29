@@ -76,6 +76,17 @@
 			digits.style.color="#f00"
 		}
 		submit.disabled||=!type.value
+
+		//正しければ黒くするが、すでに黒ければ赤くしない
+		let toLetBeBlack=!invalidUserNameRegExp.test(this.value)
+		for(const letter of this.value){
+			if(usableLetters.includes(letter)) continue
+			toLetBeBlack=false
+		}
+		if(toLetBeBlack){
+			this.style.color=""
+		}
+
 		submit.disabled||=invalidUserNameRegExp.test(userName.value)
 		for(const letter of userName.value){
 			if(usableLetters.includes(letter)) continue
