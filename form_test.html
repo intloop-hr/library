@@ -56,43 +56,48 @@
 		if(unusableLetterRegExp.test(text)); else continue
 		usableLetters+=text
 	}
-	const isbnRegExp=/^97[89]\d{9}$/
+	const correctIsbnRegExp=/^97[89]\d{9}$/
 	const invalidUserNameRegExp=/^\s*\S*\s*$/
-	const borrowElements=document.querySelectorAll(".borrow")
-	const returnElements=document.querySelectorAll(".return")
+	const elementsToBorrow=document.querySelectorAll(".borrow")
+	const elementsToReturn=document.querySelectorAll(".return")
 	oninput=()=>{
-		for(const{style}of borrowElements){
+		for(const{style}of elementsToBorrow){
 			style.display=type.value=="貸出"?"":"none"
 		}
-		for(const{style}of returnElements){
+		for(const{style}of elementsToReturn){
 			style.display=type.value=="返却"?"":"none"
 		}
 		date.style.display=type.value=="貸出"||type.value=="返却"?"":"none"
 		submit.disabled=false
-		submit.disabled||=!isbnRegExp.test(digits.value) 
+		if(correctIsbnRegExp.test(digits.value)); else{
+			submit.disabled||=true
+			digits.style.color="#f00"
+		} else{
+			digits.style.color=""
+		}
 		submit.disabled||=!type.value
-		userName.style.background=""
-		userName.style.color=""
 		if(invalidUserNameRegExp.test(userName.value)){
-			userName.style.background="#faa"
 			userName.style.color="#f00"
 			submit.disabled||=true
+		} else{
+			userName.style.color=""
 		}
 		for(const letter of userName.value){
 			if(usableLetters.includes(letter)) continue
-			userName.style.background="#faa"
 			userName.style.color="#f00"
 			submit.disabled||=true
 		}
 		if(new Date(date.value)>new Date){
-			date.style.background="#faa"
 			date.style.color="#f00"
 			submit.disabled||=true
+		} else{
+			date.style.color=""
 		}
 		if(comment.value.includes("\"")){
-			comment.style.background="#faa"
 			comment.style.color="#f00"
 			submit.disabled||=true
+		} else{
+			comment.style.color=""
 		}
 		submit.innerText="申請"
 	}
@@ -118,9 +123,7 @@
 		submit.innerText="申請済"
 		alert(await response.text())
 	}
-	if(isbnRegExp.test(digits.value)); else{
-		digits.style.background="#faa"
-		digits.style.color="#f00"
+	if(correctIsbnRegExp.test(digits.value)); else{
 		const date=+new Date
 		await new Promise(setTimeout)
 		while(date==+new Date);
