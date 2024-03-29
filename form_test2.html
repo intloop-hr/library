@@ -61,6 +61,7 @@
 	const elementsToBorrow=document.querySelectorAll(".borrow")
 	const elementsToReturn=document.querySelectorAll(".return")
 	oninput=()=>{
+		console.log(event)
 		for(const{style}of elementsToBorrow){
 			style.display=type.value=="貸出"?"":"none"
 		}
@@ -77,8 +78,6 @@
 		}
 		submit.disabled||=!type.value
 
-		console.log(event)
-		return
 		if(userName.style.color){
 			// 正しければ、黒くする。
 			let toLetBeBlack=!invalidUserNameRegExp.test(userName.value)
