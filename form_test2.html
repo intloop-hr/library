@@ -60,8 +60,7 @@
 	const invalidUserNameRegExp=/^\s*\S*\s*$/
 	const elementsToBorrow=document.querySelectorAll(".borrow")
 	const elementsToReturn=document.querySelectorAll(".return")
-	oninput=()=>{
-		console.log(event)
+	oninput=({target})=>{
 		for(const{style}of elementsToBorrow){
 			style.display=type.value=="貸出"?"":"none"
 		}
@@ -78,6 +77,7 @@
 		}
 		submit.disabled||=!type.value
 
+		console.log(target)
 		if(userName.style.color){
 			// 正しければ、黒くする。
 			let toLetBeBlack=!invalidUserNameRegExp.test(userName.value)
