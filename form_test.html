@@ -100,6 +100,13 @@
 		submit.innerText="申請"
 	}
 	oninput()
+	userName.onblur=function(){
+		if(invalidUserNameRegExp.test(userName.value)){
+			userName.style.color="#f00"
+		} else{
+			userName.style.color=""
+		}
+	}
 	comment.onblur=function(){
 		if(this.value.includes("\"")); else return
 		alert("ダブルクォーテーションは使えません。(Google スプレッドシートとの連携の都合上です。)")
