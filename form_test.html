@@ -76,7 +76,6 @@
 			digits.style.color="#f00"
 		}
 		submit.disabled||=!type.value
-		userName.style.color=""
 		submit.disabled||=invalidUserNameRegExp.test(userName.value)
 		for(const letter of userName.value){
 			if(usableLetters.includes(letter)) continue
@@ -98,12 +97,10 @@
 	}
 	oninput()
 	userName.onblur=function(){
-		if(invalidUserNameRegExp.test(userName.value)){
-			this.style.color="#f00"
-		}
-		for(const letter of userName.value){
+		this.style.color=invalidUserNameRegExp.test(this.value)?"#f00":""
+		for(const letter of this.value){
 			if(usableLetters.includes(letter)) continue
-			userName.style.color="#f00"
+			this.style.color="#f00"
 		}
 	}
 	comment.onblur=function(){
