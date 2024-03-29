@@ -76,9 +76,7 @@
 			digits.style.color="#f00"
 		}
 		submit.disabled||=!type.value
-		if(invalidUserNameRegExp.test(userName.value)){
-			submit.disabled=true
-		}
+		submit.disabled||=invalidUserNameRegExp.test(userName.value)
 		userName.style.color=""
 		for(const letter of userName.value){
 			if(usableLetters.includes(letter)) continue
