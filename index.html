@@ -53,6 +53,7 @@
 		const{promise,resolve}=Promise.withResolvers()
 		Quagga.decodeSingle(constraits,resolve)
 		try{
+			console.log(await promise)
 			for(const{box,codeResult}of await promise??""){
 				for(const point of box){
 					point[0]=Math.round(point[0]*.8)
@@ -74,9 +75,7 @@
 				switch(code.slice(0,3)){
 					case"978":
 					case"979":
-					const xxx=await response.json()
-					console.log(xxx)
-					const{items}=xxx
+					const{items}=await response.json()
 					for(const{volumeInfo}of items??[{volumeInfo:{}}]){
 						const bookInfo=["ISBN: "+code.slice(0,3)+"-"+code.slice(3,4)+"-"+code.slice(4,7)+"-"+code.slice(7,12)+"-"+code.slice(12,13)]
 						const{title,authors}=volumeInfo
