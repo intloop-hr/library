@@ -53,7 +53,6 @@
 		const{promise,resolve}=Promise.withResolvers()
 		Quagga.decodeSingle(constraits,resolve)
 		try{
-			console.log(await promise)
 			for(const{box,codeResult}of await promise??""){
 				for(const point of box){
 					point[0]=Math.round(point[0]*.8)
