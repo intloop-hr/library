@@ -38,7 +38,7 @@
 	canvas.height=video.videoHeight
 	drawingBuffer.setAttribute("viewBox","0,0,"+video.videoWidth+","+video.videoHeight)
 	const constraits={decoder:{multiple:true,readers:["ean_reader"]},locator:{halfSample:true}}
-	const isbnRegExp=/^(97[89]|491)\d{10}$/
+	const bookCodeRegExp=/^(97[89]|491)\d{10}$/
 	const increase=function(result,value,index){
 		return index%2?result+3*value:result+ +value
 	}
@@ -66,7 +66,7 @@
 			for(const{codeResult}of await promise){
 				if(codeResult); else continue
 				const{code}=codeResult
-				if(isbnRegExp.test(code)); else continue
+				if(bookCodeRegExp.test(code)); else continue
 				if(testCheckDigit(code)); else continue
 				canvas.removeAttribute("style")
 				video.pause()

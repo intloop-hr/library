@@ -18,7 +18,7 @@
 </style>
 <title>INTLOOPライブラリー 申請フォーム</title>
 <form>
-	<label><strong>ISBNまたは雑誌コード（上12桁）</strong></label>（自動入力）
+	<label><strong>ISBNまたは雑誌コード（上12桁）</strong></label>
 	<input name=digits readonly>
 	<label><strong>氏名</strong></label>（姓名間 空白必須）<br>
 	<small>（表記揺れ対策のため、一部使えない漢字があります。その際は、使える漢字を代用するか、平仮名を入力してください。）</small>
@@ -56,7 +56,7 @@
 		if(unusableLetterRegExp.test(text)); else continue
 		usableLetters+=text
 	}
-	const correctIsbnRegExp=/^97[89]\d{9}$/
+	const bookCodeRegExp=/^(97[89]|491)\d{9}$/
 	const invalidUserNameRegExp=/^\s*\S*\s*$/
 	const elementsToBorrow=document.querySelectorAll(".borrow")
 	const elementsToReturn=document.querySelectorAll(".return")
@@ -69,7 +69,7 @@
 		}
 		date.style.display=type.value=="貸出"||type.value=="返却"?"":"none"
 		submit.disabled=false
-		if(correctIsbnRegExp.test(digits.value)){
+		if(bookCodeRegExp.test(digits.value)){
 			digits.style.color=""
 		} else{
 			submit.disabled=true
@@ -131,7 +131,7 @@
 		submit.innerText="申請済"
 		alert(await response.text())
 	}
-	if(correctIsbnRegExp.test(digits.value)); else{
+	if(bookCodeRegExp.test(digits.value)); else{
 		const date=+new Date
 		await new Promise(setTimeout)
 		while(date==+new Date);
