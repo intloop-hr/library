@@ -74,7 +74,9 @@
 				switch(code.slice(0,3)){
 					case"978":
 					case"979":
-					const{items}=await response.json()
+					const xxx=await response.json()
+					console.log(xxx)
+					const{items}=xxx
 					for(const{volumeInfo}of items??[{volumeInfo:{}}]){
 						const bookInfo=["ISBN: "+code.slice(0,3)+"-"+code.slice(3,4)+"-"+code.slice(4,7)+"-"+code.slice(7,12)+"-"+code.slice(12,13)]
 						const{title,authors}=volumeInfo
