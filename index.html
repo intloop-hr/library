@@ -71,13 +71,12 @@
 				canvas.removeAttribute("style")
 				video.pause()
 				const response=await fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:"+code)
-				const codeWithHyphens=code.slice(0,3)+"-"+code.slice(3,4)+"-"+code.slice(4,7)+"-"+code.slice(7,12)+"-"+code.slice(12,13)
 				switch(code.slice(0,3)){
 					case"978":
 					case"979":
 					const{items}=await response.json()
 					for(const{volumeInfo}of items??[{volumeInfo:{}}]){
-						const bookInfo=["ISBN: "+codeWithHyphens]
+						const bookInfo=["ISBN: "+code.slice(0,3)+"-"+code.slice(3,4)+"-"+code.slice(4,7)+"-"+code.slice(7,12)+"-"+code.slice(12,13)]
 						const{title,authors}=volumeInfo
 						if(authors){
 							bookInfo.unshift("著者: "+authors.join("、"))
@@ -92,7 +91,8 @@
 					break
 
 					case"491":
-					if(confirm("図書の内容は以下ですか?\n\n雑誌コード: "+codeWithHyphens)){
+					const magazineCodeWithHyphens=code.slice(0,3)+"-"+code.slice(3,4)+"-"+code.slice(4,9)+"-"+code.slice(9,11)+"-"+code.slice(11,12)+"-"+code.slice(12,13)
+					if(confirm("図書の内容は以下ですか?\n\n雑誌コード: "+magazineCodeWithHyphens)){
 						location="form.html?digits="+code.slice(0,-1)
 						await Promise.race("")
 					}
