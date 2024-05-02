@@ -76,7 +76,7 @@
 					case"979":
 					const{items}=await response.json()
 					for(const{volumeInfo}of items??[{volumeInfo:{}}]){
-						const bookInfo=["ISBN: "+code.slice(0,3)+"-"+code.slice(3,4)+"-"+code.slice(4,12)+"-"+code.slice(12,13)]
+						const bookInfo=["ISBN: "+code.slice(0,3)+"-"+code.slice(3,12)+"-"+code.slice(12,13)]
 						const{title,authors}=volumeInfo
 						if(authors){
 							bookInfo.unshift("著者: "+authors.join("、"))
