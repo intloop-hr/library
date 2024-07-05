@@ -46,7 +46,7 @@
 		drawingBuffer.setAttribute("viewBox","0,0,"+video.videoWidth+","+video.videoHeight)
 
 		constraits.src=canvas.toDataURL()
-		const{promise,resolve}=Promise.withResolvers()
+		const{resolve,promise}=Promise.withResolvers()
 		Quagga.decodeSingle(constraits,resolve)
 		try{
 			await promise
