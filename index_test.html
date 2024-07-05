@@ -82,7 +82,8 @@
 				for(const digitPair of digitPairs){
 					result+=+digitPair[0]+3*digitPair[1]
 				}
-				if(code.slice(-1)==9-result%10); else continue
+				const checkDigit=code.slice(-1)
+				if(checkDigit==9-result%10); else continue
 			}
 
 			canvas.removeAttribute("style")
