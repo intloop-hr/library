@@ -41,16 +41,17 @@
 	const pathDs={blue:"",red:""}
 
 	while(true){
-		pathDs.blue=""
-		pathDs.red=""
 		canvas.width=video.videoWidth
 		canvas.height=video.videoHeight
 		drawingBuffer.setAttribute("viewBox","0,0,"+video.videoWidth+","+video.videoHeight)
 		canvas.getContext("2d").drawImage(video,0,0)
 		constraits.src=canvas.toDataURL()
+
 		const{promise,resolve}=Promise.withResolvers()
 		Quagga.decodeSingle(constraits,resolve)
 		try{
+			pathDs.blue=""
+			pathDs.red=""
 			for(const{box,codeResult}of await promise??""){
 				for(const point of box){
 					point[0]=Math.round(point[0]*.8)
@@ -71,7 +72,7 @@
 					const checkDigit=code.slice(-1)
 					let result=-1
 					for(const digitPair of digitPairs){
-						result+=digitPair[0]+3*digitPair[1]
+						result+=+digitPair[0]+3*digitPair[1]
 					}
 					console.log(9-result%10)
 					if(checkDigit==9-result%10); else continue
