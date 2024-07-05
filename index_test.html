@@ -58,11 +58,11 @@
 		pathDs.blue=""
 		pathDs.red=""
 		for(const{box,codeResult}of await promise??""){
-			for(const point of box){
-				point[0]=Math.round(point[0]*.8)
-				point[1]=Math.round(point[1]*.8)
+			for(const index in box){
+				const point=box[index]
+				box[index]=Math.round(point[0]*.8)+" "+Math.round(point[1]*.8)
 			}
-			pathDs[codeResult?"red":"blue"]+="M"+box.join("L").replaceAll(","," ")+"Z"
+			pathDs[codeResult?"red":"blue"]+="M"+box.join("L")+"Z"
 		}
 		bluePath.setAttribute("d",pathDs.blue)
 		redPath.setAttribute("d",pathDs.red)
