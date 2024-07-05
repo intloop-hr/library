@@ -109,8 +109,14 @@
 				break
 
 				case"491":
-				const magazineCodeWithHyphens=code.slice(0,3)+" "+code.slice(3,4)+" "+code.slice(4,9)+" "+code.slice(9,11)+" "+code.slice(11,12)+" "+code.slice(12,13)
-				if(confirm("図書の内容は以下ですか?\n\n雑誌コード: "+magazineCodeWithHyphens)){
+				const codeChunks=[]
+				codeChunks.push(code.slice(0,3))
+				codeChunks.push(code.slice(3,4))
+				codeChunks.push(code.slice(4,9))
+				codeChunks.push(code.slice(9,11))
+				codeChunks.push(code.slice(11,12))
+				codeChunks.push(code.slice(12,13))
+				if(confirm("図書の内容は以下ですか?\n\n雑誌コード: "+codeChunks.join(" "))){
 					location="form.html?digits="+code.slice(0,-1)
 					await Promise.race("")
 				}
