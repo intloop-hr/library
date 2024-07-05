@@ -59,8 +59,8 @@
 		pathDs.red=""
 		for(const{box,codeResult}of await promise??""){
 			for(const point of box){
-				point[0]=point[0]*.8
-				point[1]=point[1]*.8
+				point[0]=Math.round(point[0]*.8)
+				point[1]=Math.round(point[1]*.8)
 			}
 			pathDs[codeResult?"red":"blue"]+="M"+box.join("L").replaceAll(","," ")+"Z"
 		}
