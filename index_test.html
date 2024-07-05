@@ -75,7 +75,7 @@
 			if(codeResult); else continue
 
 			const{code}=codeResult
-			if(/^(97[89]|491)\d{10}$/.test(code)); else continue
+			if(/^(978|979|491)\d{10}$/.test(code)); else continue
 			{
 				const digitPairs=code.slice(0,-1).match(/\d\d/g)
 				let result=-1
