@@ -59,8 +59,8 @@
 		pathDs.red=""
 		for(const{box,codeResult}of await promise??""){
 			for(const index in box){
-				const point=box[index]
-				box[index]=Math.round(point[0]*.8)+" "+Math.round(point[1]*.8)
+				const[x,y]=box[index]
+				box[index]=Math.round(x*.8)+" "+Math.round(y*.8)
 			}
 			pathDs[codeResult?"red":"blue"]+="M"+box.join("L")+"Z"
 		}
