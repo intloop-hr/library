@@ -79,8 +79,8 @@
 			{
 				const digitPairs=code.slice(0,-1).match(/\d\d/g)
 				let result=-1
-				for(const digitPair of digitPairs){
-					result+=+digitPair[0]+3*digitPair[1]
+				for(const[digit1,digit2]of digitPairs){
+					result+=+digit1+3*digit2
 				}
 				const checkDigit=code.slice(-1)
 				if(checkDigit==9-result%10); else continue
