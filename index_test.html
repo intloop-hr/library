@@ -5,7 +5,7 @@
 	body{background:#000;color:#fff;touch-action:none}
 	canvas,svg,video{display:block;height:100%;width:100%}
 	canvas,svg{object-fit:contain;position:absolute;top:0}
-	#description{font-weight:bold;padding:8px 16px;position:absolute;top:0}
+	div.description{font-weight:bold;padding:8px 16px;position:absolute;top:0}
 	path{fill:none;stroke:#000;stroke-width:1}
 </style>
 <title>INTLOOPライブラリー</title>
@@ -17,7 +17,7 @@
 	<path id=bluePath style=stroke:#00f />
 	<path id=redPath style=stroke:#f00 />
 </svg>
-<div id=description>裏表紙のバーコードを読み取ってください。</div>
+<div class=description>裏表紙のバーコードを読み取ってください。</div>
 <script src=https://cdn.jsdelivr.net/npm/quagga></script>
 <script type=module>
 	onpageshow=function(){
@@ -36,15 +36,10 @@
 
 	video.srcObject=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}})
 	await video.play()
+
 	const constraits={decoder:{multiple:true,readers:["ean_reader"]},locator:{halfSample:true}}
-	const bookCodeRegExp=/^(97[89]|491)\d{10}$/
-	const increase=function(result,value,index){
-		return result+(index%2?3:1)*value
-	}
-	const testCheckDigit=function(code){
-		return code.slice(-1)==9-[...code.slice(0,-1)].reduce(increase,-1)%10
-	}
 	const pathDs={blue:"",red:""}
+
 	while(true){
 		pathDs.blue=""
 		pathDs.red=""
@@ -68,9 +63,19 @@
 			if(await promise); else continue
 			for(const{codeResult}of await promise){
 				if(codeResult); else continue
+
 				const{code}=codeResult
-				if(bookCodeRegExp.test(code)); else continue
-				if(testCheckDigit(code)); else continue
+				if(/^(97[89]|491)\d{10}$/.test(code)); else continue
+				{
+					const digitPairs=code.slice(0,-1).match(/\d\d/g)
+					const checkDigit=code.slice(-1)
+					let result=-1
+					for(const digitPair in digitPairs){
+						result+=digitPair[0]+3*digitPair[1]
+					}
+					if(checkDigit==9-result%10); else continue
+				}
+				
 				canvas.removeAttribute("style")
 				video.pause()
 				const response=await fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:"+code)
