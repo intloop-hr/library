@@ -78,12 +78,11 @@
 			if(/^(97[89]|491)\d{10}$/.test(code)); else continue
 			{
 				const digitPairs=code.slice(0,-1).match(/\d\d/g)
-				const checkDigit=code.slice(-1)
 				let result=-1
 				for(const digitPair of digitPairs){
 					result+=+digitPair[0]+3*digitPair[1]
 				}
-				if(checkDigit==9-result%10); else continue
+				if(code.slice(-1)==9-result%10); else continue
 			}
 
 			canvas.removeAttribute("style")
