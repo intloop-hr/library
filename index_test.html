@@ -42,8 +42,8 @@
 	while(true){
 		canvas.width=video.videoWidth
 		canvas.height=video.videoHeight
-		drawingBuffer.setAttribute("viewBox","0,0,"+video.videoWidth+","+video.videoHeight)
 		canvas.getContext("2d").drawImage(video,0,0)
+		drawingBuffer.setAttribute("viewBox","0,0,"+video.videoWidth+","+video.videoHeight)
 
 		constraits.src=canvas.toDataURL()
 		const{promise,resolve}=Promise.withResolvers()
