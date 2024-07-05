@@ -46,6 +46,8 @@
 		const viewBox="0,0,"+video.videoWidth+","+video.videoHeight
 		if(svg.getAttribute("viewBox")!=viewBox){
 			svg.setAttribute("viewBox",viewBox)
+			bluePath.setAttribute("d","")
+			redPath.setAttribute("d","")
 		}
 
 		constraits.src=canvas.toDataURL()
