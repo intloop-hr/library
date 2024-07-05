@@ -13,7 +13,7 @@
 </video>
 <canvas id=canvas style=display:none>
 </canvas>
-<svg id=drawingBuffer>
+<svg id=svg>
 	<path id=bluePath style=stroke:#00f />
 	<path id=redPath style=stroke:#f00 />
 </svg>
@@ -44,8 +44,8 @@
 		canvas.height=video.videoHeight
 		canvas.getContext("2d").drawImage(video,0,0)
 		const viewBox="0,0,"+video.videoWidth+","+video.videoHeight
-		if(drawingBuffer.getAttribute("viewBox")!=viewBox){
-			drawingBuffer.setAttribute("viewBox",viewBox)
+		if(svg.getAttribute("viewBox")!=viewBox){
+			svg.setAttribute("viewBox",viewBox)
 		}
 
 		constraits.src=canvas.toDataURL()
