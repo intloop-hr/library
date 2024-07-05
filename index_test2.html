@@ -37,7 +37,6 @@
 	video.srcObject=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}})
 	await video.play()
 	const constraits={decoder:{multiple:true,readers:["ean_reader"]},locator:{halfSample:true}}
-	const pathDs={blue:"",red:""}
 
 	while(true){
 		canvas.width=video.videoWidth
@@ -60,17 +59,16 @@
 			location=""
 		}
 
-		pathDs.blue=""
-		pathDs.red=""
+		bluePath.setAttribute("d","")
+		redPath.setAttribute("d","")
 		for(const{box,codeResult}of await promise??""){
 			for(const index in box){
 				const[x,y]=box[index]
 				box[index]=Math.round(x*.8)+" "+Math.round(y*.8)
 			}
-			pathDs[codeResult?"red":"blue"]+="M"+box.join("L")+"Z"
+			const path=codeResult?redPath:bluePath
+			path.setAttribute("d",path.getAttribute("d")+"M"+box.join("L")+"Z")
 		}
-		bluePath.setAttribute("d",pathDs.blue)
-		redPath.setAttribute("d",pathDs.red)
 		if(await promise); else continue
 
 		for(const{codeResult}of await promise){
