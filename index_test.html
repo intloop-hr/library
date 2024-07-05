@@ -44,8 +44,8 @@
 		canvas.height=video.videoHeight
 		canvas.getContext("2d").drawImage(video,0,0)
 		const viewBox="0,0,"+video.videoWidth+","+video.videoHeight
-		if(drawingBuffer.getAttribute("viewbox")!=viewBox){
-			drawingBuffer.setAttribute("viewbox",viewBox)
+		if(drawingBuffer.getAttribute("viewBox")!=viewBox){
+			drawingBuffer.setAttribute("viewBox",viewBox)
 		}
 
 		constraits.src=canvas.toDataURL()
