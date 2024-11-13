@@ -97,7 +97,7 @@
 				for(const{summary}of items){
 					const bookInfo=["ISBN: "+code.slice(0,3)+"-"+code.slice(3,12)+"-"+code.slice(12,13)]
 					const{title,author}=summary
-					if(authors){
+					if(author){
 						bookInfo.unshift("著者: "+author)
 					}
 					if(title){
