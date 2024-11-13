@@ -91,22 +91,15 @@
 			switch(code.slice(0,3)){
 				case"978":
 				case"979":
+				const bookInfo=["ISBN: "+code.slice(0,3)+"-"+code.slice(3,12)+"-"+code.slice(12,13)]
 				const response=await fetch("https://api.openbd.jp/v1/get?isbn="+code)
-				const items=await response.json()
-				items[0]??={summary:{}}
-				for(const{summary}of items){
-					const bookInfo=["ISBN: "+code.slice(0,3)+"-"+code.slice(3,12)+"-"+code.slice(12,13)]
-					const{title,author}=summary
-					if(author){
-						bookInfo.unshift("著者: "+author)
-					}
-					if(title){
-						bookInfo.unshift("題名: "+title)
-					}
-					if(confirm("図書の内容は以下ですか?\n\n"+bookInfo.join("\n"))){
-						location="form.html?digits="+code.slice(0,-1)
-						await Promise.race("")
-					}
+				const[item]=await response.json()
+				if(item?.summary?.title){
+					bookInfo.unshift("題名: "+title)
+				}
+				if(confirm("図書の内容は以下ですか?\n\n"+bookInfo.join("\n"))){
+					location="form.html?digits="+code.slice(0,-1)
+					await Promise.race("")
 				}
 				break
 
