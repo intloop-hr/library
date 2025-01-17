@@ -97,6 +97,9 @@
 			payloadSource.date=date.value
 			payloadSource.comment=comment.value
 		}
+		if(Promise.withResolvers); else{
+			payloadSource.withResolvers=false
+		}
 		const response=await fetch(url,{method:"post",body:JSON.stringify(payloadSource)})
 		submit.innerText="申請済"
 		alert(await response.text())

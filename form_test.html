@@ -107,6 +107,9 @@ submit.onclick=async function(){
 		payloadSource.date=date.value
 		payloadSource.comment=comment.value
 	}
+	if(Promise.withResolvers); else{
+		payloadSource.withResolvers=false
+	}
 	const body=JSON.stringify(payloadSource)
 	const response=await fetch(url,{method:'post',body})
 	this.innerText='申請済'
