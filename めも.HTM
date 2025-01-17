@@ -1,18 +1,22 @@
 <meta charset=UTF-8>
 <meta name=viewport content=width=device-width>
 <title>フォーム送信とアラート表示</title>
-<form id=myForm action=https://example.com/submit method=POST onsubmit=handleSubmit(event)>
+<form action=https://example.com/submit method=POST>
 	<label for=name>名前:</label>
 	<input type=text id=name name=name required>
 	<br>
 	<input type=submit value=送信>
 </form>
-<script>
-	async function handleSubmit(event) {
+<script type=module>
+    const[form]=document.forms
+    while(true){
+        const{resolve,promise}=Promise.withResolvers()
+        form.addEventListeners('submit',resolve)
+        await promise
 		event.preventDefault()
-		const form = event.target
-		const formData = new FormData(form)
-		try {
+
+		const formData=new FormData(form)
+		try{
 			const response = await fetch(form.action,{
 				method: form.method,
 				body: formData
@@ -20,7 +24,7 @@
 			const text = await response.text()
 			alert(text)
 		} catch (error) {
-			alert('送信に失敗しました: ' + error)
+			alert('送信に失敗しました: '+error)
 		}
 	}
 </script>
