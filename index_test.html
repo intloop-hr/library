@@ -28,7 +28,7 @@ addEventListener('pageshow',function(){
 	location=''
 })
 
-Promise.withResolvers??alert('OSが古い。')
+Promise.withResolvers??alert('OSが古いため、今後の改修により使えなくなる可能性があります。')
 Promise.withResolvers??=function(){
 	const result={}
 	result.promise=new this(function(resolve,reject){
@@ -71,13 +71,14 @@ while(true){
 	bluePath.setAttribute('d','')
 	redPath.setAttribute('d','')
 	for(const{box,codeResult}of await promise??''){
-		for(const index in box){
-			const[x,y]=box[index]
-			box[index]=Math.round(x*.8)+' '+Math.round(y*.8)
-		}
 		const path=codeResult?redPath:bluePath
-		const d=path.getAttribute('d')
-		path.setAttribute('d',d+'M'+box.join('L')+'Z')
+		let d=path.getAttribute('d')
+		for(const index in box){
+			d+=index?'L':'M'
+			const[x,y]=box[index]
+			d+=Math.round(x*.8)+' '+Math.round(y*.8)
+		}
+		path.setAttribute('d',dz+='Z')
 	}
 	if(await promise); else continue
 
