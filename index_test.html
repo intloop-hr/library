@@ -28,7 +28,6 @@ addEventListener('pageshow',function(){
 	location=''
 })
 
-Promise.withResolvers??alert('OSが古いため、今後の改修により使えなくなる可能性があります。')
 Promise.withResolvers??=function(){
 	const result={}
 	result.promise=new this(function(resolve,reject){
