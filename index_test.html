@@ -71,13 +71,12 @@ while(true){
 	redPath.setAttribute('d','')
 	for(const{box,codeResult}of await promise??''){
 		const path=codeResult?redPath:bluePath
-		let d=path.getAttribute('d')
 		for(const index in box){
-			d+=index?'L':'M'
 			const[x,y]=box[index]
-			d+=Math.round(x*.8)+' '+Math.round(y*.8)
+			box[index]=Math.round(x*.8)+' '+Math.round(y*.8)
 		}
-		path.setAttribute('d',d+='Z')
+		const d=path.getAttribute('d')
+		path.setAttribute('d',d+'M'+box.join('L')+'Z')
 	}
 	if(await promise); else continue
 
