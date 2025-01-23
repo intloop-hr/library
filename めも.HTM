@@ -4,6 +4,7 @@
 	<input type=submit value=送信>
 </form>
 <script type=module>
+const options={method,mode:'no-cors'}
 while(true){
 	const{resolve,promise}=Promise.withResolvers()
 	addEventListener('submit',resolve)
@@ -12,8 +13,8 @@ while(true){
 	event.preventDefault()
 
 	const{action,method}=event.target
-	const body=new FormData(event.target)
-	const response=await fetch(action,{body,method,mode:'no-cors'})
+	options.body=new FormData(event.target)
+	const response=await fetch(action,options)
 	await response.text().then(alert,alert)
 }
 </script>
