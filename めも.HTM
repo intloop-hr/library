@@ -15,7 +15,11 @@ while(true){
 	const{action}=event.target
 	options.method=event.target.method
 	options.body=new FormData(event.target)
-	const response=await fetch(action,options)
-	await response.text().then(alert)
+	try{
+		const response=await fetch(action,options)
+		await response.text().then(alert)
+	} catch(error){
+		alert(error)
+	}
 }
 </script>
