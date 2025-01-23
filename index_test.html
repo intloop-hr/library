@@ -23,15 +23,6 @@
 <script src=https://cdn.jsdelivr.net/npm/quagga></script>
 
 <script type=module>
-const{resolve,promise}=Promise.withResolvers()
-addEventListener('pageshow',resolve)
-await promise
-if(event.persisted){
-	location=''
-}
-</script>
-
-<script type=module>
 Promise.withResolvers??=function(){
 	const result={}
 	result.promise=new this(function(resolve,reject){
@@ -39,6 +30,15 @@ Promise.withResolvers??=function(){
 		result.reject=reject
 	})
 	return result
+}
+</script>
+
+<script type=module>
+const{resolve,promise}=Promise.withResolvers()
+addEventListener('pageshow',resolve)
+await promise
+if(event.persisted){
+	location=''
 }
 </script>
 
