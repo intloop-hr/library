@@ -1,21 +1,20 @@
 <meta charset=UTF-8>
 <meta name=viewport content=width=device-width>
-<title>フォーム送信とアラート表示</title>
 <form action=https://example.com/submit method=post>
 	<input name=name placeholder=名前 required>
 	<input type=submit value=送信>
 </form>
 <script type=module>
-const[form]=document.forms
 while(true){
 	const{resolve,promise}=Promise.withResolvers()
 	form.addEventListener('submit',resolve)
-	console.log(await promise)
+	await promise
+	if(event.target.tagName!='FORM') continue
 	event.preventDefault()
 
-	const{method}=form
-	const body=new FormData(form)
-	const response=await fetch(form.action,{method,body})
-	await response.text().then(alert)
+	const{action,method}=event.target
+	const body=new FormData(event.target)
+	const response=await fetch(action,{method,body})
+	await response.text().then(alert,alert)
 }
 </script>
