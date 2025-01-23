@@ -13,7 +13,7 @@ while(true){
 
 	const{action,method}=event.target
 	const body=new FormData(event.target)
-	const response=await fetch(action,{method,body})
+	const response=await fetch(action,{body,method,mode:'no-cors'})
 	await response.text().then(alert,alert)
 }
 </script>
