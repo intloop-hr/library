@@ -63,30 +63,60 @@ for(let number=1;number<0xee41;++number){
 }
 
 const bookCodeRegExp=/^(97[89]|491)\d{9}$/
-const userNameRegExp=/^\s*\S*\s*$/
-const borrowElements=document.querySelectorAll('.borrow')
-const returnElements=document.querySelectorAll('.return')
+const invalidUserNameRegExp=/^\s*\S*\s*$/
+const elementsToBorrow=document.querySelectorAll('.borrow')
+const elementsToReturn=document.querySelectorAll('.return')
 
 oninput=()=>{
-	for(const{style}of borrowElements){
+	for(const{style}of elementsToBorrow){
 		style.display=type.value=='貸出'?'':'none'
 	}
-	for(const{style}of returnElements){
+	for(const{style}of elementsToReturn){
 		style.display=type.value=='返却'?'':'none'
 	}
 	date.style.display=type.value=='貸出'||type.value=='返却'?'':'none'
 	submit.disabled=false
-	submit.disabled||=!bookCodeRegExp.test(digits.value) 
-	submit.disabled||=!type.value
-	submit.disabled||=userNameRegExp.test(userName.value)
-	for(const letter of userName.value){
-		submit.disabled||=!usableLetters.includes(letter)
+	if(bookCodeRegExp.test(digits.value)){
+		digits.style.color=''
+	} else{
+		submit.disabled=true
+		digits.style.color='#f00'
 	}
-	submit.disabled||=new Date(date.value)>new Date
-	submit.disabled||=comment.value.includes('"')
+	submit.disabled||=!type.value
+
+if(event&&event.target==userName){
+	userName.style.color=''
+}
+
+	submit.disabled||=invalidUserNameRegExp.test(userName.value)
+	for(const letter of userName.value){
+		if(usableLetters.includes(letter)) continue
+		submit.disabled=true
+	}
+	if(new Date(date.value)>new Date){
+		date.style.color='#f00'
+		submit.disabled=true
+	} else{
+		date.style.color=''
+	}
+	if(comment.value.includes('\"')){
+		comment.style.color='#f00'
+		submit.disabled=true
+	} else{
+		comment.style.color=''
+	}
 	submit.innerText='申請'
 }
 oninput()
+userName.onblur=function(){
+	if(invalidUserNameRegExp.test(this.value)){
+		this.style.color='#f00'
+	}
+	for(const letter of this.value){
+		if(usableLetters.includes(letter)) continue
+		this.style.color='#f00'
+	}
+}
 
 comment.onblur=function(){
 	if(this.value.includes('"')); else return
