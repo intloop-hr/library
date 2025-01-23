@@ -68,15 +68,13 @@ while(true){
 	}
 
 	constraints.src=canvas.toDataURL()
-	{
-		const{resolve,promise}=Promise.withResolvers()
-		Quagga.decodeSingle(constraints,resolve)
-		try{
-			await promise
-		} catch(error){
-			alert(error)
-			location=''
-		}
+	const{resolve,promise}=Promise.withResolvers()
+	Quagga.decodeSingle(constraints,resolve)
+	try{
+		await promise
+	} catch(error){
+		alert(error)
+		location=''
 	}
 
 	bluePath.setAttribute('d','')

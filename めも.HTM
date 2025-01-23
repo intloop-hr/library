@@ -10,7 +10,7 @@ const[form]=document.forms
 while(true){
 	const{resolve,promise}=Promise.withResolvers()
 	form.addEventListener('submit',resolve)
-	await promise
+	console.log(await promise)
 	event.preventDefault()
 
 	const{method}=form
