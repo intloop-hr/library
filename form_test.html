@@ -51,7 +51,8 @@ decoder.decodeFromInteger=function(number){
 		array.unshift(--number%0x100)
 		number>>=0x8
 	}
-	return this.decode(new Uint8Array(array))
+	const uint8Array=new Uint8Array(array)
+	return this.decode(uint8Array)
 }
 
 let usableLetters=''
@@ -84,9 +85,9 @@ oninput=()=>{
 	}
 	submit.disabled||=!type.value
 
-if(event&&event.target==userName){
-	userName.style.color=''
-}
+	if(event&&event.target==userName){
+		userName.style.color=''
+	}
 
 	submit.disabled||=invalidUserNameRegExp.test(userName.value)
 	for(const letter of userName.value){
@@ -108,6 +109,7 @@ if(event&&event.target==userName){
 	submit.innerText='申請'
 }
 oninput()
+
 userName.onblur=function(){
 	if(invalidUserNameRegExp.test(this.value)){
 		this.style.color='#f00'
@@ -148,12 +150,6 @@ submit.onclick=async function(){
 
 if(bookCodeRegExp.test(digits.value)); else{
 	await new Promise(requestIdleCallback)
-	/*
-	const date=+new Date
-	await new Promise(setTimeout)
-	while(date==+new Date);
-	await new Promise(setTimeout)
-	*/
 	alert('URLのパラメーター digits が不正です。')
 }
 </script>
