@@ -12,8 +12,9 @@ while(true){
 	if(event.target.tagName!='FORM') continue
 	event.preventDefault()
 
-	const{action,method}=event.target
+	const{action}=event.target
 	options.body=new FormData(event.target)
+	options.method=event.target.method
 	const response=await fetch(action,options)
 	await response.text().then(alert,alert)
 }
