@@ -1,12 +1,18 @@
 <meta content=width=device-width name=viewport>
-<link href=style.css rel=stylesheet>
 <style>
+	@font-face{font-family:baseline;src:local(verdana);unicode-range:u+20}
+	*{line-height:calc(1em + 16px);margin:unset}
+	html{font-family:baseline,arial,noto sans jp,sans-serif;font-feature-settings:"palt";font-kerning:none;-webkit-text-size-adjust:none}
+
+	html{background-color:#000;color-scheme:dark;color:#fff}
 	html,body{height:100%}
-	body{background:#000;color:#fff;touch-action:none}
+	body{touch-action:none}
 	canvas,svg,video{display:block;height:100%;width:100%}
 	canvas,svg{object-fit:contain;position:absolute;top:0}
-	div.description{font-weight:bold;padding:8px 16px;position:absolute;top:0}
-	path{fill:none;stroke:#000;stroke-width:1}
+	#description{padding-block:8px;padding-inline:16px;position:absolute;filter:drop-shadow(0 0 .25em #000)drop-shadow(0 0 .25em #000);top:0}
+	#bluePath,#redPath{fill:none;stroke-width:2}
+	#bluePath{stroke:#00f}
+	#redPath{stroke:#f00}
 </style>
 <title>INTLOOPライブラリー</title>
 
@@ -15,10 +21,10 @@
 <canvas id=canvas style=display:none>
 </canvas>
 <svg id=svg>
-	<path id=bluePath style=stroke:#00f />
-	<path id=redPath style=stroke:#f00 />
+	<path id=bluePath />
+	<path id=redPath />
 </svg>
-<div class=description>裏表紙のバーコードを読み取ってください。</div>
+<div id=description>裏表紙のバーコードを読み取ってください。</div>
 
 <script src=https://cdn.jsdelivr.net/npm/quagga></script>
 
@@ -44,13 +50,40 @@ if(event.persisted){
 
 <script type=module>
 const constraints={}
-constraints.video={facingMode:'environment'}
+constraints.video={}
+{
+	const{video}=constraints
+	video.aspectRatio={max:4/3,min:.75}
+	video.height={max:800}
+	video.width={max:800}
+	video.brightness=170
+	video.contrast=100
+	video.saturation=75
+	video.exposureMode='continuous'
+	video.focusMode='continuous'
+	video.whiteBalanceMode='continuous'
+	video.facingMode='environment'
+}
 video.srcObject=await navigator.mediaDevices.getUserMedia(constraints)
 await video.play()
 delete constraints.video
-constraints.decoder={multiple:true,readers:['ean_reader']}
-constraints.locator={halfSample:true}
+constraints.decoder={}
+{
+	const{decoder}=constraints
+	decoder.multiple=true
+	decoder.readers=['ean_reader']
+}
+constraints.locator={}
+{
+	const{locator}=constraints
+	locator.halfSample=true
+	locator.patchSize='medium'
+}
+constraints.numOfWorkers=navigator.hardwareConcurrency
+// constraints.frequency=10
 
+const codeRegExp=/^978\d{10}$|^979\d{10}$|^491\d{10}$/
+const digitPairRegExp=/\d{2}/g
 while(true){
 	const{videoWidth,videoHeight}=video
 	canvas.width=videoWidth
@@ -75,30 +108,33 @@ while(true){
 
 	bluePath.setAttribute('d','')
 	redPath.setAttribute('d','')
-	for(const{box,codeResult}of await promise??''){
+	if(await promise); else continue
+
+	for(const{box,codeResult}of await promise){
 		const path=codeResult?redPath:bluePath
-		for(const index in box){
-			const[x,y]=box[index]
-			box[index]=Math.round(x*.8)+' '+Math.round(y*.8)
+		const vertices=[]
+		for(const[x,y]of box){
+			vertices.push(x+' '+y)
 		}
 		const d=path.getAttribute('d')
-		path.setAttribute('d',d+'M'+box.join('L')+'Z')
+		path.setAttribute('d',d+'M'+vertices.join('L')+'Z')
 	}
-	if(await promise); else continue
+
+	// console.log(...await promise)
+	// continue
 
 	for(const{codeResult}of await promise){
 		if(codeResult); else continue
 
 		const{code}=codeResult
-		if(/^(978|979|491)\d{10}$/.test(code)); else continue
+		if(codeRegExp.test(code)); else continue
 		{
-			const digitPairs=code.slice(0,-1).match(/\d\d/g)
+			const digitPairs=code.match(digitPairRegExp)
 			let result=-1
 			for(const[digit1,digit2]of digitPairs){
 				result+=+digit1+3*digit2
 			}
-			const checkDigit=code.slice(-1)
-			if(checkDigit==9-result%10); else continue
+			if(9-result%10!=code.slice(-1)) continue
 		}
 
 		canvas.removeAttribute('style')
@@ -113,17 +149,25 @@ while(true){
 			url.pathname='v1/get'
 			url.searchParams.set('isbn',code)
 			const response=await fetch(url)
-			for(const{summary}of await response.json()){
-				const{title}=summary
-				if(title); else break
-				messageLines.push('題名: '+title)
-				break
+			for(const xxx of await response.json()){
+				if(xxx){
+					const{summary}=xxx
+					const{title}=summary
+					if(title); else break
+					messageLines.push('題名: '+title)
+					break
+				}
+				const json=JSON.stringify(xxx)
+				alert(json)
+				continue
 			}
 
 			codeChunks.push(code.slice(0,3))
-			codeChunks.push(code.slice(3,12))
+			codeChunks.push(code.slice(3,6))
+			codeChunks.push(code.slice(6,9))
+			codeChunks.push(code.slice(9,12))
 			codeChunks.push(code.slice(12,13))
-			messageLines.push('ISBN: '+codeChunks.join('-'))
+			messageLines.push('ISBN: '+codeChunks.join(' '))
 			break
 
 			case'491':
@@ -136,11 +180,11 @@ while(true){
 			messageLines.push('雑誌コード: '+codeChunks.join(' '))
 		}
 		if(confirm(messageLines.join('\n'))){
-			location='form.html?digits='+code.slice(0,-1)
+			location.href='form_test.html?digits='+code.slice(0,-1)
 			await Promise.race('')
 		}
 	}
 	if(video.paused) break
 }
-location=''
+location.reload()
 </script>
