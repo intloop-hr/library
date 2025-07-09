@@ -172,7 +172,7 @@ while(true){
 			messageLines.push('雑誌コード: '+codeChunks.join(' '))
 		}
 		if(confirm(messageLines.join('\n'))){
-			location.href='form_test.html?digits='+code.slice(0,-1)
+			location.href='form.html?digits='+code.slice(0,-1)
 			await Promise.race('')
 		}
 	}
