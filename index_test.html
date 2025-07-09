@@ -145,17 +145,13 @@ while(true){
 			url.pathname='v1/get'
 			url.searchParams.set('isbn',code)
 			const response=await fetch(url)
-			for(const xxx of await response.json()){
-				if(xxx){
-					const{summary}=xxx
-					const{title}=summary
-					if(title); else break
-					messageLines.push('題名: '+title)
-					break
-				}
-				const json=JSON.stringify(xxx)
-				alert(json)
-				continue
+			for(const item of await response.json()){
+				if(item); else continue
+				const{summary}=item
+				const{title}=summary
+				if(title); else continue
+				messageLines.push('題名: '+title)
+				break
 			}
 
 			codeChunks.push(code.slice(0,3))
