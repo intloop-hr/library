@@ -53,6 +53,7 @@ const constraints={}
 constraints.video={}
 {
 	const{video}=constraints
+	video.facingMode='environment'
 	video.aspectRatio={max:4/3,min:.75}
 	video.height={max:800}
 	video.width={max:800}
@@ -62,7 +63,6 @@ constraints.video={}
 	video.exposureMode='continuous'
 	video.focusMode='continuous'
 	video.whiteBalanceMode='continuous'
-	video.facingMode='environment'
 }
 video.srcObject=await navigator.mediaDevices.getUserMedia(constraints)
 await video.play()
