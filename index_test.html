@@ -2,13 +2,9 @@
 <style>
 	@font-face{font-family:baseline;src:local(verdana);unicode-range:u+20}
 	*{line-height:calc(1em + 16px);margin:unset}
-	html{font-family:baseline,arial,noto sans jp,sans-serif;font-feature-settings:"palt";font-kerning:none;-webkit-text-size-adjust:none}
-
-	html{background-color:#000;color-scheme:dark;color:#fff}
-	html,body{height:100%}
-	body{touch-action:none}
-	canvas,svg,video{display:block;height:100%;width:100%}
-	canvas,svg{object-fit:contain;position:absolute;top:0}
+	html{background-color:#000;color-scheme:dark;color:#fff;font-family:baseline,arial,noto sans jp,sans-serif;font-feature-settings:"palt";font-kerning:none;-webkit-text-size-adjust:none;touch-action:none}
+	html,body,canvas,svg,video{height:100%}
+	canvas,svg,video{display:block;object-fit:contain;position:absolute;top:0;width:100%}
 	#description{padding-block:8px;padding-inline:16px;position:absolute;filter:drop-shadow(0 0 .25em #000)drop-shadow(0 0 .25em #000);top:0}
 	#bluePath,#redPath{fill:none;stroke-width:2}
 	#bluePath{stroke:#00f}
