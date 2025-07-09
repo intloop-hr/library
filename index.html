@@ -1,126 +1,181 @@
 <meta content=width=device-width name=viewport>
 <link href=style.css rel=stylesheet>
 <style>
-	html,body{height:100%}
-	body{background:#000;color:#fff;touch-action:none}
-	canvas,svg,video{display:block;height:100%;width:100%}
-	canvas,svg{object-fit:contain;position:absolute;top:0}
-	div.description{font-weight:bold;padding:8px 16px;position:absolute;top:0}
-	path{fill:none;stroke:#000;stroke-width:1}
+	:not(*>*){background-color:#000;color-scheme:dark;color:#fff;touch-action:none}
+	html,body,canvas,svg,video{height:100%}
+	canvas,svg,video{display:block;object-fit:contain;position:absolute;top:0;width:100%}
+	#description{padding-block:8px;padding-inline:16px;position:absolute;filter:drop-shadow(0 0 .25em #000)drop-shadow(0 0 .25em #000);top:0}
+	#bluePath,#redPath{fill:none;stroke-width:2}
+	#bluePath{stroke:#00f}
+	#redPath{stroke:#f00}
 </style>
 <title>INTLOOPライブラリー</title>
+
 <video id=video playsinline>
 </video>
 <canvas id=canvas style=display:none>
 </canvas>
 <svg id=svg>
-	<path id=bluePath style=stroke:#00f />
-	<path id=redPath style=stroke:#f00 />
+	<path id=bluePath />
+	<path id=redPath />
 </svg>
-<div class=description>裏表紙のバーコードを読み取ってください。</div>
+<div id=description>裏表紙のバーコードを読み取ってください。</div>
+
 <script src=https://cdn.jsdelivr.net/npm/quagga></script>
+
 <script type=module>
-	addEventListener("pageshow",function(){
-		if(event.persisted); else return
-		location=""
+Promise.withResolvers??=function(){
+	const result={}
+	result.promise=new this(function(resolve,reject){
+		result.resolve=resolve
+		result.reject=reject
 	})
+	return result
+}
+</script>
 
-	Promise.withResolvers??=function(){
-		const result={}
-		result.promise=new this(function(resolve,reject){
-			result.resolve=resolve
-			result.reject=reject
-		})
-		return result
-	}// iOS 17.4未満への対応
+<script type=module>
+const{resolve,promise}=Promise.withResolvers()
+addEventListener('pageshow',resolve)
+await promise
+if(event.persisted){
+	location=''
+}
+</script>
 
-	video.srcObject=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}})
-	await video.play()
-	const constraits={decoder:{multiple:true,readers:["ean_reader"]},locator:{halfSample:true}}
+<script type=module>
+const constraints={}
+constraints.video={}
+{
+	const{video}=constraints
+	video.facingMode='environment'
+	video.aspectRatio={max:4/3,min:.75}
+	video.brightness=170
+	video.contrast=100
+	video.saturation=75
+	video.exposureMode='continuous'
+	video.focusMode='continuous'
+	video.whiteBalanceMode='continuous'
+}
+video.srcObject=await navigator.mediaDevices.getUserMedia(constraints)
+await video.play()
+delete constraints.video
+constraints.decoder={}
+{
+	const{decoder}=constraints
+	decoder.multiple=true
+	decoder.readers=['ean_reader']
+}
+constraints.locator={}
+{
+	const{locator}=constraints
+	locator.halfSample=true
+	locator.patchSize='medium'
+}
+constraints.numOfWorkers=navigator.hardwareConcurrency
+// constraints.frequency=10
 
-	while(true){
-		canvas.width=video.videoWidth
-		canvas.height=video.videoHeight
-		canvas.getContext("2d").drawImage(video,0,0)
-		const viewBox="0,0,"+video.videoWidth+","+video.videoHeight
-		if(svg.getAttribute("viewBox")!=viewBox){
-			svg.setAttribute("viewBox",viewBox)
-			bluePath.setAttribute("d","")
-			redPath.setAttribute("d","")
-		}
-
-		constraits.src=canvas.toDataURL()
-		const{resolve,promise}=Promise.withResolvers()
-		Quagga.decodeSingle(constraits,resolve)
-		try{
-			await promise
-		} catch(error){
-			alert(error)
-			location=""
-		}
-
-		bluePath.setAttribute("d","")
-		redPath.setAttribute("d","")
-		for(const{box,codeResult}of await promise??""){
-			for(const index in box){
-				const[x,y]=box[index]
-				box[index]=Math.round(x*.8)+" "+Math.round(y*.8)
-			}
-			const path=codeResult?redPath:bluePath
-			path.setAttribute("d",path.getAttribute("d")+"M"+box.join("L")+"Z")
-		}
-		if(await promise); else continue
-
-		for(const{codeResult}of await promise){
-			if(codeResult); else continue
-
-			const{code}=codeResult
-			if(/^(978|979|491)\d{10}$/.test(code)); else continue
-			{
-				const digitPairs=code.slice(0,-1).match(/\d\d/g)
-				let result=-1
-				for(const[digit1,digit2]of digitPairs){
-					result+=+digit1+3*digit2
-				}
-				const checkDigit=code.slice(-1)
-				if(checkDigit==9-result%10); else continue
-			}
-
-			canvas.removeAttribute("style")
-			video.pause()
-			switch(code.slice(0,3)){
-				case"978":
-				case"979":
-				const bookInfo=["ISBN: "+code.slice(0,3)+"-"+code.slice(3,12)+"-"+code.slice(12,13)]
-				const response=await fetch("https://api.openbd.jp/v1/get?isbn="+code)
-				const[item]=await response.json()
-				if(item){
-					const{title}=item.summary
-					if(title){
-						bookInfo.unshift("題名: "+title)
-					}
-				}
-				if(confirm("図書の内容は以下ですか?\n\n"+bookInfo.join("\n"))){
-					location="form.html?digits="+code.slice(0,-1)
-					await Promise.race("")
-				}
-				break
-
-				case"491":
-				const codeChunks=[]
-				codeChunks.push(code.slice(0,3))
-				codeChunks.push(code.slice(3,4))
-				codeChunks.push(code.slice(4,9))
-				codeChunks.push(code.slice(9,11))
-				codeChunks.push(code.slice(11,12))
-				codeChunks.push(code.slice(12,13))
-				if(confirm("図書の内容は以下ですか?\n\n雑誌コード: "+codeChunks.join(" "))){
-					location="form.html?digits="+code.slice(0,-1)
-					await Promise.race("")
-				}
-			}
-		}
-		if(video.paused) break
+const codeRegExp=/^978\d{10}$|^979\d{10}$|^491\d{10}$/
+const digitPairRegExp=/\d{2}/g
+while(true){
+	const{videoWidth,videoHeight}=video
+	const width=800*videoWidth/Math.max(videoWidth,videoHeight)
+	const height=800*videoHeight/Math.max(videoWidth,videoHeight)
+	canvas.width=width
+	canvas.height=height
+	canvas.getContext('2d').drawImage(video,0,0,videoWidth,videoHeight,0,0,width,height)
+	const viewBox='0,0,'+width+','+height
+	if(svg.getAttribute('viewBox')!=viewBox){
+		svg.setAttribute('viewBox',viewBox)
+		bluePath.setAttribute('d','')
+		redPath.setAttribute('d','')
 	}
-	location=""
+
+	constraints.src=canvas.toDataURL()
+	const{resolve,promise}=Promise.withResolvers()
+	Quagga.decodeSingle(constraints,resolve)
+	try{
+		await promise
+	} catch(error){
+		alert(error)
+		break
+	}
+
+	bluePath.setAttribute('d','')
+	redPath.setAttribute('d','')
+	if(await promise); else continue
+
+	for(const{box,codeResult}of await promise){
+		const path=codeResult?redPath:bluePath
+		const vertices=[]
+		for(const[x,y]of box){
+			vertices.push(x+' '+y)
+		}
+		const d=path.getAttribute('d')
+		path.setAttribute('d',d+'M'+vertices.join('L')+'Z')
+	}
+
+	// console.log(...await promise)
+	// continue
+
+	for(const{codeResult}of await promise){
+		if(codeResult); else continue
+
+		const{code}=codeResult
+		if(codeRegExp.test(code)); else continue
+		{
+			const digitPairs=code.match(digitPairRegExp)
+			let result=-1
+			for(const[digit1,digit2]of digitPairs){
+				result+=+digit1+3*digit2
+			}
+			if(9-result%10!=code.slice(-1)) continue
+		}
+
+		canvas.removeAttribute('style')
+		video.pause()
+
+		const codeChunks=[]
+		const messageLines=['図書の内容は以下ですか?','']
+		switch(code.slice(0,3)){
+			case'978':
+			case'979':
+			const url=new URL('https:api.openbd.jp')
+			url.pathname='v1/get'
+			url.searchParams.set('isbn',code)
+			const response=await fetch(url)
+			for(const item of await response.json()){
+				if(item); else continue
+				const{summary}=item
+				const{title}=summary
+				if(title); else continue
+				messageLines.push('題名: '+title)
+				break
+			}
+
+			codeChunks.push(code.slice(0,3))
+			codeChunks.push(code.slice(3,6))
+			codeChunks.push(code.slice(6,9))
+			codeChunks.push(code.slice(9,12))
+			codeChunks.push(code.slice(12,13))
+			messageLines.push('ISBN: '+codeChunks.join(' '))
+			break
+
+			case'491':
+			codeChunks.push(code.slice(0,3))
+			codeChunks.push(code.slice(3,4))
+			codeChunks.push(code.slice(4,9))
+			codeChunks.push(code.slice(9,11))
+			codeChunks.push(code.slice(11,12))
+			codeChunks.push(code.slice(12,13))
+			messageLines.push('雑誌コード: '+codeChunks.join(' '))
+		}
+		if(confirm(messageLines.join('\n'))){
+			location.href='form.html?digits='+code.slice(0,-1)
+			await Promise.race('')
+		}
+	}
+	if(video.paused) break
+}
+location.reload()
 </script>
