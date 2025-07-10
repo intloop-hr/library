@@ -1,20 +1,24 @@
 <meta content=width=device-width name=viewport>
 <link href=style.css rel=stylesheet>
 <style>
-	button,input,textarea{all:unset}
-	body{margin-left:auto;margin-right:auto;max-width:calc(640px - 32px);padding:8px 16px}
-	button,input,textarea,label:has(input){background:#ddd;margin-top:8px;margin-bottom:8px;padding:8px 16px}
-	button,input,textarea{width:calc(100% - 32px)}
+	*,::placeholder{all:unset;cursor:revert;display:revert;font-style:revert;font-weight:revert;line-height:calc(1em + .5rem);text-decoration:revert;white-space:revert}
+	*{font-size:inherit}
+	:not(*>*){scrollbar-width:none}
+	body{margin-inline:auto;max-inline-size:calc(640px - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem)/*8px*/;padding-inline:calc(1rlh - 1rem)/*16px*/}
+	button,input,label:has(input),textarea{background-color:light-dark(#ddd,#222);margin-block:calc(.5rlh - .5rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
+	button,input,textarea{width:calc(100% - 2rlh + 2rem)}
 	button,input,label:has(input){text-align:center}
 	button:not(:disabled),label:has(input){cursor:pointer}
-	input[type=date]{display:inline-block;height:calc(1em + 16px)}
+	input[type=date]{display:inline-block;block-size:1rlh}
 	input[type=radio]{display:none}
-	button,label:has(input:checked){background:#000;color:#fff}
-	button,label:has(input:checked){font-weight:bold}
+	button,label:has(input:checked){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000);font-weight:bold}
 	label:has(input){flex-grow:1}
 	:disabled{opacity:calc(2/3)}
-	.flex{display:flex;column-gap:16px}
+	.flex{display:flex;column-gap:calc(1rlh - 1rem)}
 	small{font-size:.75em}
+	@media(prefers-color-scheme:dark){
+		:not(*>*){background-color:#000;color:#fff;color-scheme:dark}
+	}
 </style>
 <title>INTLOOPライブラリー 申請フォーム</title>
 
@@ -22,7 +26,7 @@
 	<label><strong>ISBNまたは雑誌コード（上12桁）</strong></label>
 	<input name=digits readonly>
 	<label><strong>氏名</strong></label>（姓名間 空白必須）<br>
-	<small>（表記揺れ対策のため、一部使えない漢字があります。その際は、使える漢字を代用するか、平仮名を入力してください。）</small>
+	<small>表記揺れ対策のため、一部使えない漢字があります。その際は、使える漢字を代用するか、平仮名を入力してください。</small>
 	<input name=userName>
 	<label><strong>申請種別</strong></label>
 	<div class=flex>
@@ -39,6 +43,8 @@
 </form>
 
 <script type=module>
+await Promise.race('')
+
 const[{digits,userName,type,date,comment,submit}]=document.forms
 
 digits.value=new URLSearchParams(location.search).get('digits')

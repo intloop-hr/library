@@ -1,3 +1,3 @@
 @font-face{font-family:baseline;src:local(verdana);unicode-range:u+20}
-*{line-height:calc(1em + 16px);margin:unset}
+*{line-height:calc(1em + 1rem);margin:unset}
 :not(*>*){font-family:baseline,arial,noto sans jp,sans-serif;font-feature-settings:"palt";font-kerning:none;-webkit-text-size-adjust:none}
