@@ -67,23 +67,23 @@ digits.value=new URLSearchParams(location.search).get('digits')
 date.value=new Date().toLocaleDateString('sv')
 
 const decoder=new TextDecoder('sjis')
-let usableLetters=''
-const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
-for(let number=1;number<0xee41;++number){
+decoder.decodeFromInteger=function(number){
 	const array=[]
 	while(number){
 		array.unshift(--number%0x100)
 		number>>=0x8
 	}
 	const uint8Array=new Uint8Array(array)
-	const text=decoder.decode(uint8Array)
-	if(unusableLetterRegExp.test(text)){
-		usableLetters+=text
-	}
+	return this.decode(uint8Array)
 }
-//
-console.log(usableLetters)
-//
+
+let usableLetters=''
+const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
+for(let number=1;number<0xee41;++number){
+	const text=decoder.decodeFromInteger(number)
+	if(unusableLetterRegExp.test(text)); else continue
+	usableLetters+=text
+}
 
 const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
 const invalidUserNameRegExp=/^\s*\S*\s*$/
