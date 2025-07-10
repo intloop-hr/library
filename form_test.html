@@ -9,13 +9,15 @@ input,textarea,div.flex{margin-block:calc(.5rlh - .5rem)}
 textarea{height:3rlh}
 label input[type=radio]{display:none}
 
-input,textarea,label:has(input[type=radio]){background-color:light-dark(#ccc,#333)}
+input:not([type=submit]),textarea,label:has(input[type=radio]):not(:has(input[type=radio]:checked)){background-color:light-dark(#ccc,#333)}
 
+/*
 input[type=submit],input,div.flex label:has(input){text-align:center}
 input[type=submit],div.flex label:has(input:checked){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
 input[type=submit]:not(:disabled),div.flex label:has(input:not(:checked)){cursor:pointer}
 
 :disabled{opacity:calc(2/3)}
+*/
 
 div.flex{display:flex;column-gap:calc(1rlh - 1rem)}
 div.flex>*{flex-grow:1}
@@ -23,8 +25,10 @@ div.flex>*{flex-grow:1}
 	:not(*>*){background-color:#000;color:#fff;color-scheme:dark}
 }
 
+/*
 :not(*>*):not(:has([value=貸出]:checked)) .borrow{display:none}
 :not(*>*):not(:has([value=延長]:checked)) .return{display:none}
+*/
 </style>
 <title>INTLOOPライブラリー 申請フォーム</title>
 
@@ -50,6 +54,8 @@ div.flex>*{flex-grow:1}
 </form>
 
 <script type=module>
+await Promise.race('')
+
 const[{digits,userName,type,date,comment,submit}]=document.forms
 
 digits.value=new URLSearchParams(location.search).get('digits')
