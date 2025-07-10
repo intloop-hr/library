@@ -2,13 +2,13 @@
 <link href=style.css rel=stylesheet>
 <style>
 	body{margin-inline:auto;max-inline-size:calc(640px - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem)/*8px*/;padding-inline:calc(1rlh - 1rem)/*16px*/}
-	button,input,label:has(input),textarea{background-color:light-dark(#ddd,#222);margin-block:calc(.5rlh - .5rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
-	button,input,textarea{width:calc(100% - 2rlh + 2rem)}
+	button,input,label:has(input),textarea{background-color:light-dark(#ccc,#333);margin-block:calc(.5rlh - .5rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
+	button,input,textarea{inline-size:calc(100% - 2rlh + 2rem)}
 	button,input,label:has(input){text-align:center}
 	button:not(:disabled),label:has(input){cursor:pointer}
 	input[type=date]{display:inline-block;block-size:1rlh}
 	input[type=radio]{display:none}
-	button,label:has(input:checked){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000);font-weight:bold}
+	button,label:has(input:checked){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
 	label:has(input){flex-grow:1}
 	:disabled{opacity:calc(2/3)}
 	.flex{display:flex;column-gap:calc(1rlh - 1rem)}
