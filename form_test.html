@@ -3,18 +3,21 @@
 <style>
 body{margin-inline:auto;inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
 label{display:block}
-button,input,textarea,div.flex label:has(input){background-color:light-dark(#ccc,#333);margin-block:calc(.5rlh - .5rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
-button,input,textarea{display:inline-block;inline-size:calc(100% - 2rlh + 2rem)}
-button,input,div.flex label:has(input){text-align:center}
-button,div.flex label:has(input:checked){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
-button:not(:disabled),div.flex label:has(input:not(:checked)){cursor:pointer}
-button:disabled{opacity:calc(2/3)}
-/*input[type=date]{block-size:1rlh}*/
-div.flex{display:flex;column-gap:calc(1rlh - 1rem)}
-div.flex label:has(input){flex-grow:1}
+small{font-size:.75em}
+input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem)}
 label input[type=radio]{display:none}
 textarea{height:3rlh}
-small{font-size:.75em}
+
+input[type=submit],input,textarea,div.flex label:has(input){background-color:light-dark(#ccc,#333);margin-block:calc(.5rlh - .5rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
+
+input[type=submit],input,div.flex label:has(input){text-align:center}
+input[type=submit],div.flex label:has(input:checked){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
+input[type=submit]:not(:disabled),div.flex label:has(input:not(:checked)){cursor:pointer}
+
+div.flex{display:flex;column-gap:calc(1rlh - 1rem)}
+div.flex label:has(input){flex-grow:1}
+
+:disabled{opacity:calc(2/3)}
 @media(prefers-color-scheme:dark){
 	:not(*>*){background-color:#000;color:#fff;color-scheme:dark}
 }
@@ -24,7 +27,7 @@ small{font-size:.75em}
 </style>
 <title>INTLOOPライブラリー 申請フォーム</title>
 
-<form>
+<form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
 	<label><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
 	<input name=digits readonly>
 	<label><strong>氏名</strong>（姓名間 空白必須）<br>
@@ -41,7 +44,7 @@ small{font-size:.75em}
 	<input name=date type=date>
 	<label class=return><strong>お薦めコメント</strong>（任意）</label>
 	<textarea class=return name=comment></textarea>
-	<button disabled name=submit></button>
+	<input disabled type=submit value=申請>
 </form>
 
 <script type=module>
