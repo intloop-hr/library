@@ -8,11 +8,10 @@ input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:cal
 input,textarea,div.flex{margin-block:calc(.5rlh - .5rem)}
 textarea{height:3rlh}
 label input[type=radio]{display:none}
-
 input:not([type=submit]),textarea,label:has(input[type=radio]):not(:has(input[type=radio]:checked)){background-color:light-dark(#ccc,#333)}
 
+input,label:has(input[type=radio]){text-align:center}
 /*
-input[type=submit],input,div.flex label:has(input){text-align:center}
 input[type=submit],div.flex label:has(input:checked){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
 input[type=submit]:not(:disabled),div.flex label:has(input:not(:checked)){cursor:pointer}
 
