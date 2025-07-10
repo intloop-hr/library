@@ -4,7 +4,8 @@
 body{margin-inline:auto;inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
 label:not(:has(input[type=radio])){display:block}
 small{font-size:.75em}
-input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);margin-block:calc(.5rlh - .5rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
+input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
+input,textarea{margin-block:calc(.5rlh - .5rem)}
 textarea{height:3rlh}
 label input[type=radio]{display:none}
 
@@ -31,7 +32,7 @@ div.flex>*{flex-grow:1}
 	<label><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
 	<input name=digits readonly>
 	<label><strong>氏名</strong>（姓名間 空白必須）<br>
-	<small>表記揺れ対策のため、一部使えない漢字があります。その際は、使える漢字を代用するか、平仮名を入力してください。</small></label>
+	<small>表記揺れ対策のため、一部の漢字は使用できません。使える漢字または平仮名を代用してください。</small></label>
 	<input name=userName>
 	<label><strong>申請種別</strong></label>
 	<div class=flex>
@@ -39,9 +40,10 @@ div.flex>*{flex-grow:1}
 		<label><input name=type value=延長 type=radio>延長</label>
 		<label><input name=type value=返却 type=radio>返却</label>
 	</div>
+
 	<label class=borrow><strong>貸出日</strong></label>
 	<label class=return><strong>返却日</strong></label>
-	<input name=date type=date>
+	<input class=borrow-or-return name=date type=date>
 	<label class=return><strong>お薦めコメント</strong>（任意）</label>
 	<textarea class=return name=comment></textarea>
 	<input disabled type=submit value=申請>
