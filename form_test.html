@@ -48,36 +48,36 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 </form>
 
 <script type=module>
-await Promise.race('')
-
 const[{digits,userName,type,date,comment,submit}]=document.forms
 
 digits.value=new URLSearchParams(location.search).get('digits')
 date.value=new Date().toLocaleDateString('sv')
 
 const decoder=new TextDecoder('sjis')
-decoder.decodeFromInteger=function(number){
+let usableLetters=''
+const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
+for(let number=1;number<0xee41;++number){
 	const array=[]
 	while(number){
 		array.unshift(--number%0x100)
 		number>>=0x8
 	}
 	const uint8Array=new Uint8Array(array)
-	return this.decode(uint8Array)
-}
-
-let usableLetters=''
-const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
-for(let number=1;number<0xee41;++number){
-	const text=decoder.decodeFromInteger(number)
-	if(unusableLetterRegExp.test(text)); else continue
+	const text=decoder.decode(uint8Array)
+	if(unusableLetterRegExp.test(text)){
+	} else continue
 	usableLetters+=text
 }
+//
+console.log(usableLetters)
+//
 
-const bookCodeRegExp=/^(97[89]|491)\d{9}$/
+const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
 const invalidUserNameRegExp=/^\s*\S*\s*$/
 const elementsToBorrow=document.querySelectorAll('.borrow')
 const elementsToReturn=document.querySelectorAll('.return')
+
+/*
 
 oninput=()=>{
 	for(const{style}of elementsToBorrow){
@@ -88,7 +88,7 @@ oninput=()=>{
 	}
 	date.style.display=type.value=='貸出'||type.value=='返却'?'':'none'
 	submit.disabled=false
-	if(bookCodeRegExp.test(digits.value)){
+	if(codeRegExp.test(digits.value)){
 		digits.style.color=''
 	} else{
 		submit.disabled=true
@@ -159,10 +159,11 @@ submit.onclick=async function(){
 	await response.text().then(alert)
 }
 
-if(bookCodeRegExp.test(digits.value)); else{
+if(codeRegExp.test(digits.value)); else{
 	await new Promise(window.requestIdleCallback??requestAnimationFrame)
 	alert('URLのパラメーター digits が不正です。')
 }
+*/
 </script>
 
 <script type=module>
