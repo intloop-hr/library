@@ -19,10 +19,9 @@ div.flex>*{flex-grow:1}
 }
 
 form:not(:has(input[type=radio][name=type]:checked)) input[type=submit]{display:none}
-/*
-:not(*>*):not(:has([value=貸出]:checked)) .borrow{display:none}
-:not(*>*):not(:has([value=延長]:checked)) .return{display:none}
-*/
+form:not(:has(input[type=radio][value=貸出]:checked)) .borrow{display:none}
+form:not(:has(input[type=radio][value=返却]:checked)) .return{display:none}
+form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=返却]:checked)) .borrow-or-return{display:none}
 </style>
 <title>INTLOOPライブラリー 申請フォーム</title>
 
@@ -38,7 +37,6 @@ form:not(:has(input[type=radio][name=type]:checked)) input[type=submit]{display:
 		<label><input name=type value=延長 type=radio>延長</label>
 		<label><input name=type value=返却 type=radio>返却</label>
 	</div>
-
 	<label class=borrow><strong>貸出日</strong></label>
 	<label class=return><strong>返却日</strong></label>
 	<input class=borrow-or-return name=date type=date>
