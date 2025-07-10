@@ -4,23 +4,23 @@
 body{margin-inline:auto;inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
 label:not(:has(input[type=radio])){display:block}
 small{font-size:.75em}
-button,input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
-button,input,textarea,div.flex{margin-block:calc(.5rlh - .5rem)}
+input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
+input,textarea,div.flex{margin-block:calc(.5rlh - .5rem)}
 textarea{height:3rlh}
 label input[type=radio]{display:none}
-input/*:not([type=submit])*/,textarea,label:has(input[type=radio]):not(:has(input[type=radio]:checked)){background-color:light-dark(#ccc,#333)}
-button,label:has(input[type=radio]:checked){color:light-dark(#fff,#000)}
-button:not(:disabled),label:has(input[type=radio]:checked){background-color:light-dark(#000,#fff)}
-button:disabled{background-color:light-dark(#555,#aaa)}
-button,input,label:has(input[type=radio]){text-align:center}
-button:not(:disabled),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}
+input:not([type=submit]),textarea,label:has(input[type=radio]):not(:has(input[type=radio]:checked)){background-color:light-dark(#ccc,#333)}
+input[type=submit],label:has(input[type=radio]:checked){color:light-dark(#fff,#000)}
+input[type=submit]:not(:disabled),label:has(input[type=radio]:checked){background-color:light-dark(#000,#fff)}
+input[type=submit]:disabled{background-color:light-dark(#555,#aaa)}
+input,label:has(input[type=radio]){text-align:center}
+input[type=submit]:not(:disabled),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}
 div.flex{display:flex;column-gap:calc(1rlh - 1rem)}
 div.flex>*{flex-grow:1}
 @media(prefers-color-scheme:dark){
 	:not(*>*){background-color:#000;color:#fff;color-scheme:dark}
 }
 
-form:not(:has(input[type=radio][name=type]:checked)) button{display:none}
+form:not(:has(input[type=radio][name=type]:checked)) input[type=submit]{display:none}
 form:not(:has(input[type=radio][value=貸出]:checked)) .borrow{display:none}
 form:not(:has(input[type=radio][value=返却]:checked)) .return{display:none}
 form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=返却]:checked)) .borrow-or-return{display:none}
@@ -44,82 +44,152 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 	<input class=borrow-or-return name=date type=date>
 	<label class=return><strong>お薦めコメント</strong>（任意）</label>
 	<textarea class=return name=comment></textarea>
-	<button name=submit disabled>申請</button>
+	<input type=submit value=申請 disabled>
 </form>
 
 <script type=module>
-	const{digits,userName,type,date,comment,submit}=document.querySelector("form")
-	digits.value=new URL(location).searchParams.get("digits")
-	date.value=new Date().toLocaleDateString("sv")
-	const decoder=new TextDecoder("sjis")
-	decoder.decodeFromInteger=function(number){
-		const array=[]
-		while(number){
-			array.unshift(--number%0x100)
-			number>>=0x8
-		}
-		return this.decode(new Uint8Array(array))
+const[{comment}]=document.forms
+do{
+	const{resolve,promise}=Promise.withResolvers()
+	comment.addEventListener(`blur`,resolve)
+	await promise
+	if(comment.value.includes('"')){
+	} else continue
+	await new Promise(window.requestIdleCallback??requestAnimationFrame)
+	alert('「"」は使えません。(Google スプレッドシートとの連携の都合上)')
+} while(true)
+</script>
+
+<script type=module>
+const[{digits,userName,type,date,comment,submit}]=document.forms
+
+digits.value=new URLSearchParams(location.search).get('digits')
+date.value=new Date().toLocaleDateString('sv')
+
+const decoder=new TextDecoder('sjis')
+decoder.decodeFromInteger=function(number){
+	const array=[]
+	while(number){
+		array.unshift(--number%0x100)
+		number>>=0x8
 	}
-	let usableLetters=""
-    const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
-	for(let number=1;number<0xee41;++number){
-		const text=decoder.decodeFromInteger(number)
-		if(unusableLetterRegExp.test(text)); else continue
-		usableLetters+=text
+	const uint8Array=new Uint8Array(array)
+	return this.decode(uint8Array)
+}
+
+let usableLetters=''
+const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
+for(let number=1;number<0xee41;++number){
+	const text=decoder.decodeFromInteger(number)
+	if(unusableLetterRegExp.test(text)); else continue
+	usableLetters+=text
+}
+
+const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
+const invalidUserNameRegExp=/^\s*\S*\s*$/
+const elementsToBorrow=document.querySelectorAll('.borrow')
+const elementsToReturn=document.querySelectorAll('.return')
+
+/*
+
+oninput=()=>{
+	for(const{style}of elementsToBorrow){
+		style.display=type.value=='貸出'?'':'none'
 	}
-	const bookCodeRegExp=/^(97[89]|491)\d{9}$/
-	const userNameRegExp=/^\s*\S*\s*$/
-	const borrowElements=document.querySelectorAll(".borrow")
-	const returnElements=document.querySelectorAll(".return")
-	oninput=()=>{
-		for(const{style}of borrowElements){
-			style.display=type.value=="貸出"?"":"none"
-		}
-		for(const{style}of returnElements){
-			style.display=type.value=="返却"?"":"none"
-		}
-		date.style.display=type.value=="貸出"||type.value=="返却"?"":"none"
-		submit.disabled=false
-		submit.disabled||=!bookCodeRegExp.test(digits.value) 
-		submit.disabled||=!type.value
-		submit.disabled||=userNameRegExp.test(userName.value)
-		for(const letter of userName.value){
-			submit.disabled||=!usableLetters.includes(letter)
-		}
-		submit.disabled||=new Date(date.value)>new Date
-		submit.disabled||=comment.value.includes("\"")
-		submit.innerText="申請"
+	for(const{style}of elementsToReturn){
+		style.display=type.value=='返却'?'':'none'
 	}
-	oninput()
-	comment.onblur=function(){
-		if(this.value.includes("\"")); else return
-		alert("「\"」は使えません。(Google スプレッドシートとの連携の都合上です。)")
-	}
-	const url="https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec"
-	submit.onclick=async()=>{
+	date.style.display=type.value=='貸出'||type.value=='返却'?'':'none'
+	submit.disabled=false
+	if(codeRegExp.test(digits.value)){
+		digits.style.color=''
+	} else{
 		submit.disabled=true
-		submit.innerText="申請中"
-		const payloadSource={digits:digits.value,userName:userName.value,type:type.value}
-		switch(type.value){
-			case"貸出":
-			payloadSource.date=date.value
-			break
-			case"返却":
-			payloadSource.date=date.value
-			payloadSource.comment=comment.value
-		}
-		if(Promise.withResolvers); else{
-			payloadSource.withResolvers=false
-		}
-		const response=await fetch(url,{method:"post",body:JSON.stringify(payloadSource)})
-		submit.innerText="申請済"
-		alert(await response.text())
+		digits.style.color='#f00'
 	}
-	if(bookCodeRegExp.test(digits.value)); else{
-		const date=+new Date
-		await new Promise(setTimeout)
-		while(date==+new Date);
-		await new Promise(setTimeout)
-		alert("URLのパラメーター digits が不正です。")
+	submit.disabled||=!type.value
+
+	if(event&&event.target==userName){
+		userName.style.color=''
 	}
+
+	submit.disabled||=invalidUserNameRegExp.test(userName.value)
+	for(const letter of userName.value){
+		if(usableLetters.includes(letter)) continue
+		submit.disabled=true
+	}
+	if(new Date(date.value)>new Date){
+		date.style.color='#f00'
+		submit.disabled=true
+	} else{
+		date.style.color=''
+	}
+	if(comment.value.includes('\"')){
+		comment.style.color='#f00'
+		submit.disabled=true
+	} else{
+		comment.style.color=''
+	}
+	submit.innerText='申請'
+}
+oninput()
+
+userName.onblur=function(){
+	if(invalidUserNameRegExp.test(this.value)){
+		this.style.color='#f00'
+	}
+	for(const letter of this.value){
+		if(usableLetters.includes(letter)) continue
+		this.style.color='#f00'
+	}
+}
+
+const url=new URL('https:script.google.com')
+url.pathname='macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec'
+submit.onclick=async function(){
+	this.disabled=true
+	this.innerText='申請中'
+	const payloadSource={digits:digits.value,userName:userName.value,type:type.value}
+	switch(type.value){
+		case'貸出':
+		payloadSource.date=date.value
+		break
+		case'返却':
+		payloadSource.date=date.value
+		payloadSource.comment=comment.value
+	}
+	if(Promise.withResolvers); else{
+		payloadSource.withResolvers=false
+	}
+	const body=JSON.stringify(payloadSource)
+	const response=await fetch(url,{method:'post',body})
+	this.innerText='申請済'
+	await response.text().then(alert)
+}
+
+if(codeRegExp.test(digits.value)); else{
+	await new Promise(window.requestIdleCallback??requestAnimationFrame)
+	alert('URLのパラメーター digits が不正です。')
+}
+*/
+</script>
+
+<script type=module>
+const options={mode:'no-cors'}
+while(true){
+	await Promise.race('')
+	/*
+	const{resolve,promise}=Promise.withResolvers()
+	addEventListener('submit',resolve)
+	await promise
+	if(event.target.tagName!='FORM') continue
+	event.preventDefault()
+
+	const{action}=event.target
+	options.method=event.target.method
+	options.body=new FormData(event.target)
+	const response=await fetch(action,options)
+	await response.text().then(alert)
+	*/
+}
 </script>

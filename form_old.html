@@ -1,37 +1,31 @@
 <meta content=width=device-width name=viewport>
 <link href=style.css rel=stylesheet>
 <style>
-body{margin-inline:auto;inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
-label:not(:has(input[type=radio])){display:block}
-small{font-size:.75em}
-button,input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
-button,input,textarea,div.flex{margin-block:calc(.5rlh - .5rem)}
-textarea{height:3rlh}
-label input[type=radio]{display:none}
-input/*:not([type=submit])*/,textarea,label:has(input[type=radio]):not(:has(input[type=radio]:checked)){background-color:light-dark(#ccc,#333)}
-button,label:has(input[type=radio]:checked){color:light-dark(#fff,#000)}
-button:not(:disabled),label:has(input[type=radio]:checked){background-color:light-dark(#000,#fff)}
-button:disabled{background-color:light-dark(#555,#aaa)}
-button,input,label:has(input[type=radio]){text-align:center}
-button:not(:disabled),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}
-div.flex{display:flex;column-gap:calc(1rlh - 1rem)}
-div.flex>*{flex-grow:1}
-@media(prefers-color-scheme:dark){
-	:not(*>*){background-color:#000;color:#fff;color-scheme:dark}
-}
-
-form:not(:has(input[type=radio][name=type]:checked)) button{display:none}
-form:not(:has(input[type=radio][value=貸出]:checked)) .borrow{display:none}
-form:not(:has(input[type=radio][value=返却]:checked)) .return{display:none}
-form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=返却]:checked)) .borrow-or-return{display:none}
+	:not(*>*){scrollbar-width:none}
+	button,input,textarea{all:unset}
+	body{margin-left:auto;margin-right:auto;max-width:calc(640px - 32px);padding:8px 16px}
+	button,input,textarea,div.flex label:has(input){background:#ddd;margin-top:8px;margin-bottom:8px;padding:8px 16px}
+	button,input,textarea{width:calc(100% - 32px)}
+	button,input,div.flex label:has(input){text-align:center}
+	button:not(:disabled),div.flex label:has(input){cursor:pointer}
+	input[type=date]{display:inline-block;height:calc(1em + 16px)}
+	input[type=radio]{display:none}
+	button,div.flex label:has(input:checked){background:#000;color:#fff}
+	button,div.flex label:has(input:checked){font-weight:bold}
+	div.flex label:has(input){flex-grow:1}
+	:disabled{opacity:calc(2/3)}
+	div.flex{display:flex;column-gap:16px}
+	small{font-size:.75em}
+	textarea{height:3lh}
+	button,input,label,textarea{display:block}
 </style>
 <title>INTLOOPライブラリー 申請フォーム</title>
 
-<form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
-	<label><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
+<form>
+	<label><strong>ISBNまたは雑誌コード（上12桁）</strong></label>
 	<input name=digits readonly>
-	<label><strong>氏名</strong>（姓名間 空白必須）<br>
-	<small>表記揺れ対策のため、一部の漢字は使用できません。使える漢字または平仮名を代用してください。</small></label>
+	<label><strong>氏名</strong>（姓名間 空白必須）</label>
+	<small>表記揺れ対策のため、一部使えない漢字があります。その際は、使える漢字を代用するか、平仮名を入力してください。</small>
 	<input name=userName>
 	<label><strong>申請種別</strong></label>
 	<div class=flex>
@@ -41,10 +35,10 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 	</div>
 	<label class=borrow><strong>貸出日</strong></label>
 	<label class=return><strong>返却日</strong></label>
-	<input class=borrow-or-return name=date type=date>
+	<input name=date type=date>
 	<label class=return><strong>お薦めコメント</strong>（任意）</label>
 	<textarea class=return name=comment></textarea>
-	<button name=submit disabled>申請</button>
+	<button disabled name=submit></button>
 </form>
 
 <script type=module>
