@@ -54,9 +54,9 @@ do{
 	comment.addEventListener(`blur`,resolve)
 	await promise
 	if(comment.value.includes('"')){
-		await new Promise(window.requestIdleCallback??requestAnimationFrame)
-		alert('「"」は使えません。(Google スプレッドシートとの連携の都合上)')
-	}
+	} else continue
+	await new Promise(window.requestIdleCallback??requestAnimationFrame)
+	alert('「"」は使えません。(Google スプレッドシートとの連携の都合上)')
 } while(true)
 </script>
 
@@ -101,7 +101,7 @@ oninput=()=>{
 	}
 	date.style.display=type.value=='貸出'||type.value=='返却'?'':'none'
 	submit.disabled=false
-	if(bookCodeRegExp.test(digits.value)){
+	if(codeRegExp.test(digits.value)){
 		digits.style.color=''
 	} else{
 		submit.disabled=true
@@ -167,7 +167,7 @@ submit.onclick=async function(){
 	await response.text().then(alert)
 }
 
-if(bookCodeRegExp.test(digits.value)); else{
+if(codeRegExp.test(digits.value)); else{
 	await new Promise(window.requestIdleCallback??requestAnimationFrame)
 	alert('URLのパラメーター digits が不正です。')
 }
