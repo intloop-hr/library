@@ -1,31 +1,31 @@
 <meta content=width=device-width name=viewport>
 <link href=style.css rel=stylesheet>
 <style>
-	body{margin-inline:auto;max-inline-size:calc(640px - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem)/*8px*/;padding-inline:calc(1rlh - 1rem)/*16px*/}
-	button,input,label:has(input),textarea{background-color:light-dark(#ccc,#333);margin-block:calc(.5rlh - .5rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
-	button,input,textarea{inline-size:calc(100% - 2rlh + 2rem)}
-	button,input,label:has(input){text-align:center}
-	button:not(:disabled),label:has(input){cursor:pointer}
-	input[type=date]{display:inline-block;block-size:1rlh}
-	input[type=radio]{display:none}
-	button,label:has(input:checked){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
-	label:has(input){flex-grow:1}
-	:disabled{opacity:calc(2/3)}
-	.flex{display:flex;column-gap:calc(1rlh - 1rem)}
-	small{font-size:.75em}
-	@media(prefers-color-scheme:dark){
-		:not(*>*){background-color:#000;color:#fff;color-scheme:dark}
-	}
-	textarea{height:3lh}
-	button,input,label,textarea{display:block}
+body{margin-inline:auto;max-inline-size:calc(640px - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
+button,input,label,textarea{display:block}
+button,input,textarea,div.flex label:has(input){background-color:light-dark(#ccc,#333);margin-block:calc(.5rlh - .5rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
+button,input,textarea{inline-size:calc(100% - 2rlh + 2rem)}
+button,input,div.flex label:has(input){text-align:center}
+button:not(:disabled),div.flex label:has(input:not(:checked)){cursor:pointer}
+input[type=date]{/*display:inline-block;*/block-size:1rlh}
+input[type=radio]{display:none}
+button,div.flex label:has(input:checked){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
+div.flex label:has(input){flex-grow:1}
+button:disabled{opacity:calc(2/3)}
+textarea{height:3rlh}
+div.flex{display:flex;column-gap:calc(1rlh - 1rem)}
+small{font-size:.75em}
+@media(prefers-color-scheme:dark){
+	:not(*>*){background-color:#000;color:#fff;color-scheme:dark}
+}
 </style>
 <title>INTLOOPライブラリー 申請フォーム</title>
 
 <form>
 	<label><strong>ISBNまたは雑誌コード（上12桁）</strong></label>
 	<input name=digits readonly>
-	<label><strong>氏名</strong>（姓名間 空白必須）</label>
-	<small>表記揺れ対策のため、一部使えない漢字があります。その際は、使える漢字を代用するか、平仮名を入力してください。</small>
+	<label><strong>氏名</strong>（姓名間 空白必須）<br>
+	<small>表記揺れ対策のため、一部使えない漢字があります。その際は、使える漢字を代用するか、平仮名を入力してください。</small></label>
 	<input name=userName>
 	<label><strong>申請種別</strong></label>
 	<div class=flex>
