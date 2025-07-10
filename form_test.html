@@ -53,7 +53,8 @@ do{
 	const{resolve,promise}=Promise.withResolvers()
 	comment.addEventListener(`blur`,resolve)
 	await promise
-	if(comment.value.includes('"')); else continue
+	if(comment.value.includes('"')){
+	} else continue
 	await new Promise(window.requestIdleCallback??requestAnimationFrame)
 	alert('「"」は使えません。(Google スプレッドシートとの連携の都合上です。)')
 } while(true)
@@ -174,6 +175,7 @@ if(bookCodeRegExp.test(digits.value)); else{
 </script>
 
 <script type=module>
+/*
 const options={mode:'no-cors'}
 while(true){
 	await Promise.race('')
@@ -189,6 +191,6 @@ while(true){
 	options.body=new FormData(event.target)
 	const response=await fetch(action,options)
 	await response.text().then(alert)
-	*/
 }
+*/
 </script>
