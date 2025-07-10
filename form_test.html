@@ -8,9 +8,6 @@ label:has(input[type=radio]),input,textarea{display:inline-block;inline-size:cal
 label input[type=radio]{display:none}
 textarea{height:3rlh}
 
-div.flex{display:flex;column-gap:calc(1rlh - 1rem)}
-div.flex>*{flex-grow:1}
-
 input[type=submit],input,textarea,div.flex label:has(input){background-color:light-dark(#ccc,#333);margin-block:calc(.5rlh - .5rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
 
 input[type=submit],input,div.flex label:has(input){text-align:center}
@@ -18,6 +15,9 @@ input[type=submit],div.flex label:has(input:checked){background-color:light-dark
 input[type=submit]:not(:disabled),div.flex label:has(input:not(:checked)){cursor:pointer}
 
 :disabled{opacity:calc(2/3)}
+
+div.flex{display:flex;column-gap:calc(1rlh - 1rem)}
+div.flex>*{flex-grow:1}
 @media(prefers-color-scheme:dark){
 	:not(*>*){background-color:#000;color:#fff;color-scheme:dark}
 }
