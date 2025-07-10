@@ -3,21 +3,24 @@
 <style>
 body{margin-inline:auto;inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
 label{display:block}
-button,input,textarea{display:inline-block;inline-size:calc(100% - 2rlh + 2rem)}
 button,input,textarea,div.flex label:has(input){background-color:light-dark(#ccc,#333);margin-block:calc(.5rlh - .5rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
+button,input,textarea{display:inline-block;inline-size:calc(100% - 2rlh + 2rem)}
 button,input,div.flex label:has(input){text-align:center}
-button:not(:disabled),div.flex label:has(input:not(:checked)){cursor:pointer}
-input[type=date]{/*display:inline-block;*/block-size:1rlh}
-input[type=radio]{display:none}
 button,div.flex label:has(input:checked){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
-div.flex label:has(input){flex-grow:1}
+button:not(:disabled),div.flex label:has(input:not(:checked)){cursor:pointer}
 button:disabled{opacity:calc(2/3)}
-textarea{height:3rlh}
+/*input[type=date]{block-size:1rlh}*/
 div.flex{display:flex;column-gap:calc(1rlh - 1rem)}
+div.flex label:has(input){flex-grow:1}
+label input[type=radio]{display:none}
+textarea{height:3rlh}
 small{font-size:.75em}
 @media(prefers-color-scheme:dark){
 	:not(*>*){background-color:#000;color:#fff;color-scheme:dark}
 }
+
+:not(*>*):not(:has([value=貸出]:checked)) .borrow{display:none}
+:not(*>*):not(:has([value=延長]:checked)) .return{display:none}
 </style>
 <title>INTLOOPライブラリー 申請フォーム</title>
 
@@ -152,7 +155,7 @@ submit.onclick=async function(){
 }
 
 if(bookCodeRegExp.test(digits.value)); else{
-	await new Promise(requestIdleCallback)
+	await new Promise(window.requestIdleCallback??requestAnimationFrame)
 	alert('URLのパラメーター digits が不正です。')
 }
 </script>
