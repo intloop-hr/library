@@ -43,8 +43,6 @@
 </form>
 
 <script type=module>
-await Promise.race('')
-
 const[{digits,userName,type,date,comment,submit}]=document.forms
 
 digits.value=new URLSearchParams(location.search).get('digits')
@@ -163,6 +161,7 @@ if(bookCodeRegExp.test(digits.value)); else{
 <script type=module>
 const options={mode:'no-cors'}
 while(true){
+	await Promise.race('')
 	/*
 	const{resolve,promise}=Promise.withResolvers()
 	addEventListener('submit',resolve)
