@@ -18,6 +18,7 @@ div.flex>*{flex-grow:1}
 	:not(*>*){background-color:#000;color:#fff;color-scheme:dark}
 }
 
+form:not(:has([value=貸出]:checked,[value=延長]:checked,[value=返却]:checked)) input[type=submit]{display:none}
 /*
 :not(*>*):not(:has([value=貸出]:checked)) .borrow{display:none}
 :not(*>*):not(:has([value=延長]:checked)) .return{display:none}
