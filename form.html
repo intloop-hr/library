@@ -17,10 +17,10 @@
 	div.flex{display:flex;column-gap:16px}
 	small{font-size:.75em}
 	textarea{height:3lh}
-
 	button,input,label,textarea{display:block}
 </style>
 <title>INTLOOPライブラリー 申請フォーム</title>
+
 <form>
 	<label><strong>ISBNまたは雑誌コード（上12桁）</strong></label>
 	<input name=digits readonly>
@@ -40,6 +40,7 @@
 	<textarea class=return name=comment></textarea>
 	<button disabled name=submit></button>
 </form>
+
 <script type=module>
 	const{digits,userName,type,date,comment,submit}=document.querySelector("form")
 	digits.value=new URL(location).searchParams.get("digits")

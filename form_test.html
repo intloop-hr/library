@@ -16,13 +16,15 @@
 	@media(prefers-color-scheme:dark){
 		:not(*>*){background-color:#000;color:#fff;color-scheme:dark}
 	}
+	textarea{height:3lh}
+	button,input,label,textarea{display:block}
 </style>
 <title>INTLOOPライブラリー 申請フォーム</title>
 
 <form>
 	<label><strong>ISBNまたは雑誌コード（上12桁）</strong></label>
 	<input name=digits readonly>
-	<label><strong>氏名</strong></label>（姓名間 空白必須）<br>
+	<label><strong>氏名</strong>（姓名間 空白必須）</label>
 	<small>表記揺れ対策のため、一部使えない漢字があります。その際は、使える漢字を代用するか、平仮名を入力してください。</small>
 	<input name=userName>
 	<label><strong>申請種別</strong></label>
