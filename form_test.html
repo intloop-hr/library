@@ -67,9 +67,6 @@ digits.value=new URLSearchParams(location.search).get('digits')
 date.value=new Date().toLocaleDateString('sv')
 
 const decoder=new TextDecoder('sjis')
-decoder.decodeFromInteger=function(number){
-}
-
 let usableLetters=''
 const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
 for(let number=1;number<0xee41;++number){
@@ -79,7 +76,7 @@ for(let number=1;number<0xee41;++number){
 		number>>=0x8
 	}
 	const uint8Array=new Uint8Array(array)
-	const text=this.decode(uint8Array)
+	const text=decoder.decode(uint8Array)
 	if(unusableLetterRegExp.test(text)){
 		usableLetters+=text
 	}
