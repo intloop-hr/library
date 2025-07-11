@@ -48,6 +48,15 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 </form>
 
 <script type=module>
+do{
+	const{resolve,promise}=Promise.withResolvers()
+	addEventListener('submit',resolve)
+	await promise
+	event.preventDefault()
+} while(true)
+</script>
+
+<script type=module>
 const{digits,userName,type,date,comment,submit}=document.querySelector("form")
 digits.value=new URL(location).searchParams.get("digits")
 date.value=new Date().toLocaleDateString("sv")
