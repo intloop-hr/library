@@ -79,21 +79,9 @@ digits.value=new URLSearchParams(location.search).get('digits')
 date.value=new Date().toLocaleDateString('sv')
 
 const decoder=new TextDecoder('sjis')
-/*
-decoder.decodeFromInteger=function(number_2){
-	const array=[]
-	while(number_2){
-		array.unshift(--number_2%0x100)
-		number_2>>=0x8
-	}
-	const uint8Array=new Uint8Array(array)
-	return this.decode(uint8Array)
-}
-*/
-
+const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
 let usableSymbolsAndPhonograms=''
 let usableChineseCharacters=''
-const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
 for(let number=1;number<0x89a0;++number){
 	const array=[]
 	let number_2=number
@@ -108,7 +96,7 @@ for(let number=1;number<0x89a0;++number){
 	} else continue
 	usableSymbolsAndPhonograms+=text
 }
-for(let number=0x89a0;number<0xeba5;++number){
+for(let number=0x89a0;number<=0xeba5;++number){
 	const array=[]
 	let number_2=number
 	while(number_2){
