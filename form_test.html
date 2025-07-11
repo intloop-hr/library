@@ -32,7 +32,7 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 	<label><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
 	<input name=digits readonly>
 	<label><strong>氏名</strong>（姓名間 空白必須）<br>
-	<small>表記揺れ対策のため、一部の漢字は使用できません。使用できる漢字または平仮名を代用してください。</small></label>
+	<small>表記揺れ対策のため、一部の文字は使用できません。使用できる異体字または平仮名を代用してください。</small></label>
 	<input name=userName>
 	<label><strong>申請種別</strong></label>
 	<div class=flex>
@@ -97,13 +97,25 @@ let usableSymbolsAndPhonograms=''
 let usableChineseCharacters=''
 const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
 for(let number=1;number<0x89a0;++number){
+	const array=[]
+	let number_2=number
+	while(number_2){
+		array.unshift(--number_2%0x100)
+		number_2>>=0x8
+	}
+	const uint8Array=new Uint8Array(array)
+	const text=decoder.decode(uint8Array)
+	/*
 	const text=decoder.decodeFromInteger(number)
-	if(unusableLetterRegExp.test(text)); else continue
+	*/
+	if(unusableLetterRegExp.test(text)){
+	} else continue
 	usableSymbolsAndPhonograms+=text
 }
 for(let number=0x89a0-16;number<0xee41;++number){
 	const text=decoder.decodeFromInteger(number)
-	if(unusableLetterRegExp.test(text)); else continue
+	if(unusableLetterRegExp.test(text)){
+	} else continue
 	usableChineseCharacters+=text
 	//
 	numbers.push(number)
