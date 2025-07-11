@@ -95,7 +95,7 @@ for(let number=0x8800;number<0xec00;++number){
 	const codePoint=text.codePointAt()
 	if(codePoint<0x4e00) continue
 	if(codePoint>=0xa000) continue
-	usableLetters/*['1']*/+=text
+	usableLetters+=text
 }
 const invalidUserNameRegExp_2=new RegExp('[^'+usableLetters+']')
 
