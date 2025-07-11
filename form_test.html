@@ -28,6 +28,19 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 </style>
 <title>INTLOOPライブラリー 申請フォーム</title>
 
+<script type=module>
+{
+	const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
+	const digits=new URLSearchParams(location.search).get('digits')
+	if(codeRegExp.test(digits)){
+	} else{
+		stop()
+		alert('URLのパラメーター digits が不正です。')
+		await Promise.race('')
+	}
+}
+</script>
+
 <form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
 	<label><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
 	<input name=digits readonly>
@@ -136,6 +149,7 @@ submit.onclick=async()=>{
 	submit.value='申請済'
 	alert(await response.text())
 }
+/*
 if(codeRegExp.test(digits.value)); else{
 	const date=+new Date
 	await new Promise(setTimeout)
@@ -143,6 +157,7 @@ if(codeRegExp.test(digits.value)); else{
 	await new Promise(setTimeout)
 	alert('URLのパラメーター digits が不正です。')
 }
+*/
 </script>
 
 <script type=module>
