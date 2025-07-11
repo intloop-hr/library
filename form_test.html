@@ -79,8 +79,10 @@ digits.value=new URLSearchParams(location.search).get('digits')
 date.value=new Date().toLocaleDateString('sv')
 
 const decoder=new TextDecoder('sjis')
+const hanziRegExp=/^[\u4e00-\u9fff]$/
 // ここから
 let usableLetterRegExp=' &\',\\-\\.\\da-z・ヽヾゝゞ々ーぁ-ゖァ-ヶ'
+let unusableHanzis=''
 
 for(let number=0;number<=0xffff;++number){
 	const array=[]
@@ -91,6 +93,7 @@ for(let number=0;number<=0xffff;++number){
 	}
 	const uint8Array=new Uint8Array(array)
 	const text=decoder.decode(uint8Array)
+	if(text.length!=1) continue
 	if(text.toLowerCase()!=text) continue
 
 	switch(true){/*
@@ -106,10 +109,15 @@ for(let number=0;number<=0xffff;++number){
 		case 0x989f<=number&&number<=0xfc4b:
 		usableLetterRegExp/*['1']*/+=text
 	}
+	if(hanziRegExp.test(text)){
+	} else{
+		unusableHanzis+=text
+	}
 }
 usableLetterRegExp='['+usableLetterRegExp+']'
 // ここまで
 console.log(usableLetterRegExp)
+console.log(unusableHanzis)
 //
 
 const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
