@@ -83,6 +83,8 @@ const[{digits,userName,type,date,comment,submitter}]=document.forms
 digits.value=new URLSearchParams(location.search).get('digits')
 date.value=new Date().toLocaleDateString('sv')
 
+const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
+
 const decoder=new TextDecoder('sjis')
 let usableLetters='\\s&\',\\-\\.\\da-z・ヽヾゝゞ々ーぁ-ゖァ-ヶ'
 for(let number=0x8800;number<0xec00;++number){
@@ -101,8 +103,6 @@ for(let number=0x8800;number<0xec00;++number){
 	usableLetters+=text
 }
 const invalidUserNameRegExp=new RegExp('^\\s*\\S*\\s*$|[^'+usableLetters+']')
-
-const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
 
 // ここから改修
 
@@ -139,7 +139,7 @@ oninput=()=>{
 	} else{
 		comment.style.color=''
 	}
-	submitter.innerText='申請'
+	submitter.value='申請'
 }
 oninput()
 
@@ -152,11 +152,14 @@ userName.onblur=function(){
 		this.style.color='#f00'
 	}
 }
+*/
+</script>
 
+<script type=module>
 const[{action}]=document.forms
 submitter.onclick=async function(){
-	this.disabled=true
-	this.innerText='申請中'
+	submitter.disabled=true
+	submitter.value='申請中'
 	const payloadSource={digits:digits.value,userName:userName.value,type:type.value}
 	switch(type.value){
 		case'貸出':
@@ -171,15 +174,12 @@ submitter.onclick=async function(){
 	}
 	const body=JSON.stringify(payloadSource)
 	const response=await fetch(action,{method:'post',body})
-	this.innerText='申請済'
+	submitter.value='申請済'
 	await response.text().then(alert)
 }
-*/
 
 // ここまで改修
-</script>
 
-<script type=module>
 do{
 	const{resolve,promise}=Promise.withResolvers()
 	addEventListener('submit',resolve)

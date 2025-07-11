@@ -83,6 +83,8 @@ const[{digits,userName,type,date,comment,submitter}]=document.forms
 digits.value=new URLSearchParams(location.search).get('digits')
 date.value=new Date().toLocaleDateString('sv')
 
+const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
+
 const decoder=new TextDecoder('sjis')
 let usableLetters='\\s&\',\\-\\.\\da-z・ヽヾゝゞ々ーぁ-ゖァ-ヶ'
 for(let number=0x8800;number<0xec00;++number){
@@ -102,8 +104,6 @@ for(let number=0x8800;number<0xec00;++number){
 }
 const invalidUserNameRegExp=new RegExp('^\\s*\\S*\\s*$|[^'+usableLetters+']')
 
-const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
-
 // ここから改修
 
 oninput=()=>{
@@ -119,9 +119,11 @@ oninput=()=>{
 	submitter.value='申請'
 }
 oninput()
+</script>
 
+<script type=module>
 const[{action}]=document.forms
-submitter.onclick=async()=>{
+submitter.onclick=async function(){
 	submitter.disabled=true
 	submitter.value='申請中'
 	const payloadSource={digits:digits.value,userName:userName.value,type:type.value}
@@ -136,15 +138,14 @@ submitter.onclick=async()=>{
 	if(Promise.withResolvers); else{
 		payloadSource.withResolvers=false
 	}
-	const response=await fetch(action,{method:'post',body:JSON.stringify(payloadSource)})
+	const body=JSON.stringify(payloadSource)
+	const response=await fetch(action,{method:'post',body})
 	submitter.value='申請済'
-	alert(await response.text())
+	await response.text().then(alert)
 }
 
 // ここまで改修
-</script>
 
-<script type=module>
 do{
 	const{resolve,promise}=Promise.withResolvers()
 	addEventListener('submit',resolve)
