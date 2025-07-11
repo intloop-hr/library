@@ -52,7 +52,7 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 const[{comment}]=document.forms
 do{
 	const{resolve,promise}=Promise.withResolvers()
-	comment.addEventListener(`blur`,resolve)
+	comment.addEventListener('blur',resolve)
 	await promise
 	if(comment.value.includes('"')){
 	} else continue
