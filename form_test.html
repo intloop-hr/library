@@ -104,14 +104,12 @@ for(let number=0;number<=0xffff;++number){
 		break*/
 		case 0x889f<=number&&number<=0x9872:
 		case 0x989f<=number&&number<=0xfc4b:
-		usableLetters/*['1']*/+=text
+		usableLetterRegExp/*['1']*/+=text
 	}
 }
+usableLetterRegExp='['+usableLetterRegExp+']'
 // ここまで
-for(const string of usableLetters){
-	console.log(usableLetters??string)
-	break
-}
+console.log(usableLetterRegExp)
 //
 
 const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
