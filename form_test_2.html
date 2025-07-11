@@ -50,8 +50,9 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 
 <script type=module>
 {
+	const digits=new URLSearchParams(location.search).get('digits')
 	const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
-	if(codeRegExp.test(digits.value)){
+	if(codeRegExp.test(digits)){
 	} else{
 		await new Promise(window.requestIdleCallback??requestAnimationFrame)
 		alert('URLのパラメーター digits が不正です。')
