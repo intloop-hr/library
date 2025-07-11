@@ -1,4 +1,5 @@
-<meta content=width=device-width name=viewport>
+<meta name=format-detection content=telephone=no>
+<meta name=viewport content=width=device-width,initial-scale=.9375>
 <link href=style.css rel=stylesheet>
 <style>
 body{margin-inline:auto;inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
@@ -44,7 +45,7 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 	<input class=borrow-or-return name=date type=date>
 	<label class=return><strong>お薦めコメント</strong>（任意）</label>
 	<textarea class=return name=comment></textarea>
-	<input type=submit value=申請 disabled>
+	<input type=submit name=submit disabled value=申請>
 </form>
 
 <script type=module>
@@ -57,10 +58,21 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 		if(comment.value.includes('"')){
 		} else continue
 		await new Promise(window.requestIdleCallback??requestAnimationFrame)
-		alert('「"」は使えません。(Google スプレッドシートとの連携の都合上)')
+		alert('「"」は使用できません。(Google スプレッドシートとの連携の都合上)')
 	} while(true)
 }
 </script>
+
+<script type=module>
+do{
+	const{resolve,promise}=Promise.withResolvers()
+	addEventListener('submit',resolve)
+	await promise
+	event.preventDefault()
+} while(true)
+</script>
+
+<!--ここから改修-->
 
 <script type=module>
 const[{digits,userName,type,date,comment,submit}]=document.forms
@@ -89,19 +101,10 @@ for(let number=1;number<0xee41;++number){
 
 const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
 const invalidUserNameRegExp=/^\s*\S*\s*$/
-const elementsToBorrow=document.querySelectorAll('.borrow')
-const elementsToReturn=document.querySelectorAll('.return')
 
 /*
 
 oninput=()=>{
-	for(const{style}of elementsToBorrow){
-		style.display=type.value=='貸出'?'':'none'
-	}
-	for(const{style}of elementsToReturn){
-		style.display=type.value=='返却'?'':'none'
-	}
-	date.style.display=type.value=='貸出'||type.value=='返却'?'':'none'
 	submit.disabled=false
 	if(codeRegExp.test(digits.value)){
 		digits.style.color=''
