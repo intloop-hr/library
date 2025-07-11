@@ -79,19 +79,17 @@ digits.value=new URLSearchParams(location.search).get('digits')
 date.value=new Date().toLocaleDateString('sv')
 
 const decoder=new TextDecoder('sjis')
-decoder.decodeFromInteger=function(number){
+/*
+decoder.decodeFromInteger=function(number_2){
 	const array=[]
-	while(number){
-		array.unshift(--number%0x100)
-		number>>=0x8
+	while(number_2){
+		array.unshift(--number_2%0x100)
+		number_2>>=0x8
 	}
 	const uint8Array=new Uint8Array(array)
 	return this.decode(uint8Array)
 }
-
-//
-const numbers=[]
-//
+*/
 
 let usableSymbolsAndPhonograms=''
 let usableChineseCharacters=''
@@ -105,27 +103,29 @@ for(let number=1;number<0x89a0;++number){
 	}
 	const uint8Array=new Uint8Array(array)
 	const text=decoder.decode(uint8Array)
-	/*
-	const text=decoder.decodeFromInteger(number)
-	*/
 	if(text.toLowerCase()!=text) continue
 	if(unusableLetterRegExp.test(text)){
 	} else continue
 	usableSymbolsAndPhonograms+=text
 }
-for(let number=0x89a0-16;number<0xee41;++number){
-	const text=decoder.decodeFromInteger(number)
+for(let number=0x89a0;number<0xeba5;++number){
+	const array=[]
+	let number_2=number
+	while(number_2){
+		array.unshift(--number_2%0x100)
+		number_2>>=0x8
+	}
+	const uint8Array=new Uint8Array(array)
+	const text=decoder.decode(uint8Array)
+	if(text.toLowerCase()!=text) continue
 	if(unusableLetterRegExp.test(text)){
 	} else continue
 	usableChineseCharacters+=text
-	//
-	numbers.push(number)
-	//
 }
 
 //
 console.log(usableSymbolsAndPhonograms)
-console.log(usableChineseCharacters,Math.min(...numbers).toString(16),Math.max(...numbers).toString(16))
+console.log(usableChineseCharacters)
 //
 
 const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
