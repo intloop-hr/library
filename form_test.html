@@ -122,11 +122,26 @@ oninput()
 </script>
 
 <script type=module>
-const[{action}]=document.forms
-submitter.onclick=async function(){
+const[form]=document.forms
+const{action}=form
+const options={}
+options.method='post'
+// options.mode='no-cors'
+
+do{
+	const{resolve,promise}=Promise.withResolvers()
+	form.addEventListener('submit',resolve)
+	await promise
+	event.preventDefault()
+
+	const{submitter}=event
 	submitter.disabled=true
 	submitter.value='申請中'
-	const payloadSource={digits:digits.value,userName:userName.value,type:type.value}
+
+	const payloadSource={}
+	payloadSource.digits=digits.value
+	payloadSource.userName=userName.value
+	payloadSource.type=type.value
 	switch(type.value){
 		case'貸出':
 		payloadSource.date=date.value
@@ -135,41 +150,21 @@ submitter.onclick=async function(){
 		payloadSource.date=date.value
 		payloadSource.comment=comment.value
 	}
-	if(Promise.withResolvers); else{
+
+	//
+	if(Promise.withResolvers){
+	} else{
 		payloadSource.withResolvers=false
 	}
-	const body=JSON.stringify(payloadSource)
-	const response=await fetch(action,{method:'post',body})
+	//
+
+	options.body=JSON.stringify(payloadSource)
+	const response=await fetch(action,options)
 	submitter.value='申請済'
-	await response.text().then(alert)
-}
+	const text=await response.text()
+	await new Promise(window.requestIdleCallback??requestAnimationFrame)
+	alert(text)
+} while(true)
 
 // ここまで改修
-
-do{
-	const{resolve,promise}=Promise.withResolvers()
-	addEventListener('submit',resolve)
-	await promise
-	event.preventDefault()
-} while(true)
-</script>
-
-<script type=module>
-const options={mode:'no-cors'}
-while(true){
-	await Promise.race('')
-	/*
-	const{resolve,promise}=Promise.withResolvers()
-	addEventListener('submit',resolve)
-	await promise
-	if(event.target.tagName!='FORM') continue
-	event.preventDefault()
-
-	const{action}=event.target
-	options.method=event.target.method
-	options.body=new FormData(event.target)
-	const response=await fetch(action,options)
-	await response.text().then(alert)
-	*/
-}
 </script>
