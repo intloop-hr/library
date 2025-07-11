@@ -108,11 +108,16 @@ const invalidUserNameRegExp=new RegExp('^\\s*\\S*\\s*$|[^'+usableLetters+']')
 // ここから改修
 
 do{
-	submitter.disabled=false
-	submitter.disabled||=!codeRegExp.test(digits.value) 
-	submitter.disabled||=!type.value
-	submitter.disabled||=invalidUserNameRegExp.test(userName.value)
-	//
+	switch(true){
+		case invalidUserNameRegExp.test(userName.value):
+		submitter.disabled=true
+		break
+		case type.value&&codeRegExp.test(digits.value):
+		submitter.disabled=false
+		break
+		default:
+		submitter.disabled=true
+	}
 
 	const{resolve,promise}=Promise.withResolvers()
 	form.addEventListener('input',resolve)
