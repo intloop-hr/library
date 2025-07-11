@@ -110,7 +110,7 @@ const invalidUserNameRegExp=new RegExp('^\\s*\\S*\\s*$|[^'+usableLetters+']')
 do{
 	switch(true){
 		case invalidUserNameRegExp.test(userName.value):
-		case new Date(date.value)>new Date:
+		case(type.value=='貸出'||type.value=='返却')&&new Date(date.value)>new Date:
 		case type.value=='返却'&&comment.value.includes('\"'):
 		submitter.disabled=true
 		break
