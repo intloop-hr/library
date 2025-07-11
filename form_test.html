@@ -49,44 +49,31 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 </form>
 
 <script type=module>
-{
-	const digits=new URLSearchParams(location.search).get('digits')
-	if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
+const digits=new URLSearchParams(location.search).get('digits')
+if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
+} else{
+	if(document.hasFocus()){
 	} else{
-		if(document.hasFocus()){
-		} else{
-			const{resolve,promise}=Promise.withResolvers()
-			addEventListener('focus',resolve)
-			await promise
-		}
-		await new Promise(window.requestIdleCallback??requestAnimationFrame)
-		alert('URLのパラメーター digits が不正です。')
-		history.back()
-	}
-}
-</script>
-
-<script type=module>
-{
-	const[{comment}]=document.forms
-	do{
 		const{resolve,promise}=Promise.withResolvers()
-		comment.addEventListener('blur',resolve)
+		addEventListener('focus',resolve)
 		await promise
-		if(comment.value.includes('"')){
-		} else continue
-		await new Promise(window.requestIdleCallback??requestAnimationFrame)
-		alert('「"」は使用できません。(Google スプレッドシートとの連携の都合上)')
-	} while(true)
+	}
+	await new Promise(window.requestIdleCallback??requestAnimationFrame)
+	alert('URLのパラメーター digits が不正です。')
+	history.back()
 }
 </script>
 
 <script type=module>
+const[{comment}]=document.forms
 do{
 	const{resolve,promise}=Promise.withResolvers()
-	addEventListener('submit',resolve)
+	comment.addEventListener('blur',resolve)
 	await promise
-	event.preventDefault()
+	if(comment.value.includes('"')){
+	} else continue
+	await new Promise(window.requestIdleCallback??requestAnimationFrame)
+	alert('「"」は使用できません。(Google スプレッドシートとの連携の都合上)')
 } while(true)
 </script>
 
@@ -153,6 +140,17 @@ submitter.onclick=async()=>{
 	submitter.value='申請済'
 	alert(await response.text())
 }
+
+// ここまで改修
+</script>
+
+<script type=module>
+do{
+	const{resolve,promise}=Promise.withResolvers()
+	addEventListener('submit',resolve)
+	await promise
+	event.preventDefault()
+} while(true)
 </script>
 
 <script type=module>
