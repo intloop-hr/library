@@ -111,9 +111,11 @@ oninput=()=>{
 	submitter.disabled||=!codeRegExp.test(digits.value) 
 	submitter.disabled||=!type.value
 	submitter.disabled||=invalidUserNameRegExp.test(userName.value)
+	/*
 	for(const letter of userName.value){
 		submitter.disabled||=!(usableSymbolsAndPhonograms+usableChineseCharacters).includes(letter)
 	}
+	*/
 	submitter.disabled||=new Date(date.value)>new Date
 	submitter.disabled||=comment.value.includes('\"')
 	submitter.value='申請'
