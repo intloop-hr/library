@@ -49,16 +49,18 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 </form>
 
 <script type=module>
-const[{comment}]=document.forms
-do{
-	const{resolve,promise}=Promise.withResolvers()
-	comment.addEventListener('blur',resolve)
-	await promise
-	if(comment.value.includes('"')){
-	} else continue
-	await new Promise(window.requestIdleCallback??requestAnimationFrame)
-	alert('「"」は使用できません。(Google スプレッドシートとの連携の都合上)')
-} while(true)
+{
+	const[{comment}]=document.forms
+	do{
+		const{resolve,promise}=Promise.withResolvers()
+		comment.addEventListener('blur',resolve)
+		await promise
+		if(comment.value.includes('"')){
+		} else continue
+		await new Promise(window.requestIdleCallback??requestAnimationFrame)
+		alert('「"」は使用できません。(Google スプレッドシートとの連携の都合上)')
+	} while(true)
+}
 </script>
 
 <script type=module>
