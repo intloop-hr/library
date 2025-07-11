@@ -45,7 +45,7 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 	<input class=borrow-or-return name=date type=date>
 	<label class=return><strong>お薦めコメント</strong>（任意）</label>
 	<textarea class=return name=comment></textarea>
-	<input type=submit name=submit disabled value=申請>
+	<input type=submit name=submitter disabled value=申請>
 </form>
 
 <script type=module>
@@ -73,7 +73,7 @@ do{
 </script>
 
 <script type=module>
-const[{digits,userName,type,date,comment,submit}]=document.forms
+const[{digits,userName,type,date,comment,submitter}]=document.forms
 
 digits.value=new URLSearchParams(location.search).get('digits')
 date.value=new Date().toLocaleDateString('sv')
@@ -103,23 +103,23 @@ const invalidUserNameRegExp=/^\s*\S*\s*$/
 // ここから改修
 
 oninput=()=>{
-	submit.disabled=false
-	submit.disabled||=!codeRegExp.test(digits.value) 
-	submit.disabled||=!type.value
-	submit.disabled||=invalidUserNameRegExp.test(userName.value)
+	submitter.disabled=false
+	submitter.disabled||=!codeRegExp.test(digits.value) 
+	submitter.disabled||=!type.value
+	submitter.disabled||=invalidUserNameRegExp.test(userName.value)
 	for(const letter of userName.value){
-		submit.disabled||=!usableLetters.includes(letter)
+		submitter.disabled||=!usableLetters.includes(letter)
 	}
-	submit.disabled||=new Date(date.value)>new Date
-	submit.disabled||=comment.value.includes('\"')
-	submit.value='申請'
+	submitter.disabled||=new Date(date.value)>new Date
+	submitter.disabled||=comment.value.includes('\"')
+	submitter.value='申請'
 }
 oninput()
 
 const[{action}]=document.forms
-submit.onclick=async()=>{
-	submit.disabled=true
-	submit.value='申請中'
+submitter.onclick=async()=>{
+	submitter.disabled=true
+	submitter.value='申請中'
 	const payloadSource={digits:digits.value,userName:userName.value,type:type.value}
 	switch(type.value){
 		case'貸出':
@@ -133,7 +133,7 @@ submit.onclick=async()=>{
 		payloadSource.withResolvers=false
 	}
 	const response=await fetch(action,{method:'post',body:JSON.stringify(payloadSource)})
-	submit.value='申請済'
+	submitter.value='申請済'
 	alert(await response.text())
 }
 if(codeRegExp.test(digits.value)); else{

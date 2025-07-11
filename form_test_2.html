@@ -45,7 +45,7 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 	<input class=borrow-or-return name=date type=date>
 	<label class=return><strong>お薦めコメント</strong>（任意）</label>
 	<textarea class=return name=comment></textarea>
-	<input type=submit name=submit disabled value=申請>
+	<input type=submit name=submitter disabled value=申請>
 </form>
 
 <script type=module>
@@ -73,7 +73,7 @@ do{
 </script>
 
 <script type=module>
-const[{digits,userName,type,date,comment,submit}]=document.forms
+const[{digits,userName,type,date,comment,submitter}]=document.forms
 
 digits.value=new URLSearchParams(location.search).get('digits')
 date.value=new Date().toLocaleDateString('sv')
@@ -105,37 +105,37 @@ const invalidUserNameRegExp=/^\s*\S*\s*$/
 /*
 
 oninput=()=>{
-	submit.disabled=false
+	submitter.disabled=false
 	if(codeRegExp.test(digits.value)){
 		digits.style.color=''
 	} else{
-		submit.disabled=true
+		submitter.disabled=true
 		digits.style.color='#f00'
 	}
-	submit.disabled||=!type.value
+	submitter.disabled||=!type.value
 
 	if(event&&event.target==userName){
 		userName.style.color=''
 	}
 
-	submit.disabled||=invalidUserNameRegExp.test(userName.value)
+	submitter.disabled||=invalidUserNameRegExp.test(userName.value)
 	for(const letter of userName.value){
 		if(usableLetters.includes(letter)) continue
-		submit.disabled=true
+		submitter.disabled=true
 	}
 	if(new Date(date.value)>new Date){
 		date.style.color='#f00'
-		submit.disabled=true
+		submitter.disabled=true
 	} else{
 		date.style.color=''
 	}
 	if(comment.value.includes('\"')){
 		comment.style.color='#f00'
-		submit.disabled=true
+		submitter.disabled=true
 	} else{
 		comment.style.color=''
 	}
-	submit.innerText='申請'
+	submitter.innerText='申請'
 }
 oninput()
 
@@ -150,7 +150,7 @@ userName.onblur=function(){
 }
 
 const[{action}]=document.forms
-submit.onclick=async function(){
+submitter.onclick=async function(){
 	this.disabled=true
 	this.innerText='申請中'
 	const payloadSource={digits:digits.value,userName:userName.value,type:type.value}
