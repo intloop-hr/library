@@ -79,7 +79,8 @@ digits.value=new URLSearchParams(location.search).get('digits')
 date.value=new Date().toLocaleDateString('sv')
 
 const decoder=new TextDecoder('sjis')
-const unusableLetterRegExp=/^[^"\d\x7f-\x9f\uff00-\uffff]$/
+// ここから
+const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
 let usableLetters=['','','']
 for(let number=1;number<0xeba6;++number){
 	const array=[]
@@ -105,8 +106,7 @@ for(let number=1;number<0xeba6;++number){
 		usableLetters['2']+=text
 	}
 }
-
-//
+// ここまで
 for(const string of usableLetters){
 	console.log(string)
 }
