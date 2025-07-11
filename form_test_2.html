@@ -50,6 +50,18 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 
 <script type=module>
 {
+	const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
+	if(codeRegExp.test(digits.value)){
+	} else{
+		await new Promise(window.requestIdleCallback??requestAnimationFrame)
+		alert('URLのパラメーター digits が不正です。')
+		history.back()
+	}
+}
+</script>
+
+<script type=module>
+{
 	const[{comment}]=document.forms
 	do{
 		const{resolve,promise}=Promise.withResolvers()
@@ -168,11 +180,6 @@ submitter.onclick=async function(){
 	const response=await fetch(action,{method:'post',body})
 	this.innerText='申請済'
 	await response.text().then(alert)
-}
-
-if(codeRegExp.test(digits.value)); else{
-	await new Promise(window.requestIdleCallback??requestAnimationFrame)
-	alert('URLのパラメーター digits が不正です。')
 }
 */
 </script>
