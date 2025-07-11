@@ -78,16 +78,7 @@ for(let number=1;number<0xee41;++number){
 }
 const bookCodeRegExp=/^(97[89]|491)\d{9}$/
 const userNameRegExp=/^\s*\S*\s*$/
-const borrowElements=document.querySelectorAll('.borrow')
-const returnElements=document.querySelectorAll('.return')
 oninput=()=>{
-	for(const{style}of borrowElements){
-		style.display=type.value=='貸出'?'':'none'
-	}
-	for(const{style}of returnElements){
-		style.display=type.value=='返却'?'':'none'
-	}
-	date.style.display=type.value=='貸出'||type.value=='返却'?'':'none'
 	submit.disabled=false
 	submit.disabled||=!bookCodeRegExp.test(digits.value) 
 	submit.disabled||=!type.value
