@@ -78,8 +78,6 @@ const[{digits,userName,type,date,comment,submitter}]=document.forms
 digits.value=new URLSearchParams(location.search).get('digits')
 date.value=new Date().toLocaleDateString('sv')
 
-const invalidUserNameRegExp_1=/^\s*\S*\s*$/
-
 const decoder=new TextDecoder('sjis')
 let usableLetters='\\s&\',\\-\\.\\da-z・ヽヾゝゞ々ーぁ-ゖァ-ヶ'
 for(let number=0x8800;number<0xec00;++number){
@@ -97,7 +95,7 @@ for(let number=0x8800;number<0xec00;++number){
 	if(codePoint>=0xa000) continue
 	usableLetters+=text
 }
-const invalidUserNameRegExp_2=new RegExp('[^'+usableLetters+']')
+const invalidUserNameRegExp=new RegExp('^\\s*\\S*\\s*$|[^'+usableLetters+']')
 
 const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
 
@@ -107,8 +105,7 @@ oninput=()=>{
 	submitter.disabled=false
 	submitter.disabled||=!codeRegExp.test(digits.value) 
 	submitter.disabled||=!type.value
-	submitter.disabled||=invalidUserNameRegExp_1.test(userName.value)
-	submitter.disabled||=invalidUserNameRegExp_2.test(userName.value)
+	submitter.disabled||=invalidUserNameRegExp.test(userName.value)
 	for(const letter of userName.value){
 		submitter.disabled||=!(usableSymbolsAndPhonograms+usableChineseCharacters).includes(letter)
 	}
