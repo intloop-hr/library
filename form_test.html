@@ -78,7 +78,8 @@ do{
 </script>
 
 <script type=module>
-const[{digits,userName,type,date,comment,submitter}]=document.forms
+const[form]=document.forms
+const{digits,userName,type,date,comment,submitter}=form
 
 digits.value=new URLSearchParams(location.search).get('digits')
 date.value=new Date().toLocaleDateString('sv')
@@ -106,11 +107,19 @@ const invalidUserNameRegExp=new RegExp('^\\s*\\S*\\s*$|[^'+usableLetters+']')
 
 // ここから改修
 
-oninput=()=>{
+do{
 	submitter.disabled=false
 	submitter.disabled||=!codeRegExp.test(digits.value) 
 	submitter.disabled||=!type.value
 	submitter.disabled||=invalidUserNameRegExp.test(userName.value)
+	//
+
+	const{resolve,promise}=Promise.withResolvers()
+	form.addEventListener('input',resolve)
+	await promise
+} while(true)
+
+oninput=()=>{
 	/*
 	for(const letter of userName.value){
 		submitter.disabled||=!(usableSymbolsAndPhonograms+usableChineseCharacters).includes(letter)
