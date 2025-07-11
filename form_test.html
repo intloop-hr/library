@@ -80,9 +80,9 @@ date.value=new Date().toLocaleDateString('sv')
 
 const decoder=new TextDecoder('sjis')
 // ここから
-const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
-let usableLetters=['','','']
-for(let number=1;number<0xeba6;++number){
+let usableLetters=['','']
+
+for(let number=0;number<=0xffff;++number){
 	const array=[]
 	let number_2=number
 	while(number_2){
@@ -92,18 +92,18 @@ for(let number=1;number<0xeba6;++number){
 	const uint8Array=new Uint8Array(array)
 	const text=decoder.decode(uint8Array)
 	if(text.toLowerCase()!=text) continue
-	if(unusableLetterRegExp.test(text)){
-	} else continue
 
 	switch(true){
-		case number<0x89a0:
+		case' &\',-.'.includes(text):
+		case 0x30<=number&&number<=0x39:
+		case 0x41<=number&&number<=0x5a:
+		case 0x61<=number&&number<=0x7a:
+		case'・ヽヾゝゞ々ー'.includes(text):
+		case 0x829b<=number&&number<=0x839e:
 		usableLetters['0']+=text
 		break
-		case number<0x9974:
+		case 0x879d<=number&&number<=0xf03f:
 		usableLetters['1']+=text
-		break
-		default:
-		usableLetters['2']+=text
 	}
 }
 // ここまで
