@@ -80,10 +80,10 @@ date.value=new Date().toLocaleDateString('sv')
 
 const decoder=new TextDecoder('sjis')
 // ここから
-let usableLetterRegExp=' &\',\\-\\.\\da-z・ヽヾゝゞ々ーぁ-ゖァ-ヶ'
+let usableLetters=' &\',\\-\\.\\da-z・ヽヾゝゞ々ーぁ-ゖァ-ヶ'
 let unusableHanzis=''
 const hanziRegExp=/^[\u4e00-\u9fff]$/
-const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
+const usableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
 
 for(let number=0;number<=0xffff;++number){
 	const array=[]
@@ -96,7 +96,8 @@ for(let number=0;number<=0xffff;++number){
 	const text=decoder.decode(uint8Array)
 
 	//if(text.length!=1) continue
-	if(unusableLetterRegExp.test(text)) continue
+	if(usableLetterRegExp.test(text)){
+	} else continue
 
 	if(text.toLowerCase()!=text) continue
 
@@ -111,7 +112,7 @@ for(let number=0;number<=0xffff;++number){
 		break*/
 		case 0x889f<=number&&number<=0x9872:
 		case 0x989f<=number&&number<=0xfc4b:
-		usableLetterRegExp/*['1']*/+=text
+		usableLetters/*['1']*/+=text
 
 		//
 		if(hanziRegExp.test(text)) break{
@@ -119,9 +120,9 @@ for(let number=0;number<=0xffff;++number){
 		//
 	}
 }
-usableLetterRegExp='['+usableLetterRegExp+']'
+usableLetters='['+usableLetters+']'
 // ここまで
-console.log(usableLetterRegExp)
+console.log(usableLetters)
 console.log(unusableHanzis)
 //
 
