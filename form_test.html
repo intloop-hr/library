@@ -81,7 +81,7 @@ date.value=new Date().toLocaleDateString('sv')
 const decoder=new TextDecoder('sjis')
 const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
 let usableLetters=['','','']
-for(let number=1;number<=0xeba5;++number){
+for(let number=1;number<0xeba6;++number){
 	const array=[]
 	let number_2=number
 	while(number_2){
@@ -98,11 +98,8 @@ for(let number=1;number<=0xeba5;++number){
 		case number<0x89a0:
 		usableLetters['0']+=text
 		break
-		case true:
+		case number<0x9974:
 		usableLetters['1']+=text
-		//
-		if(text=='腕') console.log(number)
-		//
 		break
 		default:
 		usableLetters['2']+=text
@@ -110,7 +107,9 @@ for(let number=1;number<=0xeba5;++number){
 }
 
 //
-usableLetters.forEach(console.log)
+for(const string of usableLetters)
+	console.log(string)
+}
 //
 
 const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
