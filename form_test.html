@@ -110,6 +110,8 @@ const invalidUserNameRegExp=new RegExp('^\\s*\\S*\\s*$|[^'+usableLetters+']')
 do{
 	switch(true){
 		case invalidUserNameRegExp.test(userName.value):
+		case new Date(date.value)>new Date:
+		case type.value=='返却'&&comment.value.includes('\"'):
 		submitter.disabled=true
 		break
 		case type.value&&codeRegExp.test(digits.value):
@@ -122,19 +124,8 @@ do{
 	const{resolve,promise}=Promise.withResolvers()
 	form.addEventListener('input',resolve)
 	await promise
-} while(true)
-
-oninput=()=>{
-	/*
-	for(const letter of userName.value){
-		submitter.disabled||=!(usableSymbolsAndPhonograms+usableChineseCharacters).includes(letter)
-	}
-	*/
-	submitter.disabled||=new Date(date.value)>new Date
-	submitter.disabled||=comment.value.includes('\"')
 	submitter.value='申請'
-}
-oninput()
+} while(true)
 </script>
 
 <script type=module>
