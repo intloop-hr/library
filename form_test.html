@@ -79,15 +79,9 @@ digits.value=new URLSearchParams(location.search).get('digits')
 date.value=new Date().toLocaleDateString('sv')
 
 const decoder=new TextDecoder('sjis')
-let usableLetters=' &\',\\-\\.\\da-z・ヽヾゝゞ々ーぁ-ゖァ-ヶ'
+let usableLetters='\\s&\',\\-\\.\\da-z・ヽヾゝゞ々ーぁ-ゖァ-ヶ'
 // ここから
-/*
-let unusableHanzis=''
-const hanziRegExp=/^[\u4e00-\u9fff]$/
-const usableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
-*/
-
-for(let number=0;number<=0xffff;++number){
+for(let number=0x8800;number<0xec00;++number){
 	const array=[]
 	let number_2=number
 	while(number_2){
@@ -99,41 +93,13 @@ for(let number=0;number<=0xffff;++number){
 
 	const codePoint=text.codePointAt()
 	if(codePoint<0x4e00) continue
-	if(codePoint>0x9fff) continue
-	/*
-	if(text.length!=1) continue
-	if(usableLetterRegExp.test(text)){
-	} else continue
-	*/
-
-	if(text.toLowerCase()!=text) continue
-
-	switch(true){/*
-		case' &\',-.'.includes(text):
-		case 0x30<=number&&number<=0x39:
-		case 0x41<=number&&number<=0x5a:
-		case 0x61<=number&&number<=0x7a:
-		case'・ヽヾゝゞ々ー'.includes(text):
-		case 0x829b<=number&&number<=0x839e:
-		usableLetters['0']+=text
-		break*/
-		case 0x889f<=number&&number<=0x9872:
-		case 0x989f<=number&&number<=0xfc4b:
-		usableLetters/*['1']*/+=text
-
-		/*
-		if(hanziRegExp.test(text)) break
-		unusableHanzis+=text
-		*/
-	}
+	if(codePoint>=0xa000) continue
+	usableLetters/*['1']*/+=text
 }
-// ここまで
-console.log(new RegExp('['+usableLetters+']','g'))
-// console.log(unusableHanzis)
-//
+const invalidUserNameRegExp=new RegExp('^\s*\S*\s*$|[^'+usableLetters+']','g')
+/**/ console.log(invalidUserNameRegExp)
 
 const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
-const invalidUserNameRegExp=/^\s*\S*\s*$/
 
 // ここから改修
 
