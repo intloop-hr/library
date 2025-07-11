@@ -105,8 +105,6 @@ for(let number=0x8800;number<0xec00;++number){
 }
 const invalidUserNameRegExp=new RegExp('^\\s*\\S*\\s*$|[^'+usableLetters+']')
 
-// ここから改修
-
 do{
 	switch(true){
 		case invalidUserNameRegExp.test(userName.value):
@@ -158,12 +156,12 @@ do{
 		payloadSource.comment=comment.value
 	}
 
-	//
+	// ここから改修
 	if(Promise.withResolvers){
 	} else{
 		payloadSource.withResolvers=false
 	}
-	//
+	// ここまで改修
 
 	options.body=JSON.stringify(payloadSource)
 	const response=await fetch(action,options)
@@ -172,6 +170,4 @@ do{
 	await new Promise(window.requestIdleCallback??requestAnimationFrame)
 	alert(text)
 } while(true)
-
-// ここまで改修
 </script>
