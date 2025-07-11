@@ -53,7 +53,7 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 	const[{comment}]=document.forms
 	do{
 		const{resolve,promise}=Promise.withResolvers()
-		comment.addEventListener(`blur`,resolve)
+		comment.addEventListener('blur',resolve)
 		await promise
 		if(comment.value.includes('"')){
 		} else continue
@@ -149,8 +149,7 @@ userName.onblur=function(){
 	}
 }
 
-const url=new URL('https:script.google.com')
-url.pathname='macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec'
+const[{action}]=document.forms
 submit.onclick=async function(){
 	this.disabled=true
 	this.innerText='申請中'
@@ -167,7 +166,7 @@ submit.onclick=async function(){
 		payloadSource.withResolvers=false
 	}
 	const body=JSON.stringify(payloadSource)
-	const response=await fetch(url,{method:'post',body})
+	const response=await fetch(action,{method:'post',body})
 	this.innerText='申請済'
 	await response.text().then(alert)
 }

@@ -115,13 +115,8 @@ oninput=()=>{
 	submit.value='申請'
 }
 oninput()
-/*
-comment.onblur=function(){
-	if(this.value.includes('\"')); else return
-	alert('「\"」は使えません。(Google スプレッドシートとの連携の都合上です。)')
-}
-*/
-const url='https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec'
+
+const[{action}]=document.forms
 submit.onclick=async()=>{
 	submit.disabled=true
 	submit.value='申請中'
@@ -137,7 +132,7 @@ submit.onclick=async()=>{
 	if(Promise.withResolvers); else{
 		payloadSource.withResolvers=false
 	}
-	const response=await fetch(url,{method:'post',body:JSON.stringify(payloadSource)})
+	const response=await fetch(action,{method:'post',body:JSON.stringify(payloadSource)})
 	submit.value='申請済'
 	alert(await response.text())
 }
