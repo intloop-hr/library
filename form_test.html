@@ -89,13 +89,31 @@ decoder.decodeFromInteger=function(number){
 	return this.decode(uint8Array)
 }
 
-let usableLetters=''
+//
+const numbers=[]
+//
+
+let usableSymbolsAndPhonograms=''
+let usableChineseCharacters=''
 const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
-for(let number=1;number<0xee41;++number){
+for(let number=1;number<0x89a0;++number){
 	const text=decoder.decodeFromInteger(number)
 	if(unusableLetterRegExp.test(text)); else continue
-	usableLetters+=text
+	usableSymbolsAndPhonograms+=text
 }
+for(let number=0x89a0-16;number<0xee41;++number){
+	const text=decoder.decodeFromInteger(number)
+	if(unusableLetterRegExp.test(text)); else continue
+	usableChineseCharacters+=text
+	//
+	numbers.push(number)
+	//
+}
+
+//
+console.log(usableSymbolsAndPhonograms)
+console.log(usableChineseCharacters,Math.min(...numbers).toString(16),Math.max(...numbers).toString(16))
+//
 
 const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
 const invalidUserNameRegExp=/^\s*\S*\s*$/
@@ -108,7 +126,7 @@ oninput=()=>{
 	submitter.disabled||=!type.value
 	submitter.disabled||=invalidUserNameRegExp.test(userName.value)
 	for(const letter of userName.value){
-		submitter.disabled||=!usableLetters.includes(letter)
+		submitter.disabled||=!(usableSymbolsAndPhonograms+usableChineseCharacters).includes(letter)
 	}
 	submitter.disabled||=new Date(date.value)>new Date
 	submitter.disabled||=comment.value.includes('\"')
