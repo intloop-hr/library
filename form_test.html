@@ -48,78 +48,78 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 </form>
 
 <script type=module>
-	const{digits,userName,type,date,comment,submit}=document.querySelector("form")
-	digits.value=new URL(location).searchParams.get("digits")
-	date.value=new Date().toLocaleDateString("sv")
-	const decoder=new TextDecoder("sjis")
-	decoder.decodeFromInteger=function(number){
-		const array=[]
-		while(number){
-			array.unshift(--number%0x100)
-			number>>=0x8
-		}
-		return this.decode(new Uint8Array(array))
+const{digits,userName,type,date,comment,submit}=document.querySelector("form")
+digits.value=new URL(location).searchParams.get("digits")
+date.value=new Date().toLocaleDateString("sv")
+const decoder=new TextDecoder("sjis")
+decoder.decodeFromInteger=function(number){
+	const array=[]
+	while(number){
+		array.unshift(--number%0x100)
+		number>>=0x8
 	}
-	let usableLetters=""
-    const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
-	for(let number=1;number<0xee41;++number){
-		const text=decoder.decodeFromInteger(number)
-		if(unusableLetterRegExp.test(text)); else continue
-		usableLetters+=text
+	return this.decode(new Uint8Array(array))
+}
+let usableLetters=""
+const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
+for(let number=1;number<0xee41;++number){
+	const text=decoder.decodeFromInteger(number)
+	if(unusableLetterRegExp.test(text)); else continue
+	usableLetters+=text
+}
+const bookCodeRegExp=/^(97[89]|491)\d{9}$/
+const userNameRegExp=/^\s*\S*\s*$/
+const borrowElements=document.querySelectorAll(".borrow")
+const returnElements=document.querySelectorAll(".return")
+oninput=()=>{
+	for(const{style}of borrowElements){
+		style.display=type.value=="貸出"?"":"none"
 	}
-	const bookCodeRegExp=/^(97[89]|491)\d{9}$/
-	const userNameRegExp=/^\s*\S*\s*$/
-	const borrowElements=document.querySelectorAll(".borrow")
-	const returnElements=document.querySelectorAll(".return")
-	oninput=()=>{
-		for(const{style}of borrowElements){
-			style.display=type.value=="貸出"?"":"none"
-		}
-		for(const{style}of returnElements){
-			style.display=type.value=="返却"?"":"none"
-		}
-		date.style.display=type.value=="貸出"||type.value=="返却"?"":"none"
-		submit.disabled=false
-		submit.disabled||=!bookCodeRegExp.test(digits.value) 
-		submit.disabled||=!type.value
-		submit.disabled||=userNameRegExp.test(userName.value)
-		for(const letter of userName.value){
-			submit.disabled||=!usableLetters.includes(letter)
-		}
-		submit.disabled||=new Date(date.value)>new Date
-		submit.disabled||=comment.value.includes("\"")
-		submit.value="申請"
+	for(const{style}of returnElements){
+		style.display=type.value=="返却"?"":"none"
 	}
-	oninput()
-	comment.onblur=function(){
-		if(this.value.includes("\"")); else return
-		alert("「\"」は使えません。(Google スプレッドシートとの連携の都合上です。)")
+	date.style.display=type.value=="貸出"||type.value=="返却"?"":"none"
+	submit.disabled=false
+	submit.disabled||=!bookCodeRegExp.test(digits.value) 
+	submit.disabled||=!type.value
+	submit.disabled||=userNameRegExp.test(userName.value)
+	for(const letter of userName.value){
+		submit.disabled||=!usableLetters.includes(letter)
 	}
-	const url="https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec"
-	submit.onclick=async()=>{
-		submit.disabled=true
-		submit.value="申請中"
-		const payloadSource={digits:digits.value,userName:userName.value,type:type.value}
-		switch(type.value){
-			case"貸出":
-			payloadSource.date=date.value
-			break
-			case"返却":
-			payloadSource.date=date.value
-			payloadSource.comment=comment.value
-		}
-		if(Promise.withResolvers); else{
-			payloadSource.withResolvers=false
-		}
-		const response=await fetch(url,{method:"post",body:JSON.stringify(payloadSource)})
-		submit.value="申請済"
-		alert(await response.text())
+	submit.disabled||=new Date(date.value)>new Date
+	submit.disabled||=comment.value.includes("\"")
+	submit.value="申請"
+}
+oninput()
+comment.onblur=function(){
+	if(this.value.includes("\"")); else return
+	alert("「\"」は使えません。(Google スプレッドシートとの連携の都合上です。)")
+}
+const url="https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec"
+submit.onclick=async()=>{
+	submit.disabled=true
+	submit.value="申請中"
+	const payloadSource={digits:digits.value,userName:userName.value,type:type.value}
+	switch(type.value){
+		case"貸出":
+		payloadSource.date=date.value
+		break
+		case"返却":
+		payloadSource.date=date.value
+		payloadSource.comment=comment.value
 	}
-	if(bookCodeRegExp.test(digits.value)); else{
-		const date=+new Date
-		await new Promise(setTimeout)
-		while(date==+new Date);
-		await new Promise(setTimeout)
-		alert("URLのパラメーター digits が不正です。")
+	if(Promise.withResolvers); else{
+		payloadSource.withResolvers=false
 	}
+	const response=await fetch(url,{method:"post",body:JSON.stringify(payloadSource)})
+	submit.value="申請済"
+	alert(await response.text())
+}
+if(bookCodeRegExp.test(digits.value)); else{
+	const date=+new Date
+	await new Promise(setTimeout)
+	while(date==+new Date);
+	await new Promise(setTimeout)
+	alert("URLのパラメーター digits が不正です。")
+}
 </script>
