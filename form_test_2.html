@@ -51,9 +51,14 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 <script type=module>
 {
 	const digits=new URLSearchParams(location.search).get('digits')
-	const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
-	if(codeRegExp.test(digits)){
+	if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
 	} else{
+		if(document.hasFocus()){
+		} else{
+			const{resolve,promise}=Promise.withResolvers()
+			addEventListener('focus',resolve)
+			await promise
+		}
 		await new Promise(window.requestIdleCallback??requestAnimationFrame)
 		alert('URLのパラメーター digits が不正です。')
 		history.back()
