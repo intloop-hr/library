@@ -108,6 +108,7 @@ for(let number=1;number<0x89a0;++number){
 	/*
 	const text=decoder.decodeFromInteger(number)
 	*/
+	if(text.toLowerCase()!=text) continue
 	if(unusableLetterRegExp.test(text)){
 	} else continue
 	usableSymbolsAndPhonograms+=text
