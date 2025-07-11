@@ -73,9 +73,11 @@ do{
 </script>
 
 <script type=module>
-const{digits,userName,type,date,comment,submit}=document.querySelector('form')
-digits.value=new URL(location).searchParams.get('digits')
+const[{digits,userName,type,date,comment,submit}]=document.forms
+
+digits.value=new URLSearchParams(location.search).get('digits')
 date.value=new Date().toLocaleDateString('sv')
+
 const decoder=new TextDecoder('sjis')
 decoder.decodeFromInteger=function(number){
 	const array=[]
@@ -83,8 +85,10 @@ decoder.decodeFromInteger=function(number){
 		array.unshift(--number%0x100)
 		number>>=0x8
 	}
-	return this.decode(new Uint8Array(array))
+	const uint8Array=new Uint8Array(array)
+	return this.decode(uint8Array)
 }
+
 let usableLetters=''
 const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
 for(let number=1;number<0xee41;++number){
@@ -92,13 +96,17 @@ for(let number=1;number<0xee41;++number){
 	if(unusableLetterRegExp.test(text)); else continue
 	usableLetters+=text
 }
-const bookCodeRegExp=/^(97[89]|491)\d{9}$/
-const userNameRegExp=/^\s*\S*\s*$/
+
+const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
+const invalidUserNameRegExp=/^\s*\S*\s*$/
+
+// ここから改修
+
 oninput=()=>{
 	submit.disabled=false
-	submit.disabled||=!bookCodeRegExp.test(digits.value) 
+	submit.disabled||=!codeRegExp.test(digits.value) 
 	submit.disabled||=!type.value
-	submit.disabled||=userNameRegExp.test(userName.value)
+	submit.disabled||=invalidUserNameRegExp.test(userName.value)
 	for(const letter of userName.value){
 		submit.disabled||=!usableLetters.includes(letter)
 	}
@@ -133,11 +141,31 @@ submit.onclick=async()=>{
 	submit.value='申請済'
 	alert(await response.text())
 }
-if(bookCodeRegExp.test(digits.value)); else{
+if(codeRegExp.test(digits.value)); else{
 	const date=+new Date
 	await new Promise(setTimeout)
 	while(date==+new Date);
 	await new Promise(setTimeout)
 	alert('URLのパラメーター digits が不正です。')
+}
+</script>
+
+<script type=module>
+const options={mode:'no-cors'}
+while(true){
+	await Promise.race('')
+	/*
+	const{resolve,promise}=Promise.withResolvers()
+	addEventListener('submit',resolve)
+	await promise
+	if(event.target.tagName!='FORM') continue
+	event.preventDefault()
+
+	const{action}=event.target
+	options.method=event.target.method
+	options.body=new FormData(event.target)
+	const response=await fetch(action,options)
+	await response.text().then(alert)
+	*/
 }
 </script>
