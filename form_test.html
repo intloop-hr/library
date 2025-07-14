@@ -71,6 +71,8 @@ Promise.withResolvers??=function(){
 </script>
 
 <script type=module>
+{
+
 const digits=new URLSearchParams(location.search).get('digits')
 if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
 } else{
@@ -84,10 +86,12 @@ if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
 	alert('URLのパラメーター digits が不正です。')
 	history.back()
 }
+
+}
 </script>
 
 <script type=module>
-// ここから改修
+{
 
 const[{comment}]=document.forms
 do{
@@ -99,9 +103,14 @@ do{
 	await new Promise(window.requestIdleCallback??requestAnimationFrame)
 	alert('「"」は使用できません。(Google スプレッドシートとの連携の都合上)')
 } while(true)
+
+}
 </script>
 
 <script type=module>
+{
+// ここから改修
+
 const[form]=document.forms
 const{digits,userName,type,date,comment,submitter}=form
 
@@ -210,9 +219,12 @@ do{
 */
 
 // ここまで改修
+}
 </script>
 
 <script type=module>
+{
+
 const options={}
 options.method='post'
 do{
@@ -252,4 +264,6 @@ do{
 	await new Promise(window.requestIdleCallback??requestAnimationFrame)
 	alert(text)
 } while(true)
+
+}
 </script>
