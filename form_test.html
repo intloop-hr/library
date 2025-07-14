@@ -163,9 +163,12 @@ do{
 </script>
 
 <script type=module>
-// ここから改修
-
 const[{comment}]=document.forms
+
+const{resolve,promise}=Promise.withResolvers()
+addEventListener('pageshow',resolve)
+await promise
+
 do{
 	if(comment.value.includes('"')){
 		comment.classList.add('invalid')
@@ -184,6 +187,8 @@ do{
 </script>
 
 <script type=module>
+// ここから改修
+
 const[{comment}]=document.forms
 do{
 	const{resolve,promise}=Promise.withResolvers()
