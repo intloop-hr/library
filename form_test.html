@@ -25,6 +25,8 @@ form:not(:has(input[type=radio][name=type]:checked)) input[type=submit]{display:
 form:not(:has(input[type=radio][value=貸出]:checked)) .borrow{display:none}
 form:not(:has(input[type=radio][value=返却]:checked)) .return{display:none}
 form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=返却]:checked)) .borrow-or-return{display:none}
+
+:valid{color:#f00}
 </style>
 <title>INTLOOPライブラリー 申請フォーム</title>
 
@@ -72,8 +74,8 @@ Promise.withResolvers??=function(){
 
 <script type=module>
 const digits=new URLSearchParams(location.search).get('digits')
-if(/(?<!^978\d{9}|^979\d{9}|^491\d{9})$/.test(digits)){ // /^978\d{9}$|^979\d{9}$|^491\d{9}$/
-// } else{
+if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
+} else{
 	if(document.hasFocus()){
 	} else{
 		const{resolve,promise}=Promise.withResolvers()
@@ -125,7 +127,10 @@ for(let number=0x8800;number<0xec00;++number){
 	if(codePoint>=0xa000) continue
 	usableLetters+=text
 }
+/*
 const invalidUserNameRegExp=new RegExp('^\\s*\\S*\\s*$|[^'+usableLetters+']')
+*/
+userName.pattern='[^'+usableLetters+']+(\\s+[^'+usableLetters+'])+'
 
 do{
 	switch(true){
