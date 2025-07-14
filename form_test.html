@@ -72,8 +72,8 @@ Promise.withResolvers??=function(){
 
 <script type=module>
 const digits=new URLSearchParams(location.search).get('digits')
-if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
-} else{
+if(/(?<!^978\d{9}|^979\d{9}|^491\d{9})$/.test(digits)){ // /^978\d{9}$|^979\d{9}$|^491\d{9}$/
+// } else{
 	if(document.hasFocus()){
 	} else{
 		const{resolve,promise}=Promise.withResolvers()
