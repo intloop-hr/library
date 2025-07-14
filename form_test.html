@@ -77,6 +77,9 @@ const ddd=new URLSearchParams(location.search).get('digits')
 
 const[{digits}]=document.forms
 digits.value=ddd
+const{resolve,promise}=Promise.withResolvers()
+addEventListener('pageshow',resolve)
+await promise
 
 if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(ddd)){
 } else{
@@ -120,6 +123,10 @@ for(let number=0x8800;number<0xec00;++number){
 const invalidPattern=new RegExp('^\\s*\\S*\\s*$|[^'+usableLetters+']')
 
 const[{userName}]=document.forms
+const{resolve,promise}=Promise.withResolvers()
+addEventListener('pageshow',resolve)
+await promise
+
 do{
 	if(invalidPattern.test(userName.value)){
 		userName.classList.add('invalid')
@@ -140,7 +147,6 @@ do{
 <script type=module>
 const[{date}]=document.forms
 date.value||=new Date().toLocaleDateString('sv')
-
 const{resolve,promise}=Promise.withResolvers()
 addEventListener('pageshow',resolve)
 await promise
@@ -164,7 +170,6 @@ do{
 
 <script type=module>
 const[{comment}]=document.forms
-
 const{resolve,promise}=Promise.withResolvers()
 addEventListener('pageshow',resolve)
 await promise
@@ -187,9 +192,11 @@ do{
 </script>
 
 <script type=module>
-// ここから改修
-
 const[{comment}]=document.forms
+const{resolve,promise}=Promise.withResolvers()
+addEventListener('pageshow',resolve)
+await promise
+
 do{
 	const{resolve,promise}=Promise.withResolvers()
 	comment.addEventListener('blur',resolve)
@@ -209,15 +216,25 @@ do{
 </script>
 
 <script type=module>
+// ここから改修
+
 const[form]=document.forms
+const{resolve,promise}=Promise.withResolvers()
+addEventListener('pageshow',resolve)
+await promise
+
+/*
 const{digits,userName,type,date,comment,submitter}=form
+*/
 
 /*
 digits.value=new URLSearchParams(location.search).get('digits')
 date.value=new Date().toLocaleDateString('sv')
 */
 
+/*
 const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
+*/
 
 do{
 	/*
@@ -276,7 +293,9 @@ do{
 	form.addEventListener('input',resolve)
 	await promise
 
+	/*
 	submitter.value='申請'
+	*/
 } while(true)
 </script>
 
@@ -320,7 +339,7 @@ do{
 	await new Promise(window.requestIdleCallback??requestAnimationFrame)
 	alert(text)
 
-	/*
+	//
 	{
 		const{resolve,promise}=Promise.withResolvers()
 		addEventListener('input',resolve)
@@ -328,6 +347,6 @@ do{
 	}
 	submitter.disabled=false
 	submitter.value='申請'
-	*/
+	//
 } while(true)
 </script>
