@@ -45,7 +45,7 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 	<label class=return><strong>返却日</strong></label>
 	<input type=date name=date class=borrow-or-return>
 	<label class=return><strong>お薦めコメント</strong>（任意）</label>
-	<textarea name=comment class=return placeholder=「"」は使用できません。(Google スプレッドシートとの連携の都合上)></textarea>
+	<textarea name=comment class=return placeholder=「"」は使用できません。(Googleスプレッドシートとの連携の都合上)></textarea>
 	<input type=submit name=submitter disabled value=申請>
 </form>
 
@@ -101,7 +101,7 @@ do{
 	if(comment.value.includes('"')){
 	} else continue
 	await new Promise(window.requestIdleCallback??requestAnimationFrame)
-	alert('「"」は使用できません。(Google スプレッドシートとの連携の都合上)')
+	alert('「"」は使用できません。(Googleスプレッドシートとの連携の都合上)')
 } while(true)
 
 }
@@ -110,6 +110,12 @@ do{
 <script type=module>
 {
 // ここから改修
+
+}
+</script>
+
+<script type=module>
+{
 
 const[form]=document.forms
 const{digits,userName,type,date,comment,submitter}=form
