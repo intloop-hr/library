@@ -50,10 +50,6 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 </form>
 
 <script type=module>
-//
-delete Promise.withResolvers
-//
-
 if(Promise.withResolvers){
 } else{
 	const[{submitter}]=document.forms
@@ -95,9 +91,7 @@ if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
 		const{resolve,promise}=Promise.withResolvers()
 		addEventListener('pagehide',resolve)
 		await promise
-	//
 	} while(true)
-	//
 }
 </script>
 
