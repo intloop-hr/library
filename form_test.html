@@ -139,7 +139,7 @@ do{
 
 <script type=module>
 const{resolve,promise}=Promise.withResolvers()
-date.addEventListener('pageshow',resolve)
+addEventListener('pageshow',resolve)
 await promise
 
 const[{date}]=document.forms
