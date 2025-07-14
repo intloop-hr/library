@@ -87,7 +87,6 @@ if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
 		await new Promise(window.requestIdleCallback??requestAnimationFrame)
 		alert('URLのパラメーター digits が不正です。')
 		history.back()
-		
 		const{resolve,promise}=Promise.withResolvers()
 		addEventListener('pagehide',resolve)
 		await promise
