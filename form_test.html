@@ -73,10 +73,13 @@ Promise.withResolvers??=function(){
 </script>
 
 <script type=module>
-const digits=new URLSearchParams(location.search).get('digits')
+const ddd=new URLSearchParams(location.search).get('digits')
+
+const[{digits}]=document.forms
+digits.value=ddd
+
 if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
 } else{
-	const[{digits}]=document.forms
 	digits.classList.add('invalid')
 
 	if(document.hasFocus()){
