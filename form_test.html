@@ -77,15 +77,21 @@ if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
 	const[{digits}]=document.forms
 	digits.classList.add('invalid')
 
-	if(document.hasFocus()){
-	} else{
-		const{resolve,promise}=Promise.withResolvers()
-		addEventListener('focus',resolve)
-		await promise
-	}
-	await new Promise(window.requestIdleCallback??requestAnimationFrame)
-	alert('URLのパラメーター digits が不正です。')
-	history.back()
+	//
+	do{
+	//
+		if(document.hasFocus()){
+		} else{
+			const{resolve,promise}=Promise.withResolvers()
+			addEventListener('focus',resolve)
+			await promise
+		}
+		await new Promise(window.requestIdleCallback??requestAnimationFrame)
+		alert('URLのパラメーター digits が不正です。')
+		history.back()
+	//
+	} while(true)
+	//
 }
 </script>
 
