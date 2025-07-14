@@ -78,7 +78,7 @@ const ddd=new URLSearchParams(location.search).get('digits')
 const[{digits}]=document.forms
 digits.value=ddd
 
-if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
+if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(ddd)){
 } else{
 	digits.classList.add('invalid')
 
