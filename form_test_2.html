@@ -49,6 +49,30 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 </form>
 
 <script type=module>
+// ここから改修
+const[{submitter}]=document.forms
+
+if(Promise.withResolvers){
+} else{
+	const input=document.createElement('input')
+	input.type='hidden'
+	input.name='withResolvers'
+	input.checked=false
+	submitter.parentElement.append(input,submitter)// 要確認
+}
+// ここまで改修
+
+Promise.withResolvers??=function(){
+	const result={}
+	result.promise=new this(function(resolve,reject){
+		result.resolve=resolve
+		result.reject=reject
+	})
+	return result
+}
+</script>
+
+<script type=module>
 const digits=new URLSearchParams(location.search).get('digits')
 if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
 } else{

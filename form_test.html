@@ -54,11 +54,11 @@ const[{submitter}]=document.forms
 
 if(Promise.withResolvers){
 } else{
-	const eee=document.createElement('input')
-	eee.type='hidden'
-	eee.name='withResolvers'
-	withResolvers.checked=false
-	submitter.parentElement.append(eee,submitter)// 要確認
+	const input=document.createElement('input')
+	input.type='hidden'
+	input.name='withResolvers'
+	input.checked=false
+	submitter.parentElement.append(input,submitter)// 要確認
 }
 // ここまで改修
 
@@ -181,10 +181,7 @@ do{
 	}
 
 	// ここから改修
-	if(Promise.withResolvers){
-	} else{
-		payloadSource.withResolvers=false
-	}
+	payloadSource.withResolvers
 	// ここまで改修
 
 	options.body=JSON.stringify(payloadSource)
