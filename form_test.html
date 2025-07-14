@@ -233,6 +233,19 @@ do{
 </script>
 
 <script type=module>
+// ちっと怪しい
+
+const[form]=document.forms
+do{
+	form.submitter.disabled=form.matches(':has(input:invalid)')
+
+	const{resolve,promise}=Promise.withResolvers()
+	form.addEventListener('input',resolve)
+	await promise
+} while(true)
+</script>
+
+<script type=module>
 const options={}
 options.method='post'
 do{
