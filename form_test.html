@@ -59,7 +59,7 @@ if(Promise.withResolvers){
 	input.type='hidden'
 	input.name='withResolvers'
 	input.checked=false
-	submitter.parentElement.insertBefore(input,submitter)// 要確認
+	submitter.parentElement.insertBefore(input,submitter)
 }
 
 Promise.withResolvers??=function(){
@@ -256,17 +256,17 @@ do{
 	} else{
 		comment.style.color=''
 	}
+	*/
 
 	// ここまで改修
+
+	form.submitter.disabled=form.matches(':has(input:invalid)')
 
 	const{resolve,promise}=Promise.withResolvers()
 	form.addEventListener('input',resolve)
 	await promise
 
 	submitter.value='申請'
-	*/
-
-	form.submitter.disabled=form.matches(':has(input:invalid)')
 } while(true)
 </script>
 
