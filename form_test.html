@@ -111,7 +111,7 @@ date.value=new Date().toLocaleDateString('sv')
 const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
 
 const decoder=new TextDecoder('sjis')
-let usableLetters='\\s&\',\\-\\.\\da-z・ヽヾゝゞ々ーぁ-ゖァ-ヶ'
+let usableLetters='\\s&\',\\-\\.\\da-z・ヽヾゝゞ々ーぁ-ゖ'// ァ-ヶ
 for(let number=0x8800;number<0xec00;++number){
 	const array=[]
 	let number_2=number
@@ -180,6 +180,9 @@ do{
 		payloadSource.withResolvers=target.withResolvers.checked
 	}// 要確認
 
+	/*
+	options.body=new FormData(event.target)
+	*/
 	options.body=JSON.stringify(payloadSource)
 	const response=await fetch(target.action,options)
 	submitter.value='申請済'
