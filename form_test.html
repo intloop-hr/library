@@ -45,16 +45,20 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 	<input type=date class=borrow-or-return name=date>
 	<label class=return><strong>お薦めコメント</strong>（任意）</label>
 	<textarea class=return name=comment></textarea>
-	<input type=hidden name=withResolvers>
 	<input type=submit name=submitter disabled value=申請>
 </form>
 
 <script type=module>
 // ここから改修
+const[{submitter}]=document.forms
+
 if(Promise.withResolvers){
 } else{
-	const[{withResolvers}]=document.forms
+	const eee=document.createElement('input')
+	eee.type='hidden'
+	eee.name='withResolvers'
 	withResolvers.checked=false
+	submitter.parentElement.append(eee,submitter)// 要確認
 }
 // ここまで改修
 
