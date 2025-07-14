@@ -139,7 +139,7 @@ do{
 
 <script type=module>
 const[{date}]=document.forms
-date.value=new Date().toLocaleDateString('sv')
+date.value||=new Date().toLocaleDateString('sv')
 do{
 	if(new Date(date.value)>new Date){
 		date.classList.add('invalid')
@@ -158,9 +158,6 @@ do{
 </script>
 
 <script type=module>
-// ここから改修
-// ここから改修
-// ここから改修
 // ここから改修
 
 const[{comment}]=document.forms
@@ -312,5 +309,15 @@ do{
 	const text=await response.text()
 	await new Promise(window.requestIdleCallback??requestAnimationFrame)
 	alert(text)
+
+	/*
+	{
+		const{resolve,promise}=Promise.withResolvers()
+		addEventListener('input',resolve)
+		await promise
+	}
+	submitter.disabled=false
+	submitter.value='申請'
+	*/
 } while(true)
 </script>
