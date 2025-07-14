@@ -133,8 +133,34 @@ do{
 </script>
 
 <script type=module>
-const[{comment}]=document.forms
+const[{date}]=document.forms
+date.value=new Date().toLocaleDateString('sv')
+do{
+	if(new Date(date.value)>new Date){
+		date.classList.add('invalid')
+		/*
+		date.style.color='#f00'
+		submitter.disabled=true
+		*/
+	} else{
+		date.classList.remove('invalid')
+		if(date.classList.length){
+		} else{
+			date.removeAttribute('class')
+		}
+		/*
+		date.style.color=''
+		*/
+	}
 
+	const{resolve,promise}=Promise.withResolvers()
+	date.addEventListener('input',resolve)
+	await promise
+} while(true)
+</script>
+
+<script type=module>
+const[{comment}]=document.forms
 do{
 	const{resolve,promise}=Promise.withResolvers()
 	comment.addEventListener('blur',resolve)
@@ -156,7 +182,9 @@ const[form]=document.forms
 const{digits,userName,type,date,comment,submitter}=form
 
 digits.value=new URLSearchParams(location.search).get('digits')
+/*
 date.value=new Date().toLocaleDateString('sv')
+*/
 
 const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
 
