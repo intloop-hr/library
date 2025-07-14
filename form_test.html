@@ -225,6 +225,7 @@ do{
 	}
 	*/
 
+	/*
 	submitter.disabled=false
 	if(codeRegExp.test(digits.value)){
 		digits.style.color=''
@@ -263,10 +264,9 @@ do{
 	await promise
 
 	submitter.value='申請'
-
-	/*
-	form.submitter.disabled=form.matches(':has(input:invalid)')
 	*/
+
+	form.submitter.disabled=form.matches(':has(input:invalid)')
 } while(true)
 </script>
 
