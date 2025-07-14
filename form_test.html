@@ -52,8 +52,8 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 // ここから改修
 const[{submitter}]=document.forms
 
-if(Promise.withResolvers){
-} else{
+if(Promise.withResolvers){/*
+} else{*/
 	const input=document.createElement('input')
 	input.type='hidden'
 	input.name='withResolvers'
