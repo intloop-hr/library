@@ -1,4 +1,5 @@
-<meta content=width=device-width name=viewport>
+<meta name=format-detection content=telephone=no>
+<meta name=viewport content=width=device-width,initial-scale=.9375>
 <link href=style.css rel=stylesheet>
 <style>
 body{margin-inline:auto;inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
@@ -35,15 +36,15 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 	<input name=userName>
 	<label><strong>申請種別</strong></label>
 	<div class=flex>
-		<label><input name=type value=貸出 type=radio>貸出</label>
-		<label><input name=type value=延長 type=radio>延長</label>
-		<label><input name=type value=返却 type=radio>返却</label>
+		<label><input type=radio name=type value=貸出>貸出</label>
+		<label><input type=radio name=type value=延長>延長</label>
+		<label><input type=radio name=type value=返却>返却</label>
 	</div>
 	<label class=borrow><strong>貸出日</strong></label>
 	<label class=return><strong>返却日</strong></label>
-	<input class=borrow-or-return name=date type=date>
+	<input type=date name=date class=borrow-or-return>
 	<label class=return><strong>お薦めコメント</strong>（任意）</label>
-	<textarea class=return name=comment></textarea>
+	<textarea name=comment class=return></textarea>
 	<button name=submit disabled>申請</button>
 </form>
 
