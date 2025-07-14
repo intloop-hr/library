@@ -157,6 +157,7 @@ date.value=new Date().toLocaleDateString('sv')
 const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
 
 do{
+	/*
 	switch(true){
 		case userName.classList.contains('invalid')??invalidUserNameRegExp.test(userName.value):
 		case(type.value=='貸出'||type.value=='返却')&&new Date(date.value)>new Date:
@@ -169,15 +170,8 @@ do{
 		default:
 		submitter.disabled=true
 	}
+	*/
 
-	const{resolve,promise}=Promise.withResolvers()
-	form.addEventListener('input',resolve)
-	await promise
-	submitter.value='申請'
-} while(true)
-
-// ?
-do{
 	submitter.disabled=false
 	if(codeRegExp.test(digits.value)){
 		digits.style.color=''
@@ -208,15 +202,15 @@ do{
 	} else{
 		comment.style.color=''
 	}
-	submitter.value='申請'
+
+	// ここまで改修
 
 	const{resolve,promise}=Promise.withResolvers()
 	form.addEventListener('input',resolve)
 	await promise
-} while(true)
-//
 
-// ここまで改修
+	submitter.value='申請'
+} while(true)
 }
 </script>
 
