@@ -151,6 +151,65 @@ do{
 	await promise
 	submitter.value='申請'
 } while(true)
+
+// ここから改修
+
+/*
+
+oninput=()=>{
+	submitter.disabled=false
+	if(codeRegExp.test(digits.value)){
+		digits.style.color=''
+	} else{
+		submitter.disabled=true
+		digits.style.color='#f00'
+	}
+	submitter.disabled||=!type.value
+
+	if(event&&event.target==userName){
+		userName.style.color=''
+	}
+
+	submitter.disabled||=invalidUserNameRegExp.test(userName.value)
+	for(const letter of userName.value){
+		if(usableLetters.includes(letter)) continue
+		submitter.disabled=true
+	}
+	if(new Date(date.value)>new Date){
+		date.style.color='#f00'
+		submitter.disabled=true
+	} else{
+		date.style.color=''
+	}
+	if(comment.value.includes('\"')){
+		comment.style.color='#f00'
+		submitter.disabled=true
+	} else{
+		comment.style.color=''
+	}
+	submitter.value='申請'
+}
+oninput()
+*/
+
+/*
+const[{userName}]=document.forms
+do{
+	const{resolve,promise}=Promise.withResolvers()
+	userName.addEventListener('blur',resolve)
+	await promise
+
+	if(invalidUserNameRegExp.test(userName.value)){
+		userName.style.color='#f00'
+	}
+	for(const letter of userName.value){
+		if(usableLetters.includes(letter)) continue
+		userName.style.color='#f00'
+	}
+} while(true)
+*/
+
+// ここまで改修
 </script>
 
 <script type=module>
