@@ -260,7 +260,7 @@ do{
 
 	// ここまで改修
 
-	form.submitter.disabled=form.matches(':has(input:invalid)')
+	form.submitter.disabled=form.matches(':has(.invalid)')
 
 	const{resolve,promise}=Promise.withResolvers()
 	form.addEventListener('input',resolve)
