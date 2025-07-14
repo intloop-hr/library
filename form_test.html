@@ -182,6 +182,12 @@ do{
 
 	await new Promise(window.requestIdleCallback??requestAnimationFrame)
 	alert('「"」は使用できません。(Googleスプレッドシートとの連携の都合上)')
+
+	{
+		const{resolve,promise}=Promise.withResolvers()
+		comment.addEventListener('input',resolve)
+		await promise
+	}
 } while(true)
 </script>
 
