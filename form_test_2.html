@@ -183,57 +183,48 @@ do{
 		userName.style.color='#f00'
 	}
 } while(true)
+
+// ここまで改修
 </script>
 
 <script type=module>
-const[{action}]=document.forms
-submitter.onclick=async function(){
-	submitter.disabled=true
-	submitter.value='申請中'
-	const payloadSource={digits:digits.value,userName:userName.value,type:type.value}
-	switch(type.value){
-		case'貸出':
-		payloadSource.date=date.value
-		break
-		case'返却':
-		payloadSource.date=date.value
-		payloadSource.comment=comment.value
-	}
-	if(Promise.withResolvers); else{
-		payloadSource.withResolvers=false
-	}
-	const body=JSON.stringify(payloadSource)
-	const response=await fetch(action,{method:'post',body})
-	submitter.value='申請済'
-	await response.text().then(alert)
-}
-
-// ここまで改修
-
+const options={}
+options.method='post'
 do{
 	const{resolve,promise}=Promise.withResolvers()
 	addEventListener('submit',resolve)
 	await promise
+	if(event.target.method!='post') continue
 	event.preventDefault()
-} while(true)
-</script>
+	const{submitter,target}=event
 
-<script type=module>
-const options={mode:'no-cors'}
-while(true){
-	await Promise.race('')
+	submitter.disabled=true
+	submitter.value='申請中'
+
+	const payloadSource={}
+	payloadSource.digits=target.digits.value
+	payloadSource.userName=target.userName.value
+	payloadSource.type=target.type.value
+	switch(target.type.value){
+		case'貸出':
+		payloadSource.date=target.date.value
+		break
+		case'返却':
+		payloadSource.date=target.date.value
+		payloadSource.comment=target.comment.value
+	}
+	if(target.withResolvers){
+		payloadSource.withResolvers=target.withResolvers.checked
+	}// 要確認
+
 	/*
-	const{resolve,promise}=Promise.withResolvers()
-	addEventListener('submit',resolve)
-	await promise
-	if(event.target.tagName!='FORM') continue
-	event.preventDefault()
-
-	const{action}=event.target
-	options.method=event.target.method
 	options.body=new FormData(event.target)
-	const response=await fetch(action,options)
-	await response.text().then(alert)
 	*/
-}
+	options.body=JSON.stringify(payloadSource)
+	const response=await fetch(target.action,options)
+	submitter.value='申請済'
+	const text=await response.text()
+	await new Promise(window.requestIdleCallback??requestAnimationFrame)
+	alert(text)
+} while(true)
 </script>
