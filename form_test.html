@@ -45,7 +45,7 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 	<label class=return><strong>返却日</strong></label>
 	<input type=date name=date class=borrow-or-return>
 	<label class=return><strong>お薦めコメント</strong>（任意）</label>
-	<textarea name=comment class=return placeholder=「"」は使用できません。(Googleスプレッドシートとの連携の都合上)></textarea>
+	<textarea name=comment class=return placeholder=「"」は使用できません。（Googleスプレッドシートとの連携の都合上）></textarea>
 	<input type=submit name=submitter disabled value=申請>
 </form>
 
@@ -111,20 +111,6 @@ do{
 {
 // ここから改修
 
-}
-</script>
-
-<script type=module>
-{
-
-const[form]=document.forms
-const{digits,userName,type,date,comment,submitter}=form
-
-digits.value=new URLSearchParams(location.search).get('digits')
-date.value=new Date().toLocaleDateString('sv')
-
-const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
-
 const decoder=new TextDecoder('sjis')
 let usableLetters='\\s&\',\\-\\.\\da-z・ゝゞ々ーぁ-ゖ'// ヽヾァ-ヶ
 for(let number=0x8800;number<0xec00;++number){
@@ -142,10 +128,24 @@ for(let number=0x8800;number<0xec00;++number){
 	if(codePoint>=0xa000) continue
 	usableLetters+=text
 }
+userName.pattern='['+usableLetters+']+(\\s+['+usableLetters+']+)+'
+
 /*
 const invalidUserNameRegExp=new RegExp('^\\s*\\S*\\s*$|[^'+usableLetters+']')
 */
-userName.pattern='['+usableLetters+']+(\\s+['+usableLetters+']+)+'
+}
+</script>
+
+<script type=module>
+{
+
+const[form]=document.forms
+const{digits,userName,type,date,comment,submitter}=form
+
+digits.value=new URLSearchParams(location.search).get('digits')
+date.value=new Date().toLocaleDateString('sv')
+
+const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
 
 do{
 	switch(true){
