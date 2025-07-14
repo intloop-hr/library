@@ -138,6 +138,8 @@ do{
 </script>
 
 <script type=module>
+await new Promise(window.requestIdleCallback??requestAnimationFrame)
+
 const[{date}]=document.forms
 date.value||=new Date().toLocaleDateString('sv')
 do{
