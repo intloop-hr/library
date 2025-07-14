@@ -26,13 +26,13 @@ form:not(:has(input[type=radio][value=貸出]:checked)) .borrow{display:none}
 form:not(:has(input[type=radio][value=返却]:checked)) .return{display:none}
 form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=返却]:checked)) .borrow-or-return{display:none}
 
-input:invalid{color:#f00}
+input:invalid:not(:focus){color:#f00}
 </style>
 <title>INTLOOPライブラリー 申請フォーム</title>
 
 <form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
 	<label><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
-	<input name=digits pattern=978\d{9}|979\d{9}|491\d{9} readonly>
+	<input name=digits readonly>
 	<label><strong>氏名</strong>（姓名間 空白必須）<br>
 	<small>表記揺れ対策のため、一部の漢字は使用できません。使用できる漢字または平仮名を代用してください。</small></label>
 	<input name=userName>
