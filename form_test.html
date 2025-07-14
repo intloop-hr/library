@@ -142,7 +142,6 @@ do{
 </script>
 
 <script type=module>
-{
 // ここから改修
 // ここから改修
 // ここから改修
@@ -210,20 +209,10 @@ do{
 	await promise
 
 	submitter.value='申請'
-} while(true)
-}
-</script>
 
-<script type=module>
-// ちっと怪しい
-
-const[form]=document.forms
-do{
+	/*
 	form.submitter.disabled=form.matches(':has(input:invalid)')
-
-	const{resolve,promise}=Promise.withResolvers()
-	form.addEventListener('input',resolve)
-	await promise
+	*/
 } while(true)
 </script>
 
