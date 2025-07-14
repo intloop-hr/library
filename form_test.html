@@ -20,13 +20,12 @@ div.flex>*{flex-grow:1}
 @media(prefers-color-scheme:dark){
 	:not(*>*){background-color:#000;color:#fff;color-scheme:dark}
 }
+input:invalid:not(:focus){color:#f00}
 
 form:not(:has(input[type=radio][name=type]:checked)) input[type=submit]{display:none}
 form:not(:has(input[type=radio][value=貸出]:checked)) .borrow{display:none}
 form:not(:has(input[type=radio][value=返却]:checked)) .return{display:none}
 form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=返却]:checked)) .borrow-or-return{display:none}
-
-input:invalid:not(:focus){color:#f00}
 </style>
 <title>INTLOOPライブラリー 申請フォーム</title>
 
@@ -51,15 +50,14 @@ input:invalid:not(:focus){color:#f00}
 </form>
 
 <script type=module>
-const[{submitter}]=document.forms
-
 if(Promise.withResolvers){
 } else{
+	const[{submitter}]=document.forms
 	const input=document.createElement('input')
 	input.type='hidden'
 	input.name='withResolvers'
 	input.checked=false
-	submitter.parentElement.append(input,submitter)// 要確認
+	submitter.parentElement.insertBefore(input,submitter)// 要確認
 }
 
 Promise.withResolvers??=function(){
