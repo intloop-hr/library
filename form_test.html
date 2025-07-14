@@ -138,19 +138,12 @@ date.value=new Date().toLocaleDateString('sv')
 do{
 	if(new Date(date.value)>new Date){
 		date.classList.add('invalid')
-		/*
-		date.style.color='#f00'
-		submitter.disabled=true
-		*/
 	} else{
 		date.classList.remove('invalid')
 		if(date.classList.length){
 		} else{
 			date.removeAttribute('class')
 		}
-		/*
-		date.style.color=''
-		*/
 	}
 
 	const{resolve,promise}=Promise.withResolvers()
@@ -165,10 +158,25 @@ do{
 	const{resolve,promise}=Promise.withResolvers()
 	comment.addEventListener('blur',resolve)
 	await promise
+	
 	if(comment.value.includes('"')){
-	} else continue
+		comment.classList.add('invalid')
+	} else{
+		comment.classList.remove('invalid')
+		if(comment.classList.length){
+		} else{
+			comment.removeAttribute('class')
+		}
+	}
+
 	await new Promise(window.requestIdleCallback??requestAnimationFrame)
 	alert('「"」は使用できません。(Googleスプレッドシートとの連携の都合上)')
+
+	{
+		const{resolve,promise}=Promise.withResolvers()
+		comment.addEventListener('input',resolve)
+		await promise
+	}
 } while(true)
 </script>
 
@@ -181,8 +189,8 @@ do{
 const[form]=document.forms
 const{digits,userName,type,date,comment,submitter}=form
 
-digits.value=new URLSearchParams(location.search).get('digits')
 /*
+digits.value=new URLSearchParams(location.search).get('digits')
 date.value=new Date().toLocaleDateString('sv')
 */
 
