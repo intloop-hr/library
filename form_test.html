@@ -151,41 +151,37 @@ do{
 </script>
 
 <script type=module>
-const[form]=document.forms
-const{digits,userName,type,date,comment,submitter}=form
-const{action}=form
 const options={}
 options.method='post'
-
 do{
 	const{resolve,promise}=Promise.withResolvers()
-	form.addEventListener('submit',resolve)
+	addEventListener('submit',resolve)
 	await promise
+	if(event.target.method!='post') continue
 	event.preventDefault()
+	const{submitter,target}=event
 
-	const{submitter}=event
 	submitter.disabled=true
 	submitter.value='申請中'
 
 	const payloadSource={}
-	payloadSource.digits=digits.value
-	payloadSource.userName=userName.value
-	payloadSource.type=type.value
-	switch(type.value){
+	payloadSource.digits=target.digits.value
+	payloadSource.userName=target.userName.value
+	payloadSource.type=target.type.value
+	switch(target.type.value){
 		case'貸出':
-		payloadSource.date=date.value
+		payloadSource.date=target.date.value
 		break
 		case'返却':
-		payloadSource.date=date.value
-		payloadSource.comment=comment.value
+		payloadSource.date=target.date.value
+		payloadSource.comment=target.comment.value
 	}
-
-	// ここから改修
-	payloadSource.withResolvers
-	// ここまで改修
+	if(target.withResolvers){
+		payloadSource.withResolvers=target.withResolvers.checked
+	}// 要確認
 
 	options.body=JSON.stringify(payloadSource)
-	const response=await fetch(action,options)
+	const response=await fetch(target.action,options)
 	submitter.value='申請済'
 	const text=await response.text()
 	await new Promise(window.requestIdleCallback??requestAnimationFrame)
