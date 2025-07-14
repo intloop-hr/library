@@ -143,12 +143,14 @@ date.value||=new Date().toLocaleDateString('sv')
 do{
 	if(new Date(date.value)>new Date){
 		date.classList.add('invalid')
+		alert(true)//
 	} else{
 		date.classList.remove('invalid')
 		if(date.classList.length){
 		} else{
 			date.removeAttribute('class')
 		}
+		alert(false)//
 	}
 
 	const{resolve,promise}=Promise.withResolvers()
