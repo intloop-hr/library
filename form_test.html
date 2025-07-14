@@ -138,7 +138,13 @@ do{
 </script>
 
 <script type=module>
-await new Promise(window.requestIdleCallback??requestAnimationFrame)
+const f=function(){
+	console.log(event.type,date.value)
+}
+date.addEventListener('input',f)
+date.addEventListener('change',f)
+date.addEventListener('DOMContentLoaded',f)
+date.addEventListener('pageshow',f)
 
 const[{date}]=document.forms
 date.value||=new Date().toLocaleDateString('sv')
