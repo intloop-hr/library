@@ -126,6 +126,10 @@ do{
 		userName.classList.add('invalid')
 	} else{
 		userName.classList.remove('invalid')
+		if(userName.classList.length){
+		} else{
+			userName.removeAttribute('class')
+		}
 	}
 
 	const{resolve,promise}=Promise.withResolvers()
@@ -228,8 +232,6 @@ do{
 </script>
 
 <script type=module>
-{
-
 const options={}
 options.method='post'
 do{
@@ -269,6 +271,4 @@ do{
 	await new Promise(window.requestIdleCallback??requestAnimationFrame)
 	alert(text)
 } while(true)
-
-}
 </script>
