@@ -20,7 +20,7 @@ div.flex>*{flex-grow:1}
 @media(prefers-color-scheme:dark){
 	:not(*>*){background-color:#000;color:#fff;color-scheme:dark}
 }
-input:invalid:not(:focus){color:#f00}
+input.invalid:not(:focus){color:#f00}
 
 form:not(:has(input[type=radio][name=type]:checked)) input[type=submit]{display:none}
 form:not(:has(input[type=radio][value=貸出]:checked)) .borrow{display:none}
@@ -109,6 +109,7 @@ do{
 
 <script type=module>
 {
+// ここから改修
 
 const[{userName}]=document.forms
 const decoder=new TextDecoder('sjis')
@@ -138,7 +139,6 @@ const invalidUserNameRegExp=new RegExp('^\\s*\\S*\\s*$|[^'+usableLetters+']')
 
 <script type=module>
 {
-// ここから改修
 
 const[form]=document.forms
 const{digits,userName,type,date,comment,submitter}=form
