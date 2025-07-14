@@ -138,6 +138,8 @@ do{
 </script>
 
 <script type=module>
+const[{date}]=document.forms
+//
 const f=function(){
 	console.log(event.type,date.value)
 }
@@ -145,8 +147,7 @@ date.addEventListener('input',f)
 date.addEventListener('change',f)
 date.addEventListener('DOMContentLoaded',f)
 date.addEventListener('pageshow',f)
-
-const[{date}]=document.forms
+//
 date.value||=new Date().toLocaleDateString('sv')
 do{
 	if(new Date(date.value)>new Date){
