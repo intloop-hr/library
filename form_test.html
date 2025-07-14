@@ -71,8 +71,6 @@ Promise.withResolvers??=function(){
 </script>
 
 <script type=module>
-{
-
 const digits=new URLSearchParams(location.search).get('digits')
 if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
 } else{
@@ -86,14 +84,11 @@ if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
 	alert('URLのパラメーター digits が不正です。')
 	history.back()
 }
-
-}
 </script>
 
 <script type=module>
-{
-
 const[{comment}]=document.forms
+
 do{
 	const{resolve,promise}=Promise.withResolvers()
 	comment.addEventListener('blur',resolve)
@@ -103,15 +98,9 @@ do{
 	await new Promise(window.requestIdleCallback??requestAnimationFrame)
 	alert('「"」は使用できません。(Googleスプレッドシートとの連携の都合上)')
 } while(true)
-
-}
 </script>
 
 <script type=module>
-{
-// ここから改修
-
-const[{userName}]=document.forms
 const decoder=new TextDecoder('sjis')
 let usableLetters='\\s&\',\\-\\.\\da-z・ヽヾゝゞ々ーぁ-ゖァ-ヶ'
 for(let number=0x8800;number<0xec00;++number){
@@ -129,16 +118,25 @@ for(let number=0x8800;number<0xec00;++number){
 	if(codePoint>=0xa000) continue
 	usableLetters+=text
 }
-userName.pattern='['+usableLetters+']+(\\s+['+usableLetters+']+)+'
+const invalidPattern=new RegExp('^\\s*\\S*\\s*$|[^'+usableLetters+']')
 
-/*
-const invalidUserNameRegExp=new RegExp('^\\s*\\S*\\s*$|[^'+usableLetters+']')
-*/
-}
+const[{userName}]=document.forms
+do{
+	if(invalidPattern.test(userName.value)){
+		userName.classList.add('invalid')
+	} else{
+		userName.classList.remove('invalid')
+	}
+
+	const{resolve,promise}=Promise.withResolvers()
+	userName.addEventListener('input',resolve)
+	await promise
+} while(true)
 </script>
 
 <script type=module>
 {
+	// ここから改修
 
 const[form]=document.forms
 const{digits,userName,type,date,comment,submitter}=form
