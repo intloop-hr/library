@@ -138,21 +138,13 @@ do{
 </script>
 
 <script type=module>
+const[{date}]=document.forms
+date.value||=new Date().toLocaleDateString('sv')
+
 const{resolve,promise}=Promise.withResolvers()
 addEventListener('pageshow',resolve)
 await promise
 
-const[{date}]=document.forms
-/*
-const f=function(){
-	console.log(event.type,date.value)
-}
-addEventListener('input',f)
-addEventListener('change',f)
-addEventListener('DOMContentLoaded',f)
-addEventListener('pageshow',f)
-*/
-date.value||=new Date().toLocaleDateString('sv')
 do{
 	if(new Date(date.value)>new Date){
 		date.classList.add('invalid')
