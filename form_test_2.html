@@ -78,7 +78,8 @@ do{
 </script>
 
 <script type=module>
-const[{digits,userName,type,date,comment,submitter}]=document.forms
+const[form]=document.forms
+const{digits,userName,type,date,comment,submitter}=form
 
 digits.value=new URLSearchParams(location.search).get('digits')
 date.value=new Date().toLocaleDateString('sv')
@@ -142,17 +143,22 @@ oninput=()=>{
 	submitter.value='申請'
 }
 oninput()
-
-userName.onblur=function(){
-	if(invalidUserNameRegExp.test(this.value)){
-		this.style.color='#f00'
-	}
-	for(const letter of this.value){
-		if(usableLetters.includes(letter)) continue
-		this.style.color='#f00'
-	}
-}
 */
+
+const[{userName}]=document.forms
+do{
+	const{resolve,promise}=Promise.withResolvers()
+	userName.addEventListener('blur',resolve)
+	await promise
+
+	if(invalidUserNameRegExp.test(userName.value)){
+		userName.style.color='#f00'
+	}
+	for(const letter of userName.value){
+		if(usableLetters.includes(letter)) continue
+		userName.style.color='#f00'
+	}
+} while(true)
 </script>
 
 <script type=module>
