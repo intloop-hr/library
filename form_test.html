@@ -145,11 +145,11 @@ do{
 		}
 	}
 
+	//
+	alert(form.date.value+' 0:00'+'\n\n'+new Date(form.date.value+' 0:00')+'\n\n'+new Date)
+	//
 	if(new Date(form.date.value+' 0:00')>new Date){
 		form.date.classList.add('invalid')
-		//
-		alert(form.date.value+' 0:00'+'\n\n'+new Date(form.date.value+' 0:00')+'\n\n'+new Date)
-		//
 	} else{
 		form.date.classList.remove('invalid')
 		if(form.date.classList.length){
