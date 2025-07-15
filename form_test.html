@@ -1,30 +1,32 @@
 <meta name=format-detection content=telephone=no>
 <meta name=viewport content=width=device-width,initial-scale=.9375>
-<link href=style.css rel=stylesheet>
+<link href=https://intloop-hr.github.io/library/style.css rel=stylesheet>
 <style>
 body{margin-inline:auto;inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
 label:not(:has(input[type=radio])){display:block}
 small{font-size:.75em}
-button,input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
-button,input,textarea,div.flex{margin-block:calc(.5rlh - .5rem)}
+input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
+input,textarea,div.flex{margin-block:calc(.5rlh - .5rem)}
 textarea{height:3lh}
 label input[type=radio]{display:none}
-input/*:not([type=submit])*/,textarea,label:has(input[type=radio]):not(:has(input[type=radio]:checked)){background-color:light-dark(#ddd,#222)}
-button,label:has(input[type=radio]:checked){color:light-dark(#fff,#000)}
-button:not(:disabled),label:has(input[type=radio]:checked){background-color:light-dark(#000,#fff)}
-button:disabled{background-color:light-dark(#555,#aaa)}
-button,input,label:has(input[type=radio]){text-align:center}
-button:not(:disabled),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}
+input:not([type=submit]),textarea,label:has(input[type=radio]):not(:has(input[type=radio]:checked)){background-color:light-dark(#ddd,#222)}
+input[type=submit],label:has(input[type=radio]:checked){color:light-dark(#fff,#000)}
+input[type=submit]:not(:disabled),label:has(input[type=radio]:checked){background-color:light-dark(#000,#fff)}
+input[type=submit]:disabled{background-color:light-dark(#555,#aaa)}
+input,label:has(input[type=radio]){text-align:center}
+input[type=submit]:not(:disabled),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}
 div.flex{display:flex;column-gap:calc(1rlh - 1rem)}
 div.flex>*{flex-grow:1}
 @media(prefers-color-scheme:dark){
 	:not(*>*){background-color:#000;color:#fff;color-scheme:dark}
 }
 
-/*.invalid:not(:focus){color:#f00}*/
-*{transition-property:background-color;transition-duration:.25s}
+*{transition-property:background-color,color}
+:not(:focus){transition-duration:.25s}
+.invalid:not(:focus){color:#f00}
+form.posting{pointer-events:none}
 
-form:not(:has(input[type=radio][name=type]:checked)) button{display:none}
+form:not(:has(input[type=radio][name=type]:checked)) input[type=submit]{display:none}
 form:not(:has(input[type=radio][value=貸出]:checked)) .borrow{display:none}
 form:not(:has(input[type=radio][value=返却]:checked)) .return{display:none}
 form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=返却]:checked)) .borrow-or-return{display:none}
@@ -47,84 +49,216 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 	<label class=return><strong>返却日</strong></label>
 	<input type=date name=date class=borrow-or-return>
 	<label class=return><strong>お薦めコメント</strong>（任意）</label>
-	<textarea name=comment class=return></textarea>
-	<button name=submitter disabled>申請</button>
+	<textarea name=comment class=return placeholder=「"」は使用できません。></textarea>
+	<input type=submit name=submitter disabled value=申請>
 </form>
 
 <script type=module>
-const[form]=document.forms
-const{digits,userName,type,date,comment,submitter}=form
-digits.value=new URL(location).searchParams.get('digits')
-date.value=new Date().toLocaleDateString('sv')
-const decoder=new TextDecoder('sjis')
-decoder.decodeFromInteger=function(number){
-	const array=[]
-	while(number){
-		array.unshift(--number%0x100)
-		number>>=0x8
-	}
-	return this.decode(new Uint8Array(array))
+if(Promise.withResolvers){
+} else{
+	const[{submitter}]=document.forms
+	const input=document.createElement('input')
+	input.type='hidden'
+	input.name='withResolvers'
+	input.checked=false
+	submitter.parentElement.insertBefore(input,submitter)
 }
-let usableLetters=''
-const unusableLetterRegExp=/^[^\x00-\x1f"\d\x7f-\x9f\uff00-\uffff]$/
-for(let number=1;number<0xee41;++number){
-	const text=decoder.decodeFromInteger(number)
-	if(unusableLetterRegExp.test(text)); else continue
+
+Promise.withResolvers??=function(){
+	const result={}
+	result.promise=new this(function(resolve,reject){
+		result.resolve=resolve
+		result.reject=reject
+	})
+	return result
+}
+</script>
+
+<script type=module>
+const[form]=document.forms
+const digits=new URLSearchParams(location.search).get('digits')
+form.digits.value=digits
+
+const{resolve,promise}=Promise.withResolvers()
+addEventListener('pageshow',resolve)
+await promise
+
+if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
+} else{
+	form.digits.classList.add('invalid')
+
+	if(document.hasFocus()){
+	} else{
+		const{resolve,promise}=Promise.withResolvers()
+		addEventListener('focus',resolve)
+		await promise
+	}
+	do{
+		await new Promise(window.requestIdleCallback??requestAnimationFrame)
+		alert('URLのパラメーター digits が不正です。')
+		history.back()
+		const{resolve,promise}=Promise.withResolvers()
+		addEventListener('pagehide',resolve)
+		await promise
+	} while(true)
+}
+</script>
+
+<script type=module>
+const decoder=new TextDecoder('sjis')
+let usableLetters='\\s&\',\\-\\.\\da-z・ヽヾゝゞ々ーぁ-ゖァ-ヶ'
+for(let number=0x8800;number<0xec00;++number){
+	const array=[]
+	let number_2=number
+	while(number_2){
+		array.unshift(--number_2%0x100)
+		number_2>>=0x8
+	}
+	const uint8Array=new Uint8Array(array)
+	const text=decoder.decode(uint8Array)
+
+	const codePoint=text.codePointAt()
+	if(codePoint<0x4e00) continue
+	if(codePoint>=0xa000) continue
 	usableLetters+=text
 }
-const bookCodeRegExp=/^(97[89]|491)\d{9}$/
-const userNameRegExp=/^\s*\S*\s*$/
-const borrowElements=document.querySelectorAll('.borrow')
-const returnElements=document.querySelectorAll('.return')
-oninput=()=>{
-	for(const{style}of borrowElements){
-		style.display=type.value=='貸出'?'':'none'
+const invalidPattern=new RegExp('^\\s*\\S*\\s*$|[^'+usableLetters+']')
+
+const{resolve,promise}=Promise.withResolvers()
+addEventListener('pageshow',resolve)
+await promise
+
+const[form]=document.forms
+form.date.value||=new Date().toLocaleDateString('sv')
+
+do{
+	if(invalidPattern.test(form.userName.value)){
+		form.userName.classList.add('invalid')
+	} else{
+		form.userName.classList.remove('invalid')
+		if(form.userName.classList.length){
+		} else{
+			form.userName.removeAttribute('class')
+		}
 	}
-	for(const{style}of returnElements){
-		style.display=type.value=='返却'?'':'none'
+
+	if(new Date(form.date.value+' 0:00')>new Date){
+		form.date.classList.add('invalid')
+	} else{
+		form.date.classList.remove('invalid')
+		if(form.date.classList.length){
+		} else{
+			form.date.removeAttribute('class')
+		}
 	}
-	date.style.display=type.value=='貸出'||type.value=='返却'?'':'none'
-	submitter.disabled=false
-	submitter.disabled||=!bookCodeRegExp.test(digits.value) 
-	submitter.disabled||=!type.value
-	submitter.disabled||=userNameRegExp.test(userName.value)
-	for(const letter of userName.value){
-		submitter.disabled||=!usableLetters.includes(letter)
+
+	if(form.comment.value.includes('"')){
+		form.comment.classList.add('invalid')
+	} else{
+		form.comment.classList.remove('invalid')
+		if(form.comment.classList.length){
+		} else{
+			form.comment.removeAttribute('class')
+		}
 	}
-	submitter.disabled||=new Date(date.value)>new Date
-	submitter.disabled||=comment.value.includes('"')
-	submitter.innerText='申請'
-}
-oninput()
-comment.onblur=function(){
-	if(this.value.includes('"')); else return
-	alert('「"」は使えません。(Google スプレッドシートとの連携の都合上です。)')
-}
-const url='https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec'
-submitter.onclick=async()=>{
+
+	const{resolve,promise}=Promise.withResolvers()
+	form.addEventListener('input',resolve)
+	await promise
+} while(true)
+</script>
+
+<script type=module>
+const[form]=document.forms
+do{
+	const{resolve,promise}=Promise.withResolvers()
+	form.comment.addEventListener('blur',resolve)
+	await promise
+
+	if(form.comment.value.includes('"')){
+	} else continue
+
+	await new Promise(window.requestIdleCallback??requestAnimationFrame)
+	alert('「"」は使用できません。(Googleスプレッドシートとの連携の都合上)')
+} while(true)
+</script>
+
+<script type=module>
+const{resolve,promise}=Promise.withResolvers()
+addEventListener('pageshow',resolve)
+await promise
+
+const[form]=document.forms
+do{
+	switch(true){
+		case form.matches(':has(:not(.borrow,.return,.borrow-or-return).invalid)'):
+		case form.matches(':has([value=貸出]:checked):has(.borrow.invalid)'):
+		case form.matches(':has([value=貸出]:checked):has(.borrow-or-return.invalid)'):
+		case form.matches(':has([value=返却]:checked):has(.return.invalid)'):
+		case form.matches(':has([value=返却]:checked):has(.borrow-or-return.invalid)'):
+		form.submitter.disabled=true
+		break
+		default:
+		form.submitter.disabled=false
+	}
+
+	const{resolve,promise}=Promise.withResolvers()
+	form.addEventListener('input',resolve)
+	await promise
+
+	form.submitter.disabled=false
+	form.submitter.value='申請'
+} while(true)
+</script>
+
+<script type=module>
+do{
+	const{resolve,promise}=Promise.withResolvers()
+	addEventListener('submit',resolve)
+	await promise
+	if(event.target.method!='post') continue
+
+	event.preventDefault()
+} while(true)
+</script>
+
+<script type=module>
+const options={}
+options.method='post'
+do{
+	const{resolve,promise}=Promise.withResolvers()
+	addEventListener('submit',resolve)
+	await promise
+	if(event.target.method!='post') continue
+
+	const{submitter,target}=event
+
 	submitter.disabled=true
-	submitter.innerText='申請中'
-	const payloadSource={digits:digits.value,userName:userName.value,type:type.value}
-	switch(type.value){
+	submitter.value='申請中'
+	target.classList.add('posting')
+
+	const payloadSource={}
+	payloadSource.digits=target.digits.value
+	payloadSource.userName=target.userName.value
+	payloadSource.type=target.type.value
+	switch(target.type.value){
 		case'貸出':
-		payloadSource.date=date.value
+		payloadSource.date=target.date.value
 		break
 		case'返却':
-		payloadSource.date=date.value
-		payloadSource.comment=comment.value
+		payloadSource.date=target.date.value
+		payloadSource.comment=target.comment.value
 	}
-	if(Promise.withResolvers); else{
-		payloadSource.withResolvers=false
+	if(target.withResolvers){
+		payloadSource.withResolvers=target.withResolvers.checked
 	}
-	const response=await fetch(url,{method:'post',body:JSON.stringify(payloadSource)})
-	submitter.innerText='申請済'
-	alert(await response.text())
-}
-if(bookCodeRegExp.test(digits.value)); else{
-	const date=+new Date
-	await new Promise(setTimeout)
-	while(date==+new Date);
-	await new Promise(setTimeout)
-	alert('URLのパラメーター digits が不正です。')
-}
+	options.body=JSON.stringify(payloadSource)
+
+	const response=await fetch(target.action,options)
+	submitter.value='申請済'
+	target.classList.remove('posting')
+	const text=await response.text()
+	await new Promise(window.requestIdleCallback??requestAnimationFrame)
+	alert(text)
+} while(true)
 </script>
