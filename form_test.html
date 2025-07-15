@@ -1,6 +1,6 @@
 <meta name=format-detection content=telephone=no>
 <meta name=viewport content=width=device-width,initial-scale=.9375>
-<link href=style.css rel=stylesheet>
+<link href=https://intloop-hr.github.io/library/style.css rel=stylesheet>
 <style>
 body{margin-inline:auto;inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
 label:not(:has(input[type=radio])){display:block}
@@ -21,8 +21,10 @@ div.flex>*{flex-grow:1}
 	:not(*>*){background-color:#000;color:#fff;color-scheme:dark}
 }
 
+*{transition-property:background-color,color}
+:not(:focus){transition-duration:.25s}
 .invalid:not(:focus){color:#f00}
-*{transition-property:background-color;transition-duration:.25s}
+form.posting{pointer-events:none}
 
 form:not(:has(input[type=radio][name=type]:checked)) input[type=submit]{display:none}
 form:not(:has(input[type=radio][value=貸出]:checked)) .borrow{display:none}
@@ -47,7 +49,7 @@ form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=�
 	<label class=return><strong>返却日</strong></label>
 	<input type=date name=date class=borrow-or-return>
 	<label class=return><strong>お薦めコメント</strong>（任意）</label>
-	<textarea name=comment class=return placeholder=「"」は使用できません。（Googleスプレッドシートとの連携の都合上）></textarea>
+	<textarea name=comment class=return placeholder=「"」は使用できません。></textarea>
 	<input type=submit name=submitter disabled value=申請>
 </form>
 
@@ -73,17 +75,17 @@ Promise.withResolvers??=function(){
 </script>
 
 <script type=module>
-const ddd=new URLSearchParams(location.search).get('digits')
+const[form]=document.forms
+const digits=new URLSearchParams(location.search).get('digits')
+form.digits.value=digits
 
-const[{digits}]=document.forms
-digits.value=ddd
 const{resolve,promise}=Promise.withResolvers()
 addEventListener('pageshow',resolve)
 await promise
 
-if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(ddd)){
+if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
 } else{
-	digits.classList.add('invalid')
+	form.digits.classList.add('invalid')
 
 	if(document.hasFocus()){
 	} else{
@@ -122,180 +124,101 @@ for(let number=0x8800;number<0xec00;++number){
 }
 const invalidPattern=new RegExp('^\\s*\\S*\\s*$|[^'+usableLetters+']')
 
-const[{userName}]=document.forms
 const{resolve,promise}=Promise.withResolvers()
 addEventListener('pageshow',resolve)
 await promise
 
+const[form]=document.forms
+form.date.value||=new Date().toLocaleDateString('sv')
+
 do{
-	if(invalidPattern.test(userName.value)){
-		userName.classList.add('invalid')
+	if(invalidPattern.test(form.userName.value)){
+		form.userName.classList.add('invalid')
 	} else{
-		userName.classList.remove('invalid')
-		if(userName.classList.length){
+		form.userName.classList.remove('invalid')
+		if(form.userName.classList.length){
 		} else{
-			userName.removeAttribute('class')
+			form.userName.removeAttribute('class')
+		}
+	}
+
+	if(new Date(form.date.value+' 0:00')>new Date){
+		form.date.classList.add('invalid')
+	} else{
+		form.date.classList.remove('invalid')
+		if(form.date.classList.length){
+		} else{
+			form.date.removeAttribute('class')
+		}
+	}
+
+	if(form.comment.value.includes('"')){
+		form.comment.classList.add('invalid')
+	} else{
+		form.comment.classList.remove('invalid')
+		if(form.comment.classList.length){
+		} else{
+			form.comment.removeAttribute('class')
 		}
 	}
 
 	const{resolve,promise}=Promise.withResolvers()
-	userName.addEventListener('input',resolve)
+	form.addEventListener('input',resolve)
 	await promise
 } while(true)
 </script>
 
 <script type=module>
-const[{date}]=document.forms
-date.value||=new Date().toLocaleDateString('sv')
-const{resolve,promise}=Promise.withResolvers()
-addEventListener('pageshow',resolve)
-await promise
-
-do{
-	if(new Date(date.value)>new Date){
-		date.classList.add('invalid')
-	} else{
-		date.classList.remove('invalid')
-		if(date.classList.length){
-		} else{
-			date.removeAttribute('class')
-		}
-	}
-
-	const{resolve,promise}=Promise.withResolvers()
-	date.addEventListener('input',resolve)
-	await promise
-} while(true)
-</script>
-
-<script type=module>
-const[{comment}]=document.forms
-const{resolve,promise}=Promise.withResolvers()
-addEventListener('pageshow',resolve)
-await promise
-
-do{
-	if(comment.value.includes('"')){
-		comment.classList.add('invalid')
-	} else{
-		comment.classList.remove('invalid')
-		if(comment.classList.length){
-		} else{
-			comment.removeAttribute('class')
-		}
-	}
-
-	const{resolve,promise}=Promise.withResolvers()
-	comment.addEventListener('input',resolve)
-	await promise
-} while(true)
-</script>
-
-<script type=module>
-const[{comment}]=document.forms
-const{resolve,promise}=Promise.withResolvers()
-addEventListener('pageshow',resolve)
-await promise
-
+const[form]=document.forms
 do{
 	const{resolve,promise}=Promise.withResolvers()
-	comment.addEventListener('blur',resolve)
+	form.comment.addEventListener('blur',resolve)
 	await promise
-	if(comment.value.includes('"')){
+
+	if(form.comment.value.includes('"')){
 	} else continue
 
 	await new Promise(window.requestIdleCallback??requestAnimationFrame)
 	alert('「"」は使用できません。(Googleスプレッドシートとの連携の都合上)')
-
-	{
-		const{resolve,promise}=Promise.withResolvers()
-		comment.addEventListener('input',resolve)
-		await promise
-	}
 } while(true)
 </script>
 
 <script type=module>
-// ここから改修
-
-const[form]=document.forms
 const{resolve,promise}=Promise.withResolvers()
 addEventListener('pageshow',resolve)
 await promise
 
-/*
-const{digits,userName,type,date,comment,submitter}=form
-*/
-
-/*
-digits.value=new URLSearchParams(location.search).get('digits')
-date.value=new Date().toLocaleDateString('sv')
-*/
-
-/*
-const codeRegExp=/^978\d{9}$|^979\d{9}$|^491\d{9}$/
-*/
-
+const[form]=document.forms
 do{
-	/*
 	switch(true){
-		case userName.classList.contains('invalid')??invalidUserNameRegExp.test(userName.value):
-		case(type.value=='貸出'||type.value=='返却')&&new Date(date.value)>new Date:
-		case type.value=='返却'&&comment.value.includes('\"'):
-		submitter.disabled=true
-		break
-		case type.value&&codeRegExp.test(digits.value):
-		submitter.disabled=false
+		case form.matches(':has(:not(.borrow,.return,.borrow-or-return).invalid)'):
+		case form.matches(':has([value=貸出]:checked):has(.borrow.invalid)'):
+		case form.matches(':has([value=貸出]:checked):has(.borrow-or-return.invalid)'):
+		case form.matches(':has([value=返却]:checked):has(.return.invalid)'):
+		case form.matches(':has([value=返却]:checked):has(.borrow-or-return.invalid)'):
+		form.submitter.disabled=true
 		break
 		default:
-		submitter.disabled=true
+		form.submitter.disabled=false
 	}
-	*/
-
-	/*
-	submitter.disabled=false
-	if(codeRegExp.test(digits.value)){
-		digits.style.color=''
-	} else{
-		submitter.disabled=true
-		digits.style.color='#f00'
-	}
-	submitter.disabled||=!type.value
-
-	if(event&&event.target==userName){
-		userName.style.color=''
-	}
-
-	submitter.disabled||=invalidUserNameRegExp.test(userName.value)
-	for(const letter of userName.value){
-		if(usableLetters.includes(letter)) continue
-		submitter.disabled=true
-	}
-	if(new Date(date.value)>new Date){
-		date.style.color='#f00'
-		submitter.disabled=true
-	} else{
-		date.style.color=''
-	}
-	if(comment.value.includes('\"')){
-		comment.style.color='#f00'
-		submitter.disabled=true
-	} else{
-		comment.style.color=''
-	}
-	*/
-
-	// ここまで改修
-
-	form.submitter.disabled=form.matches(':has(.invalid)')
 
 	const{resolve,promise}=Promise.withResolvers()
 	form.addEventListener('input',resolve)
 	await promise
 
-	/*
-	submitter.value='申請'
-	*/
+	form.submitter.disabled=false
+	form.submitter.value='申請'
+} while(true)
+</script>
+
+<script type=module>
+do{
+	const{resolve,promise}=Promise.withResolvers()
+	addEventListener('submit',resolve)
+	await promise
+	if(event.target.method!='post') continue
+
+	event.preventDefault()
 } while(true)
 </script>
 
@@ -307,11 +230,12 @@ do{
 	addEventListener('submit',resolve)
 	await promise
 	if(event.target.method!='post') continue
-	event.preventDefault()
+
 	const{submitter,target}=event
 
 	submitter.disabled=true
 	submitter.value='申請中'
+	target.classList.add('posting')
 
 	const payloadSource={}
 	payloadSource.digits=target.digits.value
@@ -327,26 +251,14 @@ do{
 	}
 	if(target.withResolvers){
 		payloadSource.withResolvers=target.withResolvers.checked
-	}// 要確認
-
-	/*
-	options.body=new FormData(event.target)
-	*/
+	}
 	options.body=JSON.stringify(payloadSource)
+
 	const response=await fetch(target.action,options)
 	submitter.value='申請済'
+	target.classList.remove('posting')
 	const text=await response.text()
 	await new Promise(window.requestIdleCallback??requestAnimationFrame)
 	alert(text)
-
-	//
-	{
-		const{resolve,promise}=Promise.withResolvers()
-		addEventListener('input',resolve)
-		await promise
-	}
-	submitter.disabled=false
-	submitter.value='申請'
-	//
 } while(true)
 </script>
