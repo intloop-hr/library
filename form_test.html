@@ -26,10 +26,10 @@ div.flex>*{flex-grow:1}
 .invalid:not(:focus){color:#f00}
 form.posting{pointer-events:none}
 
-form:not(:has(input[type=radio][name=type]:checked)) input[type=submit]{display:none}
-form:not(:has(input[type=radio][value=貸出]:checked)) .borrow{display:none}
-form:not(:has(input[type=radio][value=返却]:checked)) .return{display:none}
-form:not(:has(input[type=radio][value=貸出]:checked,input[type=radio][value=返却]:checked)) .borrow-or-return{display:none}
+form:not(:has(input[name=type]:checked)) input[type=submit]{display:none}
+form:not(:has(input[name=type][value=貸出]:checked)) .borrow{display:none}
+form:not(:has(input[name=type][value=返却]:checked)) .return{display:none}
+form:not(:has(input[name=type][value=貸出]:checked,input[name=type][value=返却]:checked)) .borrow-or-return{display:none}
 </style>
 <title>INTLOOPライブラリー 申請フォーム</title>
 
@@ -145,9 +145,6 @@ do{
 		}
 	}
 
-	/*
-	alert(form.date.value+' 0:00'+'\n\n'+new Date(form.date.value+'T00:00')+'\n\n'+new Date)
-	*/
 	if(new Date(form.date.value+'T00:00')>new Date){
 		form.date.classList.add('invalid')
 	} else{
