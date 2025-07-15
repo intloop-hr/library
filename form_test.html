@@ -134,7 +134,6 @@ form.date.value||=new Date().toLocaleDateString('sv')
 do{
 	if(invalidPattern.test(form.userName.value)){
 		form.userName.classList.add('invalid')
-		alert('date is invalid')
 	} else{
 		form.userName.classList.remove('invalid')
 		if(form.userName.classList.length){
@@ -145,6 +144,9 @@ do{
 
 	if(new Date(form.date.value+' 0:00')>new Date){
 		form.date.classList.add('invalid')
+		//
+		alert('date is invalid')
+		//
 	} else{
 		form.date.classList.remove('invalid')
 		if(form.date.classList.length){
