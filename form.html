@@ -135,14 +135,14 @@ const[form]=document.forms
 form.date.value||=new Date().toLocaleDateString('sv')
 
 do{
-	if(invalidPattern.test(form.userName.value)){
+	switch(true){
+		case invalidPattern.test(form.userName.value):
 		form.userName.classList.add('invalid')
-	} else{
+		break
+		default:
 		form.userName.classList.remove('invalid')
-		if(form.userName.classList.length){
-		} else{
-			form.userName.removeAttribute('class')
-		}
+		if(form.userName.classList.length) break
+		form.userName.removeAttribute('class')
 	}
 
 	switch(true){
@@ -156,14 +156,14 @@ do{
 		form.date.removeAttribute('class')
 	}
 
-	if(form.comment.value.includes('"')){
+	switch(true){
+		case form.comment.value.includes('"'):
 		form.comment.classList.add('invalid')
-	} else{
+		break
+		default:
 		form.comment.classList.remove('invalid')
-		if(form.comment.classList.length){
-		} else{
-			form.comment.removeAttribute('class')
-		}
+		if(form.comment.classList.length) break
+		form.comment.removeAttribute('class')
 	}
 
 	const{resolve,promise}=Promise.withResolvers()
