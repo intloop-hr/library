@@ -109,7 +109,7 @@ if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
 
 <script type=module>
 const decoder=new TextDecoder('sjis')
-let usableLetters='\\s&\',\\-\\.\\da-zヽヾゝゞ々ーぁ-ゖァ-ヶ'
+let usableLetters='\\s&\',\\-\\.\\da-z々あいうえお-ろわ-んゝゞァ-ロワ-ヴーヽヾ'
 for(let number=0x8800;number<0xec00;++number){
 	const array=[]
 	let number_2=number
