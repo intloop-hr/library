@@ -145,14 +145,15 @@ do{
 		}
 	}
 
-	if(new Date(form.date.value+'T00:00')>new Date){
+	switch(true){
+		case form.date.value=='':
+		case new Date(form.date.value+'T00:00')>new Date:
 		form.date.classList.add('invalid')
-	} else{
+		break
+		default:
 		form.date.classList.remove('invalid')
-		if(form.date.classList.length){
-		} else{
-			form.date.removeAttribute('class')
-		}
+		if(form.date.classList.length) break
+		form.date.removeAttribute('class')
 	}
 
 	if(form.comment.value.includes('"')){
