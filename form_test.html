@@ -39,6 +39,7 @@ form:not(:has(input[name=type][value=貸出]:checked,input[name=type][value=返�
 	<label><strong>氏名</strong>（姓名間 空白必須）<br>
 	<small>表記揺れ対策のため、一部の漢字は使用できません。使用できる漢字または平仮名を代用してください。</small></label>
 	<input name=userName>
+	<input type=hidden name=credential>
 	<label><strong>申請種別</strong></label>
 	<div class=flex>
 		<label><input type=radio name=type value=貸出>貸出</label>
@@ -169,6 +170,7 @@ do{
 
 <script type=module>
 // クレデンシャルを参照する
+await Promise.race('')
 
 const challenge=new ArrayBuffer
 
@@ -256,9 +258,9 @@ do{
 </script>
 
 <script type=module>
-//
+// クレデンシャルを作成する
 const challenge=new ArrayBuffer
-//
+// クレデンシャルを作成する
 
 const options={}
 options.method='post'
@@ -268,29 +270,26 @@ do{
 	await promise
 	if(event.target.method!='post') continue
 
+	const{submitter,target}=event
+
 	// クレデンシャルを作成する
 	const publicKey={challenge}
 	publicKey.pubKeyCredParams=[]
 	publicKey.rp={name:'INTLOOPライブラリー'}
-	const name='印登 太郎'
+	const name=target.userName.value
 	const id=new TextEncoder().encode(name)
 	publicKey.user={name,displayName:name,id}
 
 	try{
 		const{rawId}=await navigator.credentials.create({publicKey})
-
 		const uint8Array=new Uint8Array(rawId)
 		const credentialId=String.fromCharCode(...uint8Array)
-		const encodedCredentialId=encodeURI(credentialId)
-		await new Promise(window.requestIdleCallback??requestAnimationFrame)
-		prompt('IDを登録せよ。',encodedCredentialId)
+		target.credential.value=encodeURI(credentialId)
 	} catch(error){
 		alert(error)
 		continue
 	}
 	// クレデンシャルを作成する
-
-	const{submitter,target}=event
 
 	submitter.disabled=true
 	submitter.value='申請中'
@@ -299,6 +298,11 @@ do{
 	const payloadSource={}
 	payloadSource.digits=target.digits.value
 	payloadSource.userName=target.userName.value
+	// クレデンシャルを作成する
+	if(target.credential.value){
+		payloadSource.credential=target.credential.value
+	}
+	// クレデンシャルを作成する
 	payloadSource.type=target.type.value
 	switch(target.type.value){
 		case'貸出':
