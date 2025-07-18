@@ -184,11 +184,8 @@ try{
 	const publicKey={challenge}
 	publicKey.allowCredentials=[]
 	for(const credentialId of credentialIds){
-		const id=new TextEncoder().encode(credentialId).buffer
-		/*
-		const uint8Array = new Uint8Array(credentialId.split('').map(char => char.charCodeAt(0)))
-		const id=uint8Array.buffer
-		*/
+		const id=new Uint8Array(credentialId.split('').map(char => char.charCodeAt(0))).buffer
+		// const id=new TextEncoder().encode(credentialId).buffer
 		publicKey.allowCredentials.push({type:'public-key',id})
 	}
 	publicKey.userVerification='required'
