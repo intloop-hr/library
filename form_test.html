@@ -172,7 +172,7 @@ do{
 // クレデンシャルを参照する
 const[form]=document.forms
 const{resolve,promise}=Promise.withResolvers()
-form.userName.addEventListener('click',resolve)
+form.userName.addEventListener('focus',resolve)
 await promise
 
 const challenge=new ArrayBuffer
