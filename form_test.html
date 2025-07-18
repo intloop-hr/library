@@ -170,10 +170,23 @@ do{
 
 <script type=module>
 // クレデンシャルを参照する
+if(document.hasFocus()){
+} else{
+	const{resolve,promise}=Promise.withResolvers()
+	addEventListener('focus',resolve)
+	await promise
+}
+await new Promise(window.requestIdleCallback??requestAnimationFrame)
+if(confirm('当端末に紐付けられた氏名を入力しますか?')){
+} else{
+	await Promise.race('')
+}
+/*
 const[form]=document.forms
 const{resolve,promise}=Promise.withResolvers()
 form.userName.addEventListener('focus',resolve)
 await promise
+*/
 
 const challenge=new ArrayBuffer
 
@@ -196,6 +209,7 @@ try{
 } catch(error){
 	alert(error)
 }
+// クレデンシャルを参照する
 </script>
 
 <script type=module>
