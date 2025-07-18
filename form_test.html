@@ -191,10 +191,7 @@ try{
 		const id=uint8Array.buffer
 		publicKey.allowCredentials.push({type:'public-key',id})
 	}
-	// ?
-	publicKey.requireResidentKey=true
-	publicKey.userVerification='preferred'??'required'
-	// ?
+
 	const{response}=await navigator.credentials.get({publicKey})
 
 	form.userName.value=new TextDecoder().decode(response.userHandle)
