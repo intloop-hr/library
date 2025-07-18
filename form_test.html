@@ -170,11 +170,14 @@ do{
 
 <script type=module>
 // クレデンシャルを参照する
-const[form]=document.forms
-const{resolve,promise}=Promise.withResolvers()
-form.userName.addEventListener('focus',resolve)
-await promise
+if(document.hasFocus()){
+} else{
+	const{resolve,promise}=Promise.withResolvers()
+	addEventListener('focus',resolve)
+	await promise
+}
 
+const[form]=document.forms
 const challenge=new ArrayBuffer
 
 try{
