@@ -170,10 +170,10 @@ do{
 
 <script type=module>
 // クレデンシャルを参照する
-
 const[form]=document.forms
-
-
+const{resolve,promise}=Promise.withResolvers()
+form.userName.addEventListener('focus',resolve)
+await promise
 
 const challenge=new ArrayBuffer
 
@@ -184,7 +184,8 @@ try{
 	const publicKey={challenge}
 	publicKey.allowCredentials=[]
 	for(const credentialId of credentialIds){
-		const id = new TextEncoder().encode(credentialId).buffer
+		const uint8Array = new Uint8Array(credentialId.split('').map(char => char.charCodeAt(0)))
+		const id=uint8Array.buffer
 		publicKey.allowCredentials.push({type:'public-key',id})
 	}
 	publicKey.userVerification='required'
