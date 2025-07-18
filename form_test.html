@@ -170,14 +170,11 @@ do{
 
 <script type=module>
 // クレデンシャルを参照する
-if(document.hasFocus()){
-} else{
-	const{resolve,promise}=Promise.withResolvers()
-	addEventListener('focus',resolve)
-	await promise
-}
 
 const[form]=document.forms
+
+
+
 const challenge=new ArrayBuffer
 
 try{
@@ -187,11 +184,10 @@ try{
 	const publicKey={challenge}
 	publicKey.allowCredentials=[]
 	for(const credentialId of credentialIds){
-		const uint8Array = new TextEncoder().encode(credentialId)// new Uint8Array(credentialId.split('').map(char => char.charCodeAt(0)))
-		const id=uint8Array.buffer
+		const id = new TextEncoder().encode(credentialId).buffer
 		publicKey.allowCredentials.push({type:'public-key',id})
 	}
-
+	publicKey.userVerification='required'
 	const{response}=await navigator.credentials.get({publicKey})
 
 	form.userName.value=new TextDecoder().decode(response.userHandle)
@@ -199,7 +195,6 @@ try{
 } catch(error){
 	alert(error)
 }
-// クレデンシャルを参照する
 </script>
 
 <script type=module>
