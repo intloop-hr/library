@@ -5,16 +5,16 @@
 body{margin-inline:auto;inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
 label:not(:has(input[type=radio])){display:block}
 small{font-size:.75em}
-button,input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
-button,input,textarea,div.flex{margin-block:calc(.5rlh - .5rem)}
+input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
+input,textarea,div.flex{margin-block:calc(.5rlh - .5rem)}
 textarea{height:3lh}
 label input[type=radio]{display:none}
 input:not([type=submit]),textarea,label:has(input[type=radio]):not(:has(input[type=radio]:checked)){background-color:light-dark(#ddd,#222)}
-button,input[type=submit],label:has(input[type=radio]:checked){color:light-dark(#fff,#000)}
-button:not(:disabled),input[type=submit]:not(:disabled),label:has(input[type=radio]:checked){background-color:light-dark(#000,#fff)}
-button:disabled,input[type=submit]:disabled{background-color:light-dark(#555,#aaa)}
-button,input,label:has(input[type=radio]){text-align:center}
-button:not(:disabled),input[type=submit]:not(:disabled),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}
+input[type=submit],label:has(input[type=radio]:checked){color:light-dark(#fff,#000)}
+input[type=submit]:not(:disabled),label:has(input[type=radio]:checked){background-color:light-dark(#000,#fff)}
+input[type=submit]:disabled{background-color:light-dark(#555,#aaa)}
+input,label:has(input[type=radio]){text-align:center}
+input[type=submit]:not(:disabled),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}
 div.flex{display:flex;column-gap:calc(1rlh - 1rem)}
 div.flex>*{flex-grow:1}
 @media(prefers-color-scheme:dark){
@@ -39,10 +39,6 @@ form:not(:has(input[name=type][value=貸出]:checked,input[name=type][value=返�
 	<label><strong>氏名</strong>（姓名間 空白必須）<br>
 	<small>表記揺れ対策のため、一部の漢字は使用できません。使用できる漢字または平仮名を代用してください。</small></label>
 	<input name=userName>
-	<div class=flex>
-		<button id=createCredential>氏名を登録</button>
-		<button id=getCredential>自動記名</button>
-	</div>
 	<label><strong>申請種別</strong></label>
 	<div class=flex>
 		<label><input type=radio name=type value=貸出>貸出</label>
@@ -172,26 +168,36 @@ do{
 </script>
 
 <script type=module>
-// クレデンシャルを作成する
-
-do{
-	const{resolve,promise}=Promise.withResolvers()
-	createCredential.addEventListener('click',resolve)
-	await promise
-
-	//
-} while(true)
-</script>
-
-<script type=module>
 // クレデンシャルを参照する
+
+const challenge=new ArrayBuffer
 
 do{
 	const{resolve,promise}=Promise.withResolvers()
 	getCredential.addEventListener('click',resolve)
 	await promise
 
-	//
+	try{
+		const response=await fetch('https://script.google.com/macros/s/AKfycbw-lj3GqwLXuR-1-WIKIbqEWmpt3WFQLYAmBq-f8NV9tYxNWfo_PuotjSGJcWxw_ehRaw/exec')
+		const credentialIds=await response.json()
+
+		const publicKey={challenge}
+		publicKey.allowCredentials=[]
+		for(const credentialId of credentialIds){
+			const uint8Array = new Uint8Array(credentialId.split('').map(char => char.charCodeAt(0)))
+			const id=uint8Array.buffer
+			publicKey.allowCredentials.push({type:'public-key',id})
+		}
+		publicKey.userVerification='required'
+
+		window.assertion=await navigator.credentials.get({publicKey})
+		console.log(assertion)
+
+		const userHandle=new TextDecoder().decode(assertion.response.userHandle)
+		alert(userHandle)
+	} catch(error){
+		alert(error)
+	}
 } while(true)
 </script>
 
@@ -250,6 +256,10 @@ do{
 </script>
 
 <script type=module>
+//
+const challenge=new ArrayBuffer
+//
+
 const options={}
 options.method='post'
 do{
@@ -257,6 +267,28 @@ do{
 	addEventListener('submit',resolve)
 	await promise
 	if(event.target.method!='post') continue
+
+	// クレデンシャルを作成する
+	const publicKey={challenge}
+	publicKey.pubKeyCredParams=[]
+	publicKey.rp={name:'INTLOOPライブラリー'}
+	const name='印登 太郎'
+	const id=new TextEncoder().encode(name)
+	publicKey.user={name,displayName:name,id}
+
+	try{
+		const{rawId}=await navigator.credentials.create({publicKey})
+
+		const uint8Array=new Uint8Array(rawId)
+		const credentialId=String.fromCharCode(...uint8Array)
+		const encodedCredentialId=encodeURI(credentialId)
+		await new Promise(window.requestIdleCallback??requestAnimationFrame)
+		prompt('IDを登録せよ。',encodedCredentialId)
+	} catch(error){
+		alert(error)
+		continue
+	}
+	// クレデンシャルを作成する
 
 	const{submitter,target}=event
 
