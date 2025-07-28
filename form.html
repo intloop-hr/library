@@ -95,9 +95,7 @@ if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
 		addEventListener('pageshow',resolve)
 		await promise
 
-		if('requestIdleCallback'in window){
-			await new Promise(requestIdleCallback)
-		}
+		await new Promise(window.requestIdleCallback??requestAnimationFrame)
 		alert('URLのパラメーター digits が不正です。')
 		history.back()
 	} while(true)
@@ -179,9 +177,7 @@ do{
 	if(form.comment.value.includes('"')){
 	} else continue
 
-	if('requestIdleCallback'in window){
-		await new Promise(requestIdleCallback)
-	}
+	await new Promise(window.requestIdleCallback??requestAnimationFrame)
 	alert('「"」は使用できません。(Googleスプレッドシートとの連携の都合上)')
 } while(true)
 </script>
@@ -265,9 +261,7 @@ do{
 		target.removeAttribute('class')
 	}
 	const text=await response.text()
-	if('requestIdleCallback'in window){
-		await new Promise(requestIdleCallback)
-	}
+	await new Promise(window.requestIdleCallback??requestAnimationFrame)
 	alert(text)
 } while(true)
 </script>
