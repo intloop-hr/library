@@ -228,7 +228,7 @@ if('requestIdleCallback'in window){
 	await new Promise(requestIdleCallback)
 }
 //
-let zzz=false
+let autoinput=false
 //
 if(confirm('当端末に紐付けられた氏名を入力しますか?')){
 	const[form]=document.forms
@@ -240,7 +240,7 @@ if(confirm('当端末に紐付けられた氏名を入力しますか?')){
 		form.userName.value=new TextDecoder().decode(response.userHandle)
 		form.dispatchEvent(new Event('input'))
 		//
-		zzz||=true
+		autoinput||=true
 		//
 	} catch(error){
 		alert(error)
@@ -259,8 +259,8 @@ do{
 	const{submitter,target}=event
 
 	//
-	if(zzz&&confirm('当端末に氏名を紐付けますか?')){
-	} else{
+	if(autoinput){
+	} else if(confirm('当端末に氏名を紐付けますか?')){
 		const publicKey={}
 		publicKey.challenge=new ArrayBuffer
 		publicKey.pubKeyCredParams=[]
