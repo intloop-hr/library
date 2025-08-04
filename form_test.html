@@ -218,12 +218,6 @@ do{
 const{resolve,promise}=Promise.withResolvers()
 addEventListener('pageshow',resolve)
 await promise
-if(document.hasFocus()){
-} else{
-	const{resolve,promise}=Promise.withResolvers()
-	addEventListener('focus',resolve)
-	await promise
-}
 if('requestIdleCallback'in window){
 	await new Promise(requestIdleCallback)
 }
@@ -231,6 +225,13 @@ if('requestIdleCallback'in window){
 let autoinput=false
 //
 if(confirm('当端末に紐付けられた氏名を入力しますか?')){
+	if(document.hasFocus()){
+	} else{
+		const{resolve,promise}=Promise.withResolvers()
+		addEventListener('focus',resolve)
+		await promise
+	}
+
 	const[form]=document.forms
 	try{
 		const publicKey={}
@@ -278,7 +279,6 @@ do{
 		payloadSource.withResolvers=target.withResolvers.checked
 	}
 	options.body=JSON.stringify(payloadSource)
-	const fetchPromise=fetch(target.action,options)
 
 	if(autoinput){
 	} else{
@@ -302,7 +302,7 @@ do{
 		}
 	}
 
-	const response=await fetchPromise
+	const response=await fetch(target.action,options)
 	submitter.value='申請済'
 	target.classList.remove('posting')
 	if(target.classList.length){
