@@ -170,31 +170,6 @@ do{
 </script>
 
 <script type=module>
-if(document.hasFocus()){
-} else{
-	const{resolve,promise}=Promise.withResolvers()
-	addEventListener('focus',resolve)
-	await promise
-}
-if('requestIdleCallback'in window){
-	await new Promise(requestIdleCallback)
-}
-if(confirm('当端末に紐付けられた氏名を入力しますか?')){
-	const[form]=document.forms
-	try{
-		const publicKey={}
-		publicKey.challenge=new ArrayBuffer
-		publicKey.allowCredentials=[]
-		const{response}=await navigator.credentials.get({publicKey})
-		form.userName.value=new TextDecoder().decode(response.userHandle)
-		form.dispatchEvent(new Event('input'))
-	} catch(error){
-		alert(error)
-	}
-}
-</script>
-
-<script type=module>
 const[form]=document.forms
 do{
 	const{resolve,promise}=Promise.withResolvers()
@@ -240,6 +215,38 @@ do{
 </script>
 
 <script type=module>
+const{resolve,promise}=Promise.withResolvers()
+addEventListener('pageshow',resolve)
+await promise
+if(document.hasFocus()){
+} else{
+	const{resolve,promise}=Promise.withResolvers()
+	addEventListener('focus',resolve)
+	await promise
+}
+if('requestIdleCallback'in window){
+	await new Promise(requestIdleCallback)
+}
+//
+let zzz=false
+//
+if(confirm('当端末に紐付けられた氏名を入力しますか?')){
+	const[form]=document.forms
+	try{
+		const publicKey={}
+		publicKey.challenge=new ArrayBuffer
+		publicKey.allowCredentials=[]
+		const{response}=await navigator.credentials.get({publicKey})
+		form.userName.value=new TextDecoder().decode(response.userHandle)
+		form.dispatchEvent(new Event('input'))
+		//
+		zzz||=true
+		//
+	} catch(error){
+		alert(error)
+	}
+}
+
 do{
 	const{resolve,promise}=Promise.withResolvers()
 	addEventListener('submit',resolve)
@@ -261,21 +268,25 @@ do{
 
 	const{submitter,target}=event
 
-	// クレデンシャルを作成する
-	const publicKey={}
-	publicKey.challenge=new ArrayBuffer
-	publicKey.pubKeyCredParams=[]
-	publicKey.rp={name:'INTLOOPライブラリー'}
-	const name=target.userName.value
-	const id=new TextEncoder().encode(name)
-	publicKey.user={name,displayName:name,id}
+	//
+	if(zzz&&confirm('当端末に氏名を紐付けますか?')){
+	} else{
+		const publicKey={}
+		publicKey.challenge=new ArrayBuffer
+		publicKey.pubKeyCredParams=[]
+		publicKey.rp={name:'INTLOOPライブラリー'}
+		const name=target.userName.value
+		const id=new TextEncoder().encode(name)
+		publicKey.user={name,displayName:name,id}
 
-	try{
-		await navigator.credentials.create({publicKey})
-	} catch(error){
-		alert(error)
+		try{
+			await navigator.credentials.create({publicKey})
+		} catch(error){
+			alert(error)
+			continue
+		}
 	}
-	// クレデンシャルを作成する
+	//
 
 	submitter.disabled=true
 	submitter.value='申請中'
