@@ -258,26 +258,6 @@ do{
 	event.preventDefault()
 	const{submitter,target}=event
 
-	//
-	if(autoinput){
-	} else if(confirm('当端末に氏名を紐付けますか?')){
-		const publicKey={}
-		publicKey.challenge=new ArrayBuffer
-		publicKey.pubKeyCredParams=[]
-		publicKey.rp={name:'INTLOOPライブラリー'}
-		const name=target.userName.value
-		const id=new TextEncoder().encode(name)
-		publicKey.user={name,displayName:name,id}
-
-		try{
-			await navigator.credentials.create({publicKey})
-		} catch(error){
-			alert(error)
-			continue
-		}
-	}
-	//
-
 	submitter.disabled=true
 	submitter.value='申請中'
 	target.classList.add('posting')
@@ -298,8 +278,31 @@ do{
 		payloadSource.withResolvers=target.withResolvers.checked
 	}
 	options.body=JSON.stringify(payloadSource)
+	const fetchPromise=fetch(target.action,options)
 
-	const response=await fetch(target.action,options)
+	if(autoinput){
+	} else{
+		if('requestIdleCallback'in window){
+			await new Promise(requestIdleCallback)
+		}
+		if(confirm('当端末に氏名を紐付けますか?')){
+			const publicKey={}
+			publicKey.challenge=new ArrayBuffer
+			publicKey.pubKeyCredParams=[]
+			publicKey.rp={name:'INTLOOPライブラリー'}
+			const name=target.userName.value
+			const id=new TextEncoder().encode(name)
+			publicKey.user={name,displayName:name,id}
+
+			try{
+				await navigator.credentials.create({publicKey})
+			} catch(error){
+				alert(error)
+			}
+		}
+	}
+
+	const response=await fetchPromise
 	submitter.value='申請済'
 	target.classList.remove('posting')
 	if(target.classList.length){
