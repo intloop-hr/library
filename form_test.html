@@ -246,15 +246,6 @@ if(confirm('当端末に紐付けられた氏名を入力しますか?')){
 		alert(error)
 	}
 }
-
-do{
-	const{resolve,promise}=Promise.withResolvers()
-	addEventListener('submit',resolve)
-	await promise
-	if(event.target.method!='post') continue
-
-	event.preventDefault()
-} while(true)
 </script>
 
 <script type=module>
@@ -266,6 +257,7 @@ do{
 	await promise
 	if(event.target.method!='post') continue
 
+	event.preventDefault()
 	const{submitter,target}=event
 
 	//
