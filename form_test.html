@@ -39,7 +39,6 @@ form:not(:has(input[name=type][value=貸出]:checked,input[name=type][value=返�
 	<label><strong>氏名</strong>（姓名間 空白必須）<br>
 	<small>表記揺れ対策のため、一部の漢字は使用できません。使用できる漢字または平仮名を代用してください。</small></label>
 	<input name=userName>
-	<input type=hidden name=credential>
 	<label><strong>申請種別</strong></label>
 	<div class=flex>
 		<label><input type=radio name=type value=貸出>貸出</label>
@@ -96,7 +95,9 @@ if(/^978\d{9}$|^979\d{9}$|^491\d{9}$/.test(digits)){
 		addEventListener('pageshow',resolve)
 		await promise
 
-		await new Promise(window.requestIdleCallback??requestAnimationFrame)
+		if('requestAnimationFrame'in window){
+			await new Promise(requestAnimationFrame)
+		}
 		alert('URLのパラメーター digits が不正です。')
 		history.back()
 	} while(true)
@@ -169,50 +170,28 @@ do{
 </script>
 
 <script type=module>
-// クレデンシャルを参照する
 if(document.hasFocus()){
 } else{
 	const{resolve,promise}=Promise.withResolvers()
 	addEventListener('focus',resolve)
 	await promise
 }
-await new Promise(window.requestIdleCallback??requestAnimationFrame)
+if('requestIdleCallback'in window){
+	await new Promise(requestIdleCallback)
+}
 if(confirm('当端末に紐付けられた氏名を入力しますか?')){
-} else{
-	await Promise.race('')
-}
-//
-const[form]=document.forms
-
-/*
-const[form]=document.forms
-const{resolve,promise}=Promise.withResolvers()
-form.userName.addEventListener('focus',resolve)
-await promise
-*/
-
-const challenge=new ArrayBuffer
-
-try{
-	const fetchResponse=await fetch('https://script.google.com/macros/s/AKfycbw-lj3GqwLXuR-1-WIKIbqEWmpt3WFQLYAmBq-f8NV9tYxNWfo_PuotjSGJcWxw_ehRaw/exec')
-	const credentialIds=await fetchResponse.json()
-
-	const publicKey={challenge}
-	publicKey.allowCredentials=[]
-	for(const credentialId of credentialIds){
-		const id=new Uint8Array(credentialId.split('').map(char => char.charCodeAt(0))).buffer
-		// const id=new TextEncoder().encode(credentialId).buffer
-		publicKey.allowCredentials.push({type:'public-key',id})
+	const[form]=document.forms
+	try{
+		const publicKey={}
+		publicKey.challenge=new ArrayBuffer
+		publicKey.allowCredentials=[]
+		const{response}=await navigator.credentials.get({publicKey})
+		form.userName.value=new TextDecoder().decode(response.userHandle)
+		form.dispatchEvent(new Event('input'))
+	} catch(error){
+		alert(error)
 	}
-	publicKey.userVerification='required'
-	const{response}=await navigator.credentials.get({publicKey})
-
-	form.userName.value=new TextDecoder().decode(response.userHandle)
-	form.dispatchEvent(new Event('input'))
-} catch(error){
-	alert(error)
 }
-// クレデンシャルを参照する
 </script>
 
 <script type=module>
@@ -225,7 +204,9 @@ do{
 	if(form.comment.value.includes('"')){
 	} else continue
 
-	await new Promise(window.requestIdleCallback??requestAnimationFrame)
+	if('requestIdleCallback'in window){
+		await new Promise(requestIdleCallback)
+	}
 	alert('「"」は使用できません。(Googleスプレッドシートとの連携の都合上)')
 } while(true)
 </script>
@@ -270,12 +251,6 @@ do{
 </script>
 
 <script type=module>
-// getで氏名を入れた場合は、createしないこと
-
-// クレデンシャルを作成する
-const challenge=new ArrayBuffer
-// クレデンシャルを作成する
-
 const options={}
 options.method='post'
 do{
@@ -287,7 +262,8 @@ do{
 	const{submitter,target}=event
 
 	// クレデンシャルを作成する
-	const publicKey={challenge}
+	const publicKey={}
+	publicKey.challenge=new ArrayBuffer
 	publicKey.pubKeyCredParams=[]
 	publicKey.rp={name:'INTLOOPライブラリー'}
 	const name=target.userName.value
@@ -295,10 +271,7 @@ do{
 	publicKey.user={name,displayName:name,id}
 
 	try{
-		const{rawId}=await navigator.credentials.create({publicKey})
-		const uint8Array=new Uint8Array(rawId)
-		const credentialId=String.fromCharCode(...uint8Array)
-		target.credential.value=encodeURI(credentialId)
+		await navigator.credentials.create({publicKey})
 	} catch(error){
 		alert(error)
 	}
@@ -311,11 +284,6 @@ do{
 	const payloadSource={}
 	payloadSource.digits=target.digits.value
 	payloadSource.userName=target.userName.value
-	// クレデンシャルを作成する
-	if(target.credential.value){
-		payloadSource.credential=target.credential.value
-	}
-	// クレデンシャルを作成する
 	payloadSource.type=target.type.value
 	switch(target.type.value){
 		case'貸出':
@@ -330,15 +298,17 @@ do{
 	}
 	options.body=JSON.stringify(payloadSource)
 
-	const fetchResponse=await fetch(target.action,options)
+	const response=await fetch(target.action,options)
 	submitter.value='申請済'
 	target.classList.remove('posting')
 	if(target.classList.length){
 	} else{
 		target.removeAttribute('class')
 	}
-	const text=await fetchResponse.text()
-	await new Promise(window.requestIdleCallback??requestAnimationFrame)
+	const text=await response.text()
+	if('requestIdleCallback'in window){
+		await new Promise(requestIdleCallback)
+	}
 	alert(text)
 } while(true)
 </script>
