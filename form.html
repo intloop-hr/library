@@ -216,7 +216,7 @@ do{
 
 <script type=module>
 // ここから
-await fetch('https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec').then(alert,alert)
+await fetch('https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec',{mode:'no-cors'}).then(alert,alert)
 // ここまで
 
 do{
@@ -250,6 +250,9 @@ do{
 
 	const options={}
 	options.method=target.method
+	// ここから
+	options.mode='no-cors'
+	// ここまで
 	options.body=JSON.stringify(payloadSource)
 	try{
 		const response=await fetch(target.action,options)
