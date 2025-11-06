@@ -251,7 +251,9 @@ do{
 	const options={}
 	options.method=target.method
 	// ここから
-	//options.mode='no-cors'
+	/*
+	options.mode='no-cors'
+	*/
 	// ここまで
 	options.body=JSON.stringify(payloadSource)
 	const trial=fetch(target.action,options)
@@ -275,11 +277,12 @@ do{
 		}
 		alert(text)
 	} catch(error){
-		submitter.value='申請失敗'
+		form.submitter.disabled=false
+		form.submitter.value='申請'
 		if('requestIdleCallback'in window){
 			await new Promise(requestIdleCallback)
 		}
-		alert(error+'\n\nお手数ですが、清田までご連絡ください。ページは閉じていただいて構いません。手動で処理いたします。')
+		alert(error+'\n\nエラーのため、お手数ですが清田までご連絡ください。手動で処理いたします。ページを離れていただいて構いません。')
 	}
 } while(true)
 </script>
