@@ -215,9 +215,9 @@ do{
 </script>
 
 <script type=module>
-// ここから
+/*
 await fetch('https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec',{mode:'no-cors'}).then(alert,alert)
-// ここまで
+*/
 
 do{
 	const{resolve,promise}=Promise.withResolvers()
@@ -254,34 +254,32 @@ do{
 	options.mode='no-cors'
 	// ここまで
 	options.body=JSON.stringify(payloadSource)
+	const trial=fetch(target.action,options)
+	// ここから
 	try{
-		const response=await fetch(target.action,options)
-		// ここから
+		await trial
+	} catch{
+	}
+	target.classList.remove('posting')
+	if(target.classList.length){
+	} else{
+		target.removeAttribute('class')
+	}
+	// ここまで
+	try{
+		const response=await trial
 		submitter.value='申請済'
-		target.classList.remove('posting')
-		if(target.classList.length){
-		} else{
-			target.removeAttribute('class')
-		}
 		const text=await response.text()
 		if('requestIdleCallback'in window){
 			await new Promise(requestIdleCallback)
 		}
 		alert(text)
-		// ここまで
 	} catch(error){
-		// ここから
 		submitter.value='申請失敗'
-		target.classList.remove('posting')
-		if(target.classList.length){
-		} else{
-			target.removeAttribute('class')
-		}
-		// ここまで
 		if('requestIdleCallback'in window){
 			await new Promise(requestIdleCallback)
 		}
-		alert(error)
+		alert(error+'\n\nお手数ですが、清田までご連絡ください。ページは閉じていただいて構いません。手動で処理いたします。')
 	}
 } while(true)
 </script>
