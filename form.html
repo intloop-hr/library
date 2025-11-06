@@ -261,12 +261,14 @@ do{
 	try{
 		await trial
 	} catch{
-		alert()
 	}
-	target.classList.remove('posting')
-	if(target.classList.length){
-	} else{
-		target.removeAttribute('class')
+	try{
+		target.classList.remove('posting')
+		if(target.classList.length){
+		} else{
+			target.removeAttribute('class')
+		}
+	} catch{
 	}
 	// ここまで
 	try{
