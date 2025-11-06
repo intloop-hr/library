@@ -259,19 +259,22 @@ do{
 
 	try{
 		const response=await fetch(target.action,options)
-		submitter.value='申請済'
-		target.classList.remove('posting')
-		if(target.classList.length){
-		} else{
-			target.removeAttribute('class')
-		}
-		const text=await response.text()
+	} catch(error){
 		if('requestIdleCallback'in window){
 			await new Promise(requestIdleCallback)
 		}
-		alert(text)
-	} catch(error){
 		alert(error)
 	}
+	submitter.value='申請済'
+	target.classList.remove('posting')
+	if(target.classList.length){
+	} else{
+		target.removeAttribute('class')
+	}
+	const text=await response.text()
+	if('requestIdleCallback'in window){
+		await new Promise(requestIdleCallback)
+	}
+	alert(text)
 } while(true)
 </script>
