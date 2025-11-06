@@ -215,6 +215,10 @@ do{
 </script>
 
 <script type=module>
+// ここから
+await fetch('').then(alert,alert)
+// ここまで
+
 do{
 	const{resolve,promise}=Promise.withResolvers()
 	addEventListener('submit',resolve)
@@ -244,9 +248,6 @@ do{
 		payloadSource.withResolvers=target.withResolvers.checked
 	}
 
-	// ここから
-	await fetch(target.action).then(alert,alert)
-	// ここまで
 	const options={}
 	options.method=target.method
 	options.body=JSON.stringify(payloadSource)
