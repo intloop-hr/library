@@ -261,7 +261,8 @@ do{
 		}
 		alert(text)
 	} catch(error){
-		submitter.value='申請失敗'
+		submitter.disabled=false
+		submitter.value='申請'
 		target.classList.remove('posting')
 		if(target.classList.length){
 		} else{
