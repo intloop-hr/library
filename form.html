@@ -244,12 +244,15 @@ do{
 		payloadSource.withResolvers=target.withResolvers.checked
 	}
 
+	// ここから
+	await fetch(target.action).then(alert,alert)
+	// ここまで
 	const options={}
 	options.method=target.method
 	options.body=JSON.stringify(payloadSource)
 	try{
 		const response=await fetch(target.action,options)
-		//
+		// ここから
 		submitter.value='申請済'
 		target.classList.remove('posting')
 		if(target.classList.length){
@@ -261,16 +264,16 @@ do{
 			await new Promise(requestIdleCallback)
 		}
 		alert(text)
-		//
+		// ここまで
 	} catch(error){
-		//
+		// ここから
 		submitter.value='申請失敗'
 		target.classList.remove('posting')
 		if(target.classList.length){
 		} else{
 			target.removeAttribute('class')
 		}
-		//
+		// ここまで
 		if('requestIdleCallback'in window){
 			await new Promise(requestIdleCallback)
 		}
