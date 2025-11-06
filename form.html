@@ -256,25 +256,16 @@ do{
 	}
 
 	const options={}
-	//
-	options.method='POST'//post
-	//
+	options.method=target.method
 	options.body=JSON.stringify(payloadSource)
-	//
-	let TESTED
-	//
 	try{
-		//
-		TESTED=target.action
-		//
 		const response=await fetch(target.action,options)
 	} catch(error){
 		if('requestIdleCallback'in window){
 			await new Promise(requestIdleCallback)
 		}
-		//
-		alert(error+'\n\n'+TESTED+'\n'+JSON.stringify(options))
-		//
+		alert(error)
+		continue
 	}
 	submitter.value='申請済'
 	target.classList.remove('posting')
