@@ -248,17 +248,7 @@ do{
 	options.method=target.method
 	options.body=JSON.stringify(payloadSource)
 	//
-	try{
-		const trial=fetch(target.action,options)
-	} catch(error){
-		if('requestIdleCallback'in window){
-			await new Promise(requestIdleCallback)
-		}
-		//
-		alert(error+"てすと")
-		//
-		continue
-	}
+	const trial=fetch(target.action,options)
 	//
 	try{
 		const response=await trial
