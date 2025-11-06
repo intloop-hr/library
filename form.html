@@ -226,15 +226,13 @@ do{
 </script-->
 
 <script type=module>
-const options={}
-options.method='post'
 do{
 	const{resolve,promise}=Promise.withResolvers()
 	addEventListener('submit',resolve)
 	await promise
 	if(event.target.method!='post') continue
-
 	event.preventDefault()
+
 	const{submitter,target}=event
 
 	submitter.disabled=true
@@ -256,15 +254,25 @@ do{
 	if(target.withResolvers){
 		payloadSource.withResolvers=target.withResolvers.checked
 	}
-	options.body=JSON.stringify(payloadSource)
 
+	const options={}
+	options.method='post'
+	options.body=JSON.stringify(payloadSource)
+	//
+	let TESTED
+	//
 	try{
+		//
+		TESTED=target.action
+		//
 		const response=await fetch(target.action,options)
 	} catch(error){
 		if('requestIdleCallback'in window){
 			await new Promise(requestIdleCallback)
 		}
-		alert(error)
+		//
+		alert(error+'\n\n'+TESTED+'\n'+JSON.stringify(options))
+		//
 	}
 	submitter.value='申請済'
 	target.classList.remove('posting')
