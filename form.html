@@ -247,28 +247,34 @@ do{
 	const options={}
 	options.method=target.method
 	options.body=JSON.stringify(payloadSource)
-	//
-	const trial=fetch(target.action,options)
-	//
 	try{
-		const response=await trial
+		const response=await fetch(target.action,options)
+		//
+		submitter.value='申請済'
+		target.classList.remove('posting')
+		if(target.classList.length){
+		} else{
+			target.removeAttribute('class')
+		}
+		const text=await response.text()
+		if('requestIdleCallback'in window){
+			await new Promise(requestIdleCallback)
+		}
+		alert(text)
+		//
 	} catch(error){
+		//
+		submitter.value='申請失敗'
+		target.classList.remove('posting')
+		if(target.classList.length){
+		} else{
+			target.removeAttribute('class')
+		}
+		//
 		if('requestIdleCallback'in window){
 			await new Promise(requestIdleCallback)
 		}
 		alert(error)
-		continue
 	}
-	submitter.value='申請済'
-	target.classList.remove('posting')
-	if(target.classList.length){
-	} else{
-		target.removeAttribute('class')
-	}
-	const text=await response.text()
-	if('requestIdleCallback'in window){
-		await new Promise(requestIdleCallback)
-	}
-	alert(text)
 } while(true)
 </script>
