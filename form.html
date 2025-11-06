@@ -214,17 +214,6 @@ do{
 } while(true)
 </script>
 
-<!--script type=module>
-do{
-	const{resolve,promise}=Promise.withResolvers()
-	addEventListener('submit',resolve)
-	await promise
-	if(event.target.method!='post') continue
-
-	event.preventDefault()
-} while(true)
-</script-->
-
 <script type=module>
 do{
 	const{resolve,promise}=Promise.withResolvers()
@@ -258,8 +247,21 @@ do{
 	const options={}
 	options.method=target.method
 	options.body=JSON.stringify(payloadSource)
+	//
 	try{
-		const response=await fetch(target.action,options)
+		const trial=fetch(target.action,options)
+	} catch(error){
+		if('requestIdleCallback'in window){
+			await new Promise(requestIdleCallback)
+		}
+		//
+		alert(error+"てすと")
+		//
+		continue
+	}
+	//
+	try{
+		const response=await trial
 	} catch(error){
 		if('requestIdleCallback'in window){
 			await new Promise(requestIdleCallback)
