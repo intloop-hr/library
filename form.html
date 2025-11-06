@@ -251,42 +251,33 @@ do{
 	const options={}
 	options.method=target.method
 	// ここから
-	/*
 	options.mode='no-cors'
-	*/
 	// ここまで
 	options.body=JSON.stringify(payloadSource)
-	const trial=fetch(target.action,options)
-	// ここから
 	try{
-		await trial
-	} catch{
-	}
-	try{
+		const response=await fetch(target.action,options)
+		submitter.value='申請済'
 		target.classList.remove('posting')
 		if(target.classList.length){
 		} else{
 			target.removeAttribute('class')
 		}
-	} catch(error){
-		alert(error)
-	}
-	// ここまで
-	try{
-		const response=await trial
-		submitter.value='申請済'
 		const text=await response.text()
 		if('requestIdleCallback'in window){
 			await new Promise(requestIdleCallback)
 		}
 		alert(text)
 	} catch(error){
-		form.submitter.disabled=false
-		form.submitter.value='申請'
+		submitter.value='申請失敗'
+		target.classList.remove('posting')
+		if(target.classList.length){
+		} else{
+			target.removeAttribute('class')
+		}
 		if('requestIdleCallback'in window){
 			await new Promise(requestIdleCallback)
 		}
-		alert(error+'\n\nエラーのため、お手数ですが清田までご連絡ください。手動で処理いたします。ページを離れていただいて構いません。')
+		alert(error+'\n\nお手数ですが、清田までご連絡ください。ページは閉じていただいて構いません。手動で処理いたします。')
 	}
 } while(true)
 </script>
