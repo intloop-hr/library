@@ -250,9 +250,6 @@ do{
 
 	const options={}
 	options.method=target.method
-	// ここから
-	options.mode='no-cors'
-	// ここまで
 	options.body=JSON.stringify(payloadSource)
 	try{
 		const response=await fetch(target.action,options)
@@ -277,7 +274,7 @@ do{
 		if('requestIdleCallback'in window){
 			await new Promise(requestIdleCallback)
 		}
-		alert(error+'\n\nお手数ですが、清田までご連絡ください。ページは閉じていただいて構いません。手動で処理いたします。')
+		alert(error+'\n\nお手数ですが、清田までご連絡ください。手動で処理いたします。ページを離れていただいて構いません。')
 	}
 } while(true)
 </script>
