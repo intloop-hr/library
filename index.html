@@ -9,6 +9,9 @@
 <script type=module>
 if('withResolvers'in Promise){
 } else{
+	if('requestIdleCallback'in window){
+		await new Promise(requestIdleCallback)
+	}
 	alert('お手数ですが、他の最新のブラウザーをご利用いただくか、清田へお問い合わせください。')
 }
 </script>
@@ -82,6 +85,9 @@ while(true){
 	try{
 		await promise
 	} catch(error){
+		if('requestIdleCallback'in window){
+			await new Promise(requestIdleCallback)
+		}
 		alert(error)
 		break
 	}
