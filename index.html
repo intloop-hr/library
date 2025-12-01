@@ -13,8 +13,7 @@
 *{@media(pointer:fine){scrollbar-width:none}}
 
 :not(*>*){background-color:#000;color-scheme:dark;color:#fff;touch-action:none}
-html,body,canvas,svg,video{height:100%}
-canvas,svg,video{display:block;object-fit:contain;position:absolute;top:0;width:100%}
+html,body{block-size:100%}
 body{margin:unset}
 </style>
 <title>INTLOOPライブラリー</title>
@@ -179,12 +178,16 @@ location.reload()
 </script>
 
 <video id=video playsinline>
-	<style></style>
+	<style>@scope{:where(:scope){display:block;inset-block-start:0;object-fit:contain;position:absolute;block-size:100%;inline-size:100%}}
+	</style>
 </video>
 <canvas id=canvas style=display:none>
-	<style></style>
+	<style>@scope{:where(:scope){display:block;inset-block-start:0;object-fit:contain;position:absolute;block-size:100%;inline-size:100%}}
+	</style>
 </canvas>
 <svg id=svg>
+	<style>@scope{:where(:scope){display:block;inset-block-start:0;object-fit:contain;position:absolute;block-size:100%;inline-size:100%}}
+	</style>
 	<path id=bluePath>
 		<style>@scope{:where(:scope){fill:none;stroke:#00f;stroke-width:2}}
 		</style>
