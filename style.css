@@ -1,7 +1,9 @@
-@font-face{font-family:baseline;src:local(verdana);unicode-range:u+20}
-*,::placeholder{all:unset;cursor:revert;display:revert;font-style:revert;font-weight:revert;line-height:calc(1em + 1rem);text-decoration:revert}
-:not(*>*){font-family:baseline,arial,noto sans jp,sans-serif;font-feature-settings:"palt";font-kerning:none;text-align:justify;-webkit-text-size-adjust:none}
+@font-face{font-family:\ ;src:local(verdana);unicode-range:u+20}
+
+*,::placeholder{all:unset;cursor:revert;display:revert;font-style:revert;font-weight:revert;line-height:2;text-decoration:revert}
+
+:not(*>*){font-family:\ ,arial,noto sans jp,sans-serif;font-feature-settings:"palt";font-kerning:none;text-align:justify;-webkit-text-size-adjust:none}
+
 ::placeholder{color:revert}
-@media(pointer:fine){
-    *{scrollbar-width:none}
-}
+
+*{@media(pointer:fine){scrollbar-width:none}}
