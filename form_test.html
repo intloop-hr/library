@@ -4,10 +4,9 @@
 <link href=style.css rel=stylesheet>
 <style>
 *{transition-property:background-color,color}
-:not(*>*)>:where(body){margin-inline:auto}
+:not(*>*)>:where(body){inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);margin-inline:auto;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
 
 /*改修 ここから*/
-body{inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
 label:not(:has(input[type=radio])){display:block}
 input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
 input,textarea{margin-block:calc(.5rlh - .5rem)}
@@ -323,7 +322,7 @@ do{
 	<input name=userName>
 	<label><strong>申請種別</strong></label>
 	<select name=type required>
-		<style>@scope{:where(:scope) :where(option):where(:empty){display:none}}</style>
+		<style>@scope{:where(option):where(:empty){display:none}}</style>
 		<option></option>
 		<option value=貸出>貸出</option>
 		<option value=延長>延長</option>
