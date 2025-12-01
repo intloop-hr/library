@@ -1,17 +1,11 @@
+*,::file-selector-button{@media(pointer:fine){scrollbar-width:none}font:unset;font-family:revert;font-style:revert;font-weight:revert;margin:unset;padding:unset}
+:not(*>*){@media(prefers-color-scheme:dark){background-color:#000;color-scheme:dark}hyphens:auto;line-break:loose;line-height:1.5/*2*/;list-style-position:inside;-webkit-locale:"ja";overflow-wrap:break-word;text-align:justify;-webkit-text-size-adjust:none;text-underline-position:under}
+:where(:any-link:not(:active)){color:unset}
+:visited{color:revert}
+:where(:any-link){text-decoration-line:unset}
+
+@font-face{font-family:\ ;src:local(noto sans jp)}
+@font-face{font-family:\ ;src:local(hiragino kaku gothic pron)}
+@font-face{font-family:\ ;src:local(arial)}
 @font-face{font-family:\ ;src:local(verdana);unicode-range:u+20}
-
-*,::placeholder{all:unset;cursor:revert;display:revert;font-style:revert;font-weight:revert;line-height:2;text-decoration:revert}
-
-:not(*>*){font-family:\ ,arial,noto sans jp,sans-serif;font-feature-settings:"palt";font-kerning:none;text-align:justify;-webkit-text-size-adjust:none}
-
-::placeholder{color:revert}
-
-*{@media(pointer:fine){scrollbar-width:none}}
-
-/*
-*,::file-selector-button{@media(pointer:fine){scrollbar-width:none}font:unset;font-family:revert;font-style:revert;font-weight:revert;margin:unset;padding:unset}:not(*>*){@media(prefers-color-scheme:dark){background-color:#000;color-scheme:dark}hyphens:auto;line-break:loose;line-height:1.5;list-style-position:inside;-webkit-locale:"ja";overflow-wrap:break-word;text-align:justify;-webkit-text-size-adjust:none;text-underline-position:under}:where(:any-link:not(:active)){color:unset}:visited{color:revert}:where(:any-link){text-decoration-line:unset}
-@font-face{font-family:\ ;src:local(arial)}@font-face{font-family:\ ;src:local(verdana);unicode-range:u+20}:not(*>*){font-family:\ ,sans-serif;font-feature-settings:"palt";font-kerning:none}:not(*>*)>:where(body){margin-block:calc(.5rlh + .5rem);margin-inline:1rlh}:not(*>*)>:where(body)>:where(:not(:invalid,:valid)){margin-block:1rem}
-*/
-/*
-*,::file-selector-button{@media(pointer:fine){scrollbar-width:none}font:unset;font-family:revert;font-style:revert;font-weight:revert;margin:unset;padding:unset}:not(*>*){@media(prefers-color-scheme:dark){background-color:#000;color-scheme:dark}hyphens:auto;line-break:loose;line-height:1.5;list-style-position:inside;-webkit-locale:"ja";overflow-wrap:break-word;text-align:justify;-webkit-text-size-adjust:none;text-underline-position:under}:where(:any-link:not(:active)){color:unset}:visited{color:revert}:where(:any-link){text-decoration-line:unset}
-*/
+:not(*>*){font-family:\ ,sans-serif;font-feature-settings:"palt";font-kerning:none}

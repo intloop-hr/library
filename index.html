@@ -1,22 +1,10 @@
 <meta name=format-detection content=telephone=no>
 <meta name=viewport content=width=device-width>
-<!--link href=style.css rel=stylesheet-->
-<style>
-@font-face{font-family:\ ;src:local(verdana);unicode-range:u+20}
-/*
-*,::placeholder{all:unset;cursor:revert;display:revert;font-style:revert;font-weight:revert;line-height:2;text-decoration:revert}
-*/
-:not(*>*){font-family:\ ,arial,noto sans jp,sans-serif;font-feature-settings:"palt";font-kerning:none;text-align:justify;-webkit-text-size-adjust:none}
-/*
-::placeholder{color:revert}
-*/
-*{@media(pointer:fine){scrollbar-width:none}}
-
-:not(*>*){background-color:#000;color-scheme:dark;color:#fff;touch-action:none}
-html,body{block-size:100%}
-body{margin:unset}
+<link href=style.css rel=stylesheet>
+<style>:not(*>*){@media not (prefers-color-scheme:dark){background-color:#000;color-scheme:dark}block-size:100%;touch-action:none}:not(*>*)>:where(body){block-size:100%;margin:unset}
 </style>
-<title>INTLOOPライブラリー</title>
+<title>INTLOOPライブラリー
+</title>
 
 <script src=https://cdn.jsdelivr.net/npm/quagga></script>
 
@@ -198,7 +186,7 @@ location.reload()
 		</style>
 	</path>
 </svg>
-<div id=description>
+<div>
 	<style>@scope{:where(:scope){inset-block:calc(1.5rem - .5rlh);inset-inline:1rem;position:absolute;block-size:fit-content;inline-size:fit-content;-webkit-user-select:none;filter:drop-shadow(0 0 .25em #000)}}
 	</style>
 	裏表紙のバーコードを読み取ってください。
