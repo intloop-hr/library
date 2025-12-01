@@ -1,6 +1,6 @@
 *,::file-selector-button{@media(pointer:fine){scrollbar-width:none}font:unset;font-family:revert;font-style:revert;font-weight:revert;margin:unset;padding:unset}
 :not(*>*){@media(prefers-color-scheme:dark){background-color:#000;color-scheme:dark}hyphens:auto;line-break:loose;line-height:2;list-style-position:inside;overflow-wrap:break-word;text-align:justify;-webkit-text-size-adjust:none;text-underline-position:under}
-:where(:any-link:not(:active)){color:unset}
+:where(:any-link):not(:where(:active)){color:unset}
 :visited{color:revert}
 :where(:any-link){text-decoration-line:unset}
 
