@@ -13,7 +13,8 @@
 *{@media(pointer:fine){scrollbar-width:none}}
 
 :not(*>*){background-color:#000;color-scheme:dark;color:#fff;touch-action:none}
-html,body{block-size:100%}
+html,body,canvas,svg,video{height:100%}
+canvas,svg,video{display:block;object-fit:contain;position:absolute;top:0;width:100%}
 </style>
 <title>INTLOOPライブラリー</title>
 
@@ -177,18 +178,12 @@ location.reload()
 </script>
 
 <video id=video playsinline>
-	<style>@scope{:where(:scope){display:block;inset:0;object-fit:contain;position:absolute;block-size:100%;inline-size:100%}}
-	</style>
 </video>
 <canvas id=canvas>
-	<style>@scope{:where(:scope){display:block;inset:0;object-fit:contain;position:absolute;block-size:100%;inline-size:100%}}
-	</style>
 	<style class=removethis>@scope{:where(:scope){display:none}}</style>
 	</style>
 </canvas>
 <svg id=svg>
-	<style>@scope{:where(:scope){display:block;inset:0;object-fit:contain;position:absolute;block-size:100%;inline-size:100%}}
-	</style>
 	<path id=bluePath>
 		<style>@scope{:where(:scope){fill:none;stroke:#00f;stroke-width:2}}
 		</style>
@@ -199,7 +194,7 @@ location.reload()
 	</path>
 </svg>
 <div id=description>
-	<style>@scope{:where(:scope){inset-block-start:0;padding-block:calc(.5rlh - .5rem);padding-inline:1rem;position:absolute;filter:drop-shadow(0 0 .25em #000)}}
+	<style>@scope{:where(:scope){padding-block:calc(.5rlh - .5rem);padding-inline:1rem;position:absolute;filter:drop-shadow(0 0 .25em #000);inset-block-start:0}}
 	</style>
 	裏表紙のバーコードを読み取ってください。
 </div>
