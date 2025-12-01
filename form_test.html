@@ -319,12 +319,11 @@ do{
 	</style>表記揺れ対策のため、一部の漢字は使用できません。使用できる漢字または平仮名を代用してください。</span></label>
 	<input name=userName>
 	<label><strong>申請種別</strong></label>
-	<div>
-		<style>@scope{:where(:scope){column-gap:calc(1rlh - 1rem);display:flex;margin-block:calc(.5rlh - .5rem)}}</style>
-		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input type=radio name=type value=貸出>貸出</label>
-		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input type=radio name=type value=延長>延長</label>
-		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input type=radio name=type value=返却>返却</label>
-	</div>
+	<select name=type>
+		<option value=貸出>貸出</option>
+		<option value=延長>延長</option>
+		<option value=返却>返却</option>
+	</select>
 	<label class=borrow><strong>貸出日</strong></label>
 	<label class=return><strong>返却日</strong></label>
 	<input type=date name=date class=borrow-or-return>
