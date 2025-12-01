@@ -2,32 +2,7 @@
 <meta name=viewport content=width=device-width>
 <title>INTLOOPライブラリー 申請フォーム</title>
 <link href=style.css rel=stylesheet>
-<style>
-*{transition-property:background-color,color}
-:not(*>*)>:where(body){margin-inline:auto}
-
-/*改修 ここから*/
-body{inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
-label:not(:has(input[type=radio])){display:block}
-input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
-input,textarea{margin-block:calc(.5rlh - .5rem)}
-label input[type=radio]{display:none}
-input:not([type=submit]),textarea,label:has(input[type=radio]):not(:has(input[type=radio]:checked)){background-color:light-dark(#ddd,#222)}
-input[type=submit],label:has(input[type=radio]:checked){color:light-dark(#fff,#000)}
-input[type=submit]:not(:disabled),label:has(input[type=radio]:checked){background-color:light-dark(#000,#fff)}
-input[type=submit]:disabled{background-color:light-dark(#555,#aaa)}
-input,label:has(input[type=radio]){text-align:center}
-input[type=submit]:not(:disabled),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}
-
-:not(:focus){transition-duration:.25s}
-.invalid:not(:focus){color:#f00}
-form.posting{pointer-events:none}
-
-form:not(:has(input[name=type]:checked)) input[type=submit]{display:none}
-form:not(:has(input[name=type][value=貸出]:checked)) .borrow{display:none}
-form:not(:has(input[name=type][value=返却]:checked)) .return{display:none}
-form:not(:has(input[name=type][value=貸出]:checked,input[name=type][value=返却]:checked)) .borrow-or-return{display:none}
-</style>
+<style>*{transition-property:background-color,color}:not(*>*)>:where(body){inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);margin-inline:auto;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}</style>
 
 <script type=module>
 if(Promise.withResolvers){
@@ -253,6 +228,28 @@ do{
 </script>
 
 <form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
+	<style>@scope{
+		label:not(:has(input[type=radio])){display:block}
+		input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
+		input,textarea{margin-block:calc(.5rlh - .5rem)}
+		label input[type=radio]{display:none}
+		input:not([type=submit]),textarea,label:has(input[type=radio]):not(:has(input[type=radio]:checked)){background-color:light-dark(#ddd,#222)}
+		input[type=submit],label:has(input[type=radio]:checked){color:light-dark(#fff,#000)}
+		input[type=submit]:not(:disabled),label:has(input[type=radio]:checked){background-color:light-dark(#000,#fff)}
+		input[type=submit]:disabled{background-color:light-dark(#555,#aaa)}
+		input,label:has(input[type=radio]){text-align:center}
+		input[type=submit]:not(:disabled),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}
+
+		:not(:focus){transition-duration:.25s}
+		.invalid:not(:focus){color:#f00}
+		:scope.posting{pointer-events:none}
+
+		:scope:not(:has(input[name=type]:checked)) input[type=submit]{display:none}
+		:scope:not(:has(input[name=type][value=貸出]:checked)) .borrow{display:none}
+		:scope:not(:has(input[name=type][value=返却]:checked)) .return{display:none}
+		:scope:not(:has(input[name=type][value=貸出]:checked,input[name=type][value=返却]:checked)) .borrow-or-return{display:none}
+	}</style>
+
 	<label><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
 	<input name=digits readonly>
 	<label><strong>氏名</strong>（姓名間 空白必須）<br><span><style>
