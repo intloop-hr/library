@@ -129,7 +129,7 @@ while(true){
 			if(9-result%10!=code.slice(-1)) continue
 		}
 
-		canvas.removeAttribute('style')
+		canvas.querySelector('.removethis').remove()
 		video.pause()
 
 		const codeChunks=[]
@@ -178,12 +178,13 @@ location.reload()
 </script>
 
 <video id=video playsinline>
-	<style>@scope{:where(:scope){display:block;inset-block-start:0;object-fit:contain;position:absolute;block-size:100%;inline-size:100%}}
+	<style>@scope{:where(:scope){display:block/*;inset-block-start:0;object-fit:contain;position:absolute*/;block-size:100%;inline-size:100%}}
 	</style>
 </video>
-<canvas id=canvas style=display:none>
+<canvas id=canvas>
 	<style>@scope{:where(:scope){display:block;inset-block-start:0;object-fit:contain;position:absolute;block-size:100%;inline-size:100%}}
 	</style>
+	<style class=removethis>@scope{:where(:scope){display:none}}</style>
 </canvas>
 <svg id=svg>
 	<style>@scope{:where(:scope){display:block;inset-block-start:0;object-fit:contain;position:absolute;block-size:100%;inline-size:100%}}
