@@ -129,7 +129,7 @@ while(true){
 			if(9-result%10!=code.slice(-1)) continue
 		}
 
-		canvas.querySelector('.removethis').remove()
+		canvas.removeAttribute('style')
 		video.pause()
 
 		const codeChunks=[]
@@ -179,22 +179,14 @@ location.reload()
 
 <video id=video playsinline>
 </video>
-<canvas id=canvas>
-	<style class=removethis>@scope{:where(:scope){display:none}}</style>
-	</style>
+<canvas id=canvas style=display:none>
 </canvas>
 <svg id=svg>
 	<path id=bluePath>
-		<style>@scope{:where(:scope){fill:none;stroke:#00f;stroke-width:2}}
-		</style>
+		<style>@scope{:where(:scope){fill:none;stroke:#00f;stroke-width:2}}</style>
 	</path>
 	<path id=redPath>
-		<style>@scope{:where(:scope){fill:none;stroke:#f00;stroke-width:2}}
-		</style>
+		<style>@scope{:where(:scope){fill:none;stroke:#f00;stroke-width:2}}</style>
 	</path>
 </svg>
-<div id=description>
-	<style>@scope{:where(:scope){padding-block:calc(.5rlh - .5rem);padding-inline:1rem;position:absolute;filter:drop-shadow(0 0 .25em #000);inset-block-start:0}}
-	</style>
-	裏表紙のバーコードを読み取ってください。
-</div>
+<div id=description><style>@scope{:where(:scope){padding-block:.5rem;padding-inline:1rem;position:absolute;filter:drop-shadow(0 0 .25em #000);top:0}}</style>裏表紙のバーコードを読み取ってください。</div>
