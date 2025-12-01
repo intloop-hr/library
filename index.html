@@ -27,6 +27,8 @@ if(event.persisted){
 </script>
 
 <script type=module>
+canvas.remove()
+
 const constraints={}
 constraints.video={}
 {
@@ -115,8 +117,9 @@ while(true){
 			if(9-result%10!=code.slice(-1)) continue
 		}
 
-		canvas.querySelector('.removethis').remove()
 		video.pause()
+		video.remove()
+		document.body.append(canvas)
 
 		const codeChunks=[]
 		const messageLines=['図書の内容は以下ですか?','']
@@ -164,6 +167,6 @@ location.reload()
 </script>
 
 <video id=video playsinline><style>@scope{:where(:scope){block-size:100%;inline-size:100%}}</style></video>
-<canvas id=canvas><style>@scope{:where(:scope){inset:0;object-fit:contain;position:absolute;block-size:100%;inline-size:100%}}</style><style class=removethis>@scope{:where(:scope){display:none}}</style></canvas>
+<canvas id=canvas><style>@scope{:where(:scope){inset:0;object-fit:contain;position:absolute;block-size:100%;inline-size:100%}}</style></canvas>
 <svg id=svg><style>@scope{:where(:scope){display:block;inset:0;position:absolute;block-size:100%;inline-size:100%}}</style><path id=bluePath><style>@scope{:where(:scope){fill:none;stroke:#00f;stroke-width:2}}</style></path><path id=redPath><style>@scope{:where(:scope){fill:none;stroke:#f00;stroke-width:2}}</style></path></svg>
 <div><style>@scope{:where(:scope){inset-block:calc(1.5rem - .5rlh);inset-inline:1rem;position:absolute;block-size:fit-content;inline-size:fit-content;-webkit-user-select:none;filter:drop-shadow(0 0 .25em light-dark(#fff,#000))}}</style>裏表紙のバーコードを読み取ってください。</div>
