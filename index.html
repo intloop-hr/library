@@ -7,13 +7,9 @@
 <script src=https://cdn.jsdelivr.net/npm/quagga></script>
 
 <script type=module>
-Promise.withResolvers??=function(){
-	const result={}
-	result.promise=new this(function(resolve,reject){
-		result.resolve=resolve
-		result.reject=reject
-	})
-	return result
+if('withResolvers'in Promise){
+} else{
+	alert('お手数ですが、他の最新のブラウザーをご利用いただくか、清田へお問い合わせください。')
 }
 </script>
 
@@ -28,6 +24,9 @@ if(event.persisted){
 
 <script type=module>
 const{video,canvas,svg}=window
+video.removeAttribute('id')
+canvas.removeAttribute('id')
+svg.removeAttribute('id')
 canvas.remove()
 
 const constraints={}
