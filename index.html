@@ -15,6 +15,7 @@
 :not(*>*){background-color:#000;color-scheme:dark;color:#fff;touch-action:none}
 html,body,canvas,svg,video{height:100%}
 canvas,svg,video{display:block;object-fit:contain;position:absolute;top:0;width:100%}
+body{margin:unset}
 </style>
 <title>INTLOOPライブラリー</title>
 
@@ -183,10 +184,16 @@ location.reload()
 </canvas>
 <svg id=svg>
 	<path id=bluePath>
-		<style>@scope{:where(:scope){fill:none;stroke:#00f;stroke-width:2}}</style>
+		<style>@scope{:where(:scope){fill:none;stroke:#00f;stroke-width:2}}
+		</style>
 	</path>
 	<path id=redPath>
-		<style>@scope{:where(:scope){fill:none;stroke:#f00;stroke-width:2}}</style>
+		<style>@scope{:where(:scope){fill:none;stroke:#f00;stroke-width:2}}
+		</style>
 	</path>
 </svg>
-<div id=description><style>@scope{:where(:scope){padding-block:.5rem;padding-inline:1rem;position:absolute;filter:drop-shadow(0 0 .25em #000);top:0}}</style>裏表紙のバーコードを読み取ってください。</div>
+<div id=description>
+	<style>@scope{:where(:scope){inset-block:calc(1.5rem - .5rlh);inset-inline:1rem;position:absolute;filter:drop-shadow(0 0 .25em #000)}}
+	</style>
+	裏表紙のバーコードを読み取ってください。
+</div>
