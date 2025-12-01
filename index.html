@@ -27,8 +27,6 @@ if(event.persisted){
 </script>
 
 <script type=module>
-canvas.remove()
-
 const constraints={}
 constraints.video={}
 {
@@ -59,6 +57,8 @@ constraints.locator={}
 }
 constraints.numOfWorkers=navigator.hardwareConcurrency
 // constraints.frequency=10
+
+canvas.remove()
 
 const codeRegExp=/^978\d{10}$|^979\d{10}$|^491\d{10}$/
 const digitPairRegExp=/\d{2}/g
