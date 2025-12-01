@@ -271,6 +271,7 @@ do{
 	<label class=return><strong>返却日</strong></label>
 	<input type=date name=date class=borrow-or-return>
 	<label class=return><strong>お薦めコメント</strong>（任意）</label>
-	<textarea name=comment class=return placeholder=「"」は使用できません。><style>@scope{:where(:scope){block-size:3lh}}</style></textarea>
+	<style>@scope{:where(:scope) :where(textarea){block-size:3lh}}</style>
+	<textarea name=comment class=return placeholder=「"」は使用できません。></textarea>
 	<input type=submit name=submitter disabled value=申請>
 </form>
