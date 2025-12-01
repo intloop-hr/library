@@ -10,7 +10,7 @@
 body{inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
 label:not(:has(input[type=radio])){display:block}
 input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
-input,textarea,div.flex{margin-block:calc(.5rlh - .5rem)}
+input,textarea{margin-block:calc(.5rlh - .5rem)}
 label input[type=radio]{display:none}
 input:not([type=submit]),textarea,label:has(input[type=radio]):not(:has(input[type=radio]:checked)){background-color:light-dark(#ddd,#222)}
 input[type=submit],label:has(input[type=radio]:checked){color:light-dark(#fff,#000)}
@@ -18,8 +18,6 @@ input[type=submit]:not(:disabled),label:has(input[type=radio]:checked){backgroun
 input[type=submit]:disabled{background-color:light-dark(#555,#aaa)}
 input,label:has(input[type=radio]){text-align:center}
 input[type=submit]:not(:disabled),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}
-div.flex{display:flex;column-gap:calc(1rlh - 1rem)}
-div.flex>*{flex-grow:1}
 
 :not(:focus){transition-duration:.25s}
 .invalid:not(:focus){color:#f00}
@@ -262,10 +260,11 @@ do{
 	</style>表記揺れ対策のため、一部の漢字は使用できません。使用できる漢字または平仮名を代用してください。</span></label>
 	<input name=userName>
 	<label><strong>申請種別</strong></label>
-	<div class=flex>
-		<label><input type=radio name=type value=貸出>貸出</label>
-		<label><input type=radio name=type value=延長>延長</label>
-		<label><input type=radio name=type value=返却>返却</label>
+	<div>
+		<style>@scope{:where(:scope){column-gap:calc(1rlh - 1rem);display:flex;margin-block:calc(.5rlh - .5rem)}}</style>
+		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input type=radio name=type value=貸出>貸出</label>
+		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input type=radio name=type value=延長>延長</label>
+		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input type=radio name=type value=返却>返却</label>
 	</div>
 	<label class=borrow><strong>貸出日</strong></label>
 	<label class=return><strong>返却日</strong></label>
