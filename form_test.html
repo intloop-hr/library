@@ -270,9 +270,13 @@ do{
 
 <form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
 	<style>@scope{
+		:where(:scope):where(.posting){pointer-events:none}
+
+		:not(:where(:focus)):where(.invalid){color:#f00}
 		:where(input),:where(select),:where(textarea){display:block/*;inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(1.5em - .5lh);padding-inline:1em;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)*/}
 		:where(input),:where(select){text-align:center}
 		:where(input):where([type=submit]):not(:where(:disabled)){cursor:pointer}
+		:where(option):where(:empty){display:none}
 		:where(textarea){block-size:4lh;font-family:unset;resize:none}
 
 		/*改修 ここから*/
@@ -282,12 +286,7 @@ do{
 		input[type=submit]:not(:disabled){background-color:light-dark(#000,#fff)}
 		input[type=submit]:disabled{background-color:light-dark(#555,#aaa)}
 		*/
-		/*改修 ここまで*/
 
-		:not(:where(:focus)):where(.invalid){color:#f00}
-		:where(:scope):where(.posting){pointer-events:none}
-
-		/*改修 ここから*/
 		:where(:scope):not(:has(:where(option):not(:where([value=""]))::where(:checked))) input[type=submit]{display:none}
 		:where(:scope):not(:has(:where(option):where([value=貸出]):where(:checked))) .borrow{display:none}
 		:where(:scope):not(:has(:where(option):where([value=返却]):where(:checked))) .return{display:none}
@@ -301,7 +300,7 @@ do{
 	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input name=userName></div>
 	<label><style>@scope{:where(:scope){display:block}}</style><strong>申請種別</strong></label>
 	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><select name=type required>
-		<style>@scope{:where(option):where(:empty){display:none}}</style>
+		<style>@scope{}</style>
 		<option></option>
 		<option value=貸出>貸出</option>
 		<option value=延長>延長</option>
