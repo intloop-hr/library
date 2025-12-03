@@ -278,7 +278,7 @@ do{
 		:where(input):where([type=date]){font-family:unset}
 		:where(input):where([type=submit]):not(:where(:disabled)){cursor:pointer}
 		:where(option):not(:where([value])){display:none}
-		:where(textarea){block-size:4lh;font-family:unset;resize:none}
+		:where(textarea){block-size:calc(5lh - 1em);font-family:unset;resize:none}
 
 		:where(input),:where(select),:where(textarea){border-radius:calc(.5lh - .5em);padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em)}
 
