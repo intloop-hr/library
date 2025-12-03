@@ -286,10 +286,10 @@ do{
 		:where(:scope):where(.posting){pointer-events:none}
 
 		/*改修 ここから*/
-		:where(:scope):not(:has(:where(option):not(:where([value=""]))::where(:checked))) :where(input):where([type=submit]){display:none}
-		:where(:scope):not(:has(:where(option):where([value=貸出]):where(:checked))) :where(.borrow){display:none}
-		:where(:scope):not(:has(:where(option):where([value=返却]):where(:checked))) :where(.return){display:none}
-		:where(:scope):not(:has(:where(option):where([value=貸出]):where(:checked),:where(input):where([name=type]):where([value=返却]):where(:checked))) :where(.borrow-or-return){display:none}
+		:where(:scope):not(:has(:where(option):not(:where([value=""]))::where(:checked))) input[type=submit]{display:none}
+		:where(:scope):not(:has(:where(option):where([value=貸出]):where(:checked))) .borrow{display:none}
+		:where(:scope):not(:has(:where(option):where([value=返却]):where(:checked))) .return{display:none}
+		:where(:scope):not(:has(:where(option):where([value=貸出]):where(:checked),input[name=type][value=返却]:checked)) .borrow-or-return{display:none}
 		/*改修 ここまで*/
 	}</style>
 	<label><style>@scope{:where(:scope){display:block}}</style><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
