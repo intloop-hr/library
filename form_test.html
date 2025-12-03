@@ -270,17 +270,18 @@ do{
 
 <form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
 	<style>@scope{
-		:where(input),:where(textarea){display:block}
+		:where(input),:where(textarea){display:block/*;inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(1.5em - .5lh);padding-inline:1em;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)*/}
 		:where(input){text-align:center}
-		:where(textarea){block-size:4lh;font-family:unset;padding-block:calc(1.5em - .5lh);padding-inline:1em;resize:none}
+		:where(input):where([type=submit]):not(:where(:disabled)){cursor:pointer}
+		:where(textarea){block-size:4lh;font-family:unset;resize:none}
 
 		/*改修 ここから*/
-		input,textarea{inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
+		/*
 		input:not([type=submit]){background-color:light-dark(#ddd,#222)}
 		input[type=submit]{color:light-dark(#fff,#000)}
 		input[type=submit]:not(:disabled){background-color:light-dark(#000,#fff)}
 		input[type=submit]:disabled{background-color:light-dark(#555,#aaa)}
-		input[type=submit]:not(:disabled){cursor:pointer}
+		*/
 		/*改修 ここまで*/
 
 		:not(:where(:focus)):where(.invalid){color:#f00}
