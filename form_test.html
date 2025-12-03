@@ -277,6 +277,7 @@ do{
 		:where(input),:where(select){text-align:center}
 		:where(input):where([type=date]){font-family:unset;block-size:calc(2lh - 1em)}
 		:where(input):where([type=submit]):not(:where(:disabled)){cursor:pointer}
+		:where(label){display:block}
 		:where(option):not(:where([value])){display:none}
 		:where(textarea){block-size:calc(5lh - 1em);font-family:unset;resize:none}
 
@@ -288,25 +289,25 @@ do{
 		:where(.貸出),:where(.延長),:where(.返却){&:not(
 			:where(:scope):has(:where(option):where([value=貸出]):where(:checked)) :where(.貸出),
 			:where(:scope):has(:where(option):where([value=延長]):where(:checked)) :where(.延長),
-			:where(:scope):has(:where(option):where([value=返却]):where(:checked)) :where(.返却)){display:none}
-		}
+			:where(:scope):has(:where(option):where([value=返却]):where(:checked)) :where(.返却)
+		){display:none}}
 	}</style>
-	<label><style>@scope{:where(:scope){display:block}}</style><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
+	<label><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
 	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input name=digits readonly></div>
-	<label><style>@scope{:where(:scope){display:block}}</style><strong>氏名</strong>（姓名間 空白必須）</label>
+	<label><strong>氏名</strong>（姓名間 空白必須）</label>
 	<div><style>@scope{:where(:scope){font-size:.75em;line-height:calc(1rlh/1em - 1rem/1em + 1)}}</style>表記揺れ対策のため、一部の漢字は使用できません。使用できる漢字または平仮名を代用してください。</div>
 	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input name=userName></div>
-	<label><style>@scope{:where(:scope){display:block}}</style><strong>申請種別</strong></label>
+	<label><strong>申請種別</strong></label>
 	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><select name=type required>
 		<option>選択してください</option>
 		<option value=貸出>貸出</option>
 		<option value=延長>延長</option>
 		<option value=返却>返却</option>
 	</select></div>
-	<label class=貸出><style>@scope{:where(:scope){display:block}}</style><strong>貸出日</strong></label>
-	<label class=返却><style>@scope{:where(:scope){display:block}}</style><strong>返却日</strong></label>
+	<label class=貸出><strong>貸出日</strong></label>
+	<label class=返却><strong>返却日</strong></label>
 	<div class=貸出&#32;返却><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input type=date name=date></div>
-	<label class=返却><style>@scope{:where(:scope){display:block}}</style><strong>お薦めコメント</strong>（任意）</label>
+	<label class=返却><strong>お薦めコメント</strong>（任意）</label>
 	<div class=返却><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><textarea name=comment placeholder=「"」は使用できません。></textarea></div>
 	<div class=貸出&#32;延長&#32;返却><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input type=submit name=submitter disabled value=申請></div>
 </form>
