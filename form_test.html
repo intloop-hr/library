@@ -285,7 +285,11 @@ do{
 		:where(input):where([type=submit]):not(:where(:disabled)){background-color:light-dark(#000,#fff)}
 		:where(input):where([type=submit]):where(:disabled){background-color:light-dark(#555,#aaa)}
 
-		:where(.貸出),:where(.延長),:where(.返却){:not(:where(:scope):has(:where(option):where([value=貸出]):where(:checked)) :where(.貸出),:where(:scope):has(:where(option):where([value=延長]):where(:checked)) :where(.延長),:where(:scope):has(:where(option):where([value=返却]):where(:checked)) :where(.返却)){display:none}}
+		:where(.貸出),:where(.延長),:where(.返却){:not(
+			:where(:scope):has(:where(option):where([value=貸出]):where(:checked)) &:where(.貸出),
+			:where(:scope):has(:where(option):where([value=延長]):where(:checked)) &:where(.延長),
+			:where(:scope):has(:where(option):where([value=返却]):where(:checked)) &:where(.返却)){display:none}
+		}
 	}</style>
 	<label><style>@scope{:where(:scope){display:block}}</style><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
 	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input name=digits readonly></div>
