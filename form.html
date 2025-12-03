@@ -145,6 +145,44 @@ do{
 </script>
 
 <script type=module>
+/*
+//
+let autoinput=false
+//
+
+const{resolve,promise}=Promise.withResolvers()
+addEventListener('pageshow',resolve)
+await promise
+if('requestIdleCallback'in window){
+	await new Promise(requestIdleCallback)
+}
+if(confirm('当端末に紐付けられた氏名を入力しますか?')){
+	if(document.hasFocus()){
+	} else{
+		const{resolve,promise}=Promise.withResolvers()
+		addEventListener('focus',resolve)
+		await promise
+	}
+
+	const[form]=document.forms
+	try{
+		const publicKey={}
+		publicKey.challenge=new ArrayBuffer
+		publicKey.allowCredentials=[]
+		const{response}=await navigator.credentials.get({publicKey})
+		form.userName.value=new TextDecoder().decode(response.userHandle)
+		form.dispatchEvent(new Event('input'))
+		//
+		autoinput||=true
+		//
+	} catch(error){
+		alert(error)
+	}
+}
+
+const options={}
+options.method='post'
+*/
 do{
 	const{resolve,promise}=Promise.withResolvers()
 	addEventListener('submit',resolve)
@@ -153,6 +191,30 @@ do{
 	event.preventDefault()
 
 	const{submitter,target}=event
+	/*
+	if(autoinput){
+	} else{
+		if('requestIdleCallback'in window){
+			await new Promise(requestIdleCallback)
+		}
+		if(confirm('当端末に氏名を紐付けますか?')){
+			const publicKey={}
+			publicKey.challenge=new ArrayBuffer
+			publicKey.pubKeyCredParams=[]
+			publicKey.rp={name:'INTLOOPライブラリー'}
+			const name=target.userName.value.replace(/^\s+|\s+$/g,'').replace(/\s+/g,' ')
+			const id=new TextEncoder().encode(name)
+			publicKey.user={name,displayName:name,id}
+
+			try{
+				await navigator.credentials.create({publicKey})
+			} catch(error){
+				alert(error)
+				continue
+			}
+		}
+	}
+	*/
 
 	submitter.disabled=true
 	submitter.value='申請中'
@@ -177,8 +239,17 @@ do{
 	const options={}
 	options.method=target.method
 	options.body=JSON.stringify(payloadSource)
+	/*確認 ここから*/
+	let trial=fetch(target.action,options)
 	try{
-		const response=await fetch(target.action,options)
+		await trial
+	} catch{
+		await new Promise(requestAnimationFrame)
+		trial=fetch(target.action,options)
+	}
+	/*確認 ここまで*/
+	try{
+		const response=await trial
 		submitter.value='申請済'
 		target.classList.remove('posting')
 		if(target.classList.length){
@@ -208,6 +279,9 @@ do{
 
 <form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
 	<style>@scope{
+		:where(:scope):where(.posting){pointer-events:none}
+
+		:not(:where(:focus)):where(.invalid){color:#f00}
 		/*
 		*{transition-property:background-color,color}
 		:not(:focus){transition-duration:.25s}
@@ -223,15 +297,18 @@ do{
 		input,label:has(input[type=radio]){text-align:center}
 		input[type=submit]:not(:disabled),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}
 
-		.invalid:not(:focus){color:#f00}
-		:scope.posting{pointer-events:none}
-
+		/*
 		:scope:not(:has(input[name=type]:checked)) input[type=submit]{display:none}
 		:scope:not(:has(input[name=type][value=貸出]:checked)) .borrow{display:none}
 		:scope:not(:has(input[name=type][value=返却]:checked)) .return{display:none}
 		:scope:not(:has(input[name=type][value=貸出]:checked,input[name=type][value=返却]:checked)) .borrow-or-return{display:none}
+		*/
+		:where(.貸出),:where(.延長),:where(.返却){&:not(
+			:where(:scope):has(:where(input):where([name=type]):where([value=貸出]):where(:checked)) :where(.貸出),
+			:where(:scope):has(:where(input):where([name=type]):where([value=延長]):where(:checked)) :where(.延長),
+			:where(:scope):has(:where(input):where([name=type]):where([value=返却]):where(:checked)) :where(.返却)
+		){display:none}}
 	}</style>
-
 	<label><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
 	<input name=digits readonly>
 	<label><strong>氏名</strong>（姓名間 空白必須）<br><span><style>
@@ -245,11 +322,33 @@ do{
 		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input type=radio name=type value=延長>延長</label>
 		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input type=radio name=type value=返却>返却</label>
 	</div>
-	<label class=borrow><strong>貸出日</strong></label>
-	<label class=return><strong>返却日</strong></label>
-	<input type=date name=date class=borrow-or-return>
-	<label class=return><strong>お薦めコメント</strong>（任意）</label>
-	<style>@scope{:where(:scope) :where(textarea){block-size:3lh}}</style>
-	<textarea name=comment class=return placeholder=「"」は使用できません。></textarea>
-	<input type=submit name=submitter disabled value=申請>
+	<label class=貸出><strong>貸出日</strong></label>
+	<label class=返却><strong>返却日</strong></label>
+	<div class=貸出&#32;返却><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input type=date name=date></div>
+	<label class=返却><strong>お薦めコメント</strong>（任意）</label>
+	<div class=返却><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><textarea name=comment placeholder=「"」は使用できません。></textarea></div>
+	<div class=貸出&#32;延長&#32;返却><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input type=submit name=submitter disabled value=申請></div>
 </form>
+
+<!--
+<script type=module>
+if(Promise.withResolvers){
+} else{
+	const[{submitter}]=document.forms
+	const input=document.createElement('input')
+	input.type='hidden'
+	input.name='withResolvers'
+	input.checked=false
+	submitter.parentElement.insertBefore(input,submitter)
+}
+
+Promise.withResolvers??=function(){
+	const result={}
+	result.promise=new this(function(resolve,reject){
+		result.resolve=resolve
+		result.reject=reject
+	})
+	return result
+}
+</script>
+-->

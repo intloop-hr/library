@@ -240,10 +240,16 @@ do{
 	options.method=target.method
 	options.body=JSON.stringify(payloadSource)
 	/*確認 ここから*/
+	let trial=fetch(target.action,options)
+	try{
+		await trial
+	} catch{
 	await new Promise(requestAnimationFrame)
+		trial=fetch(target.action,options)
+	}
 	/*確認 ここまで*/
 	try{
-		const response=await fetch(target.action,options)
+		const response=await trial
 		submitter.value='申請済'
 		target.classList.remove('posting')
 		if(target.classList.length){
