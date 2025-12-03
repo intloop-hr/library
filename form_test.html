@@ -270,16 +270,17 @@ do{
 
 <form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
 	<style>@scope{
+		:where(input),:where(textarea){display:block}
 		:where(input){text-align:center}
-		:where(textarea){block-size:4lh;display:block;font-family:unset;padding-block:calc(1.5em - .5lh);padding-inline:1em;resize:none}
+		:where(textarea){block-size:4lh;font-family:unset;padding-block:calc(1.5em - .5lh);padding-inline:1em;resize:none}
 
 		/*改修 ここから*/
-		input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
-		input:not([type=submit]),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){background-color:light-dark(#ddd,#222)}
-		input[type=submit],label:has(input[type=radio]:checked){color:light-dark(#fff,#000)}
-		input[type=submit]:not(:disabled),label:has(input[type=radio]:checked){background-color:light-dark(#000,#fff)}
+		input,textarea{inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
+		input:not([type=submit]){background-color:light-dark(#ddd,#222)}
+		input[type=submit]{color:light-dark(#fff,#000)}
+		input[type=submit]:not(:disabled){background-color:light-dark(#000,#fff)}
 		input[type=submit]:disabled{background-color:light-dark(#555,#aaa)}
-		input[type=submit]:not(:disabled),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}
+		input[type=submit]:not(:disabled){cursor:pointer}
 		/*改修 ここまで*/
 
 		:not(:where(:focus)):where(.invalid){color:#f00}
