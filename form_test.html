@@ -2,7 +2,7 @@
 <meta name=viewport content=width=device-width>
 <title>INTLOOPライブラリー 申請フォーム</title>
 <link href=style.css rel=stylesheet>
-<style>*{transition-property:background-color,color}:not(*>*)>:where(body){inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);margin-inline:auto;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}</style>
+<style>:not(*>*)>:where(body){inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);margin-inline:auto;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}</style>
 
 <script type=module>
 const[form]=document.forms
@@ -270,18 +270,15 @@ do{
 
 <form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
 	<style>@scope{
-		:where(textarea){block-size:3lh;display:block;font-family:unset;padding-block:calc(1.5em - .5lh);padding-inline:1em}
+		:where(input){text-align:center}
+		:where(textarea){block-size:4lh;display:block;font-family:unset;padding-block:calc(1.5em - .5lh);padding-inline:1em;resize:none}
 
 		/*改修 ここから*/
-		/*label:not(:has(input[type=radio])){display:block}*/
 		input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
-		input{margin-block:calc(.5rlh - .5rem)}
-		/*label input[type=radio]{display:none}*/
 		input:not([type=submit]),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){background-color:light-dark(#ddd,#222)}
 		input[type=submit],label:has(input[type=radio]:checked){color:light-dark(#fff,#000)}
 		input[type=submit]:not(:disabled),label:has(input[type=radio]:checked){background-color:light-dark(#000,#fff)}
 		input[type=submit]:disabled{background-color:light-dark(#555,#aaa)}
-		input/*,label:has(input[type=radio])*/{text-align:center}
 		input[type=submit]:not(:disabled),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}
 
 		:not(:focus){transition-duration:.25s}
