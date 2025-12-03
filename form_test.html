@@ -239,6 +239,9 @@ do{
 	const options={}
 	options.method=target.method
 	options.body=JSON.stringify(payloadSource)
+	/*確認 ここから*/
+	await new Promise(requestAnimationFrame)
+	/*確認 ここまで*/
 	try{
 		const response=await fetch(target.action,options)
 		submitter.value='申請済'
