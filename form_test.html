@@ -297,26 +297,22 @@ do{
 
 	<label><style>@scope{:where(:scope){display:block}}</style><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
 	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input name=digits readonly></div>
-	<!--改修 ここから-->
-	<label><style>@scope{:where(:scope){display:block}}</style><strong>氏名</strong>（姓名間 空白必須）<br><span><style>
-		@scope{:where(:scope){font-size:.75em;line-height:calc(1rlh/1em - 1rem/1em + 1)}}
-	</style>表記揺れ対策のため、一部の漢字は使用できません。使用できる漢字または平仮名を代用してください。</span></label>
-	<input name=userName>
+	<label><style>@scope{:where(:scope){display:block}}</style><strong>氏名</strong>（姓名間 空白必須）<br><span><style>@scope{:where(:scope){font-size:.75em;line-height:calc(1rlh/1em - 1rem/1em + 1)}}</style>表記揺れ対策のため、一部の漢字は使用できません。使用できる漢字または平仮名を代用してください。</span></label>
+	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input name=userName></div>
 	<label><style>@scope{:where(:scope){display:block}}</style><strong>申請種別</strong></label>
-	<!--改修 ここまで-->
-	<select name=type required>
+	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><select name=type required>
 		<style>@scope{:where(option):where(:empty){display:none}}</style>
 		<option></option>
 		<option value=貸出>貸出</option>
 		<option value=延長>延長</option>
 		<option value=返却>返却</option>
-	</select>
+	</select></div>
 	<label class=borrow><style>@scope{:where(:scope){display:block}}</style><strong>貸出日</strong></label>
 	<label class=return><style>@scope{:where(:scope){display:block}}</style><strong>返却日</strong></label>
-	<input type=date name=date class=borrow-or-return>
+	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input type=date name=date class=borrow-or-return></div>
 	<label class=return><style>@scope{:where(:scope){display:block}}</style><strong>お薦めコメント</strong>（任意）</label>
-	<textarea name=comment class=return placeholder=「"」は使用できません。></textarea>
-	<input type=submit name=submitter disabled value=申請>
+	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><textarea name=comment class=return placeholder=「"」は使用できません。></textarea></div>
+	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input type=submit name=submitter disabled value=申請></div>
 </form>
 
 <!--
