@@ -287,8 +287,8 @@ do{
 
 		:where(.貸出),:where(.延長),:where(.返却){:not(
 			:where(:scope):has(:where(option):where([value=貸出]):where(:checked)) &:where(.貸出),
-			:where(:scope):not(:has(:where(option):where([value=延長]):where(:checked))) &:where(.延長),
-			:where(:scope):not(:has(:where(option):where([value=返却]):where(:checked))) &:where(.返却)){display:none}
+			:where(:scope):has(:where(option):where([value=延長]):where(:checked)) &:where(.延長),
+			:where(:scope):has(:where(option):where([value=返却]):where(:checked)) &:where(.返却)){display:none}
 		}
 	}</style>
 	<label><style>@scope{:where(:scope){display:block}}</style><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
