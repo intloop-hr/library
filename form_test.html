@@ -275,7 +275,7 @@ do{
 		:not(:where(:focus)):where(.invalid){color:#f00}
 		:where(input),:where(select),:where(textarea){appearance:none;border:unset;display:block;inline-size:100%}
 		:where(input),:where(select){text-align:center}
-		:where(input):where([type=date]){font-family:unset}
+		:where(input):where([type=date]){font-family:unset;block-size:calc(2lh - 1em)}
 		:where(input):where([type=submit]):not(:where(:disabled)){cursor:pointer}
 		:where(option):not(:where([value])){display:none}
 		:where(textarea){block-size:calc(5lh - 1em);font-family:unset;resize:none}
@@ -291,10 +291,9 @@ do{
 		/*
 		:where(input),:where(select),:where(textarea){inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(1.5em - .5lh);padding-inline:1em;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
 
-		:where(:scope):not(:has(:where(option):not(:where([value=""]))::where(:checked))) input[type=submit]{display:none}
-		:where(:scope):not(:has(:where(option):where([value=貸出]):where(:checked))) .borrow{display:none}
-		:where(:scope):not(:has(:where(option):where([value=返却]):where(:checked))) .return{display:none}
-		:where(:scope):not(:has(:where(option):where([value=貸出]):where(:checked),input[name=type][value=返却]:checked)) .borrow-or-return{display:none}
+		:where(:scope):not(:has(:where(option):where([value=貸出]):where(:checked))) .貸出{display:none}
+		:where(:scope):not(:has(:where(option):where([value=延長]):where(:checked))) .延長{display:none}
+		:where(:scope):not(:has(:where(option):where([value=返却]):where(:checked))) .返却{display:none}
 		*/
 		/*改修 ここまで*/
 	}</style>
@@ -310,12 +309,12 @@ do{
 		<option value=延長>延長</option>
 		<option value=返却>返却</option>
 	</select></div>
-	<label class=borrow><style>@scope{:where(:scope){display:block}}</style><strong>貸出日</strong></label>
-	<label class=return><style>@scope{:where(:scope){display:block}}</style><strong>返却日</strong></label>
-	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input type=date name=date class=borrow-or-return></div>
-	<label class=return><style>@scope{:where(:scope){display:block}}</style><strong>お薦めコメント</strong>（任意）</label>
-	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><textarea name=comment class=return placeholder=「"」は使用できません。></textarea></div>
-	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input type=submit name=submitter disabled value=申請></div>
+	<label class=貸出><style>@scope{:where(:scope){display:block}}</style><strong>貸出日</strong></label>
+	<label class=返却><style>@scope{:where(:scope){display:block}}</style><strong>返却日</strong></label>
+	<div class=貸出&#x32;返却><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input type=date name=date></div>
+	<label class=返却><style>@scope{:where(:scope){display:block}}</style><strong>お薦めコメント</strong>（任意）</label>
+	<div class=返却><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><textarea name=comment placeholder=「"」は使用できません。></textarea></div>
+	<div class=貸出&#x32;延長&#x32;返却><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input type=submit name=submitter disabled value=申請></div>
 </form>
 
 <!--
