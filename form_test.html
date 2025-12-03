@@ -280,12 +280,13 @@ do{
 		input[type=submit]:not(:disabled),label:has(input[type=radio]:checked){background-color:light-dark(#000,#fff)}
 		input[type=submit]:disabled{background-color:light-dark(#555,#aaa)}
 		input[type=submit]:not(:disabled),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}
+		/*改修 ここまで*/
 
-		:not(:focus){transition-duration:.25s}
-		.invalid:not(:focus){color:#f00}
-		:scope.posting{pointer-events:none}
+		:not(:where(:focus)):where(.invalid){color:#f00}
+		:where(:scope):where(.posting){pointer-events:none}
 
-		:where(:scope):not(:has(option:not([value=]):checked)) input[type=submit]{display:none}
+		/*改修 ここから*/
+		:where(:scope):not(:has(option:not([value=""]):checked)) input[type=submit]{display:none}
 		:where(:scope):not(:has(option[value=貸出]:checked)) .borrow{display:none}
 		:where(:scope):not(:has(option[value=返却]:checked)) .return{display:none}
 		:where(:scope):not(:has(option[value=貸出]:checked,input[name=type][value=返却]:checked)) .borrow-or-return{display:none}
