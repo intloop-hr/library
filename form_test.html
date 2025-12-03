@@ -280,7 +280,7 @@ do{
 		:where(option):where(:empty){display:none}
 		:where(textarea){block-size:4lh;font-family:unset;resize:none}
 
-		:where(input):not(:where([type=submit])){background-color:light-dark(#ddd,#222)}
+		:where(input):not(:where([type=submit])),:where(select),:where(textarea){background-color:light-dark(#ddd,#222)}
 		:where(input):where([type=submit]){color:light-dark(#fff,#000)}
 		:where(input):where([type=submit]):not(:where(:disabled)){background-color:light-dark(#000,#fff)}
 		:where(input):where([type=submit]):where(:disabled){background-color:light-dark(#555,#aaa)}
@@ -303,7 +303,6 @@ do{
 	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input name=userName></div>
 	<label><style>@scope{:where(:scope){display:block}}</style><strong>申請種別</strong></label>
 	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><select name=type required>
-		<style>@scope{}</style>
 		<option></option>
 		<option value=貸出>貸出</option>
 		<option value=延長>延長</option>
