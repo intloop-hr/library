@@ -4,29 +4,6 @@
 <link href=style.css rel=stylesheet>
 <style>:not(*>*)>:where(body){inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);margin-inline:auto;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}</style>
 
-<!--
-<script type=module>
-if(Promise.withResolvers){
-} else{
-	const[{submitter}]=document.forms
-	const input=document.createElement('input')
-	input.type='hidden'
-	input.name='withResolvers'
-	input.checked=false
-	submitter.parentElement.insertBefore(input,submitter)
-}
-
-Promise.withResolvers??=function(){
-	const result={}
-	result.promise=new this(function(resolve,reject){
-		result.resolve=resolve
-		result.reject=reject
-	})
-	return result
-}
-</script>
--->
-
 <script type=module>
 const[form]=document.forms
 const digits=new URLSearchParams(location.search).get('digits')

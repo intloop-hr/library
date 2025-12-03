@@ -4,29 +4,6 @@
 <link href=style.css rel=stylesheet>
 <style>*{transition-property:background-color,color}:not(*>*)>:where(body){inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);margin-inline:auto;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}</style>
 
-<!--
-<script type=module>
-if(Promise.withResolvers){
-} else{
-	const[{submitter}]=document.forms
-	const input=document.createElement('input')
-	input.type='hidden'
-	input.name='withResolvers'
-	input.checked=false
-	submitter.parentElement.insertBefore(input,submitter)
-}
-
-Promise.withResolvers??=function(){
-	const result={}
-	result.promise=new this(function(resolve,reject){
-		result.resolve=resolve
-		result.reject=reject
-	})
-	return result
-}
-</script>
--->
-
 <script type=module>
 const[form]=document.forms
 const digits=new URLSearchParams(location.search).get('digits')
@@ -292,6 +269,7 @@ do{
 </script>
 
 <form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
+	<!--改修 ここから-->
 	<style>@scope{
 		label:not(:has(input[type=radio])){display:block}
 		input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
@@ -334,5 +312,29 @@ do{
 	<label class=return><strong>お薦めコメント</strong>（任意）</label>
 	<style>@scope{:where(:scope) :where(textarea){block-size:3lh}}</style>
 	<textarea name=comment class=return placeholder=「"」は使用できません。></textarea>
+	<!--改修 ここまで-->
 	<input type=submit name=submitter disabled value=申請>
 </form>
+
+<!--
+<script type=module>
+if(Promise.withResolvers){
+} else{
+	const[{submitter}]=document.forms
+	const input=document.createElement('input')
+	input.type='hidden'
+	input.name='withResolvers'
+	input.checked=false
+	submitter.parentElement.insertBefore(input,submitter)
+}
+
+Promise.withResolvers??=function(){
+	const result={}
+	result.promise=new this(function(resolve,reject){
+		result.resolve=resolve
+		result.reject=reject
+	})
+	return result
+}
+</script>
+-->
