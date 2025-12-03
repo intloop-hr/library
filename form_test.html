@@ -273,8 +273,9 @@ do{
 		:where(:scope):where(.posting){pointer-events:none}
 
 		:not(:where(:focus)):where(.invalid){color:#f00}
-		:where(input),:where(select),:where(textarea){display:block}
+		:where(input),:where(select),:where(textarea){display:block;inline-size:100%}
 		:where(input),:where(select){text-align:center}
+		:where(input):where([type=date]){font-family:unset}
 		:where(input):where([type=submit]):not(:where(:disabled)){cursor:pointer}
 		:where(option):where(:empty){display:none}
 		:where(textarea){block-size:4lh;font-family:unset;resize:none}
