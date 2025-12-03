@@ -290,6 +290,8 @@ do{
 		:scope:not(:has(input[name=type][value=貸出]:checked)) .borrow{display:none}
 		:scope:not(:has(input[name=type][value=返却]:checked)) .return{display:none}
 		:scope:not(:has(input[name=type][value=貸出]:checked,input[name=type][value=返却]:checked)) .borrow-or-return{display:none}
+
+		:where(textarea){block-size:3lh}
 	}</style>
 	<!--改修 ここまで-->
 
@@ -309,14 +311,11 @@ do{
 		<option value=延長>延長</option>
 		<option value=返却>返却</option>
 	</select>
-	<!--改修 ここから-->
 	<label class=borrow><style>@scope{:where(:scope){display:block}}</style><strong>貸出日</strong></label>
 	<label class=return><style>@scope{:where(:scope){display:block}}</style><strong>返却日</strong></label>
 	<input type=date name=date class=borrow-or-return>
 	<label class=return><style>@scope{:where(:scope){display:block}}</style><strong>お薦めコメント</strong>（任意）</label>
-	<style>@scope{:where(:scope) :where(textarea){block-size:3lh}}</style>
 	<textarea name=comment class=return placeholder=「"」は使用できません。></textarea>
-	<!--改修 ここまで-->
 	<input type=submit name=submitter disabled value=申請>
 </form>
 
