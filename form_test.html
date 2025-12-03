@@ -271,15 +271,15 @@ do{
 <form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
 	<!--改修 ここから-->
 	<style>@scope{
-		label:not(:has(input[type=radio])){display:block}
+		/*label:not(:has(input[type=radio])){display:block}*/
 		input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
 		input,textarea{margin-block:calc(.5rlh - .5rem)}
-		label input[type=radio]{display:none}
+		/*label input[type=radio]{display:none}*/
 		input:not([type=submit]),textarea,label:has(input[type=radio]):not(:has(input[type=radio]:checked)){background-color:light-dark(#ddd,#222)}
 		input[type=submit],label:has(input[type=radio]:checked){color:light-dark(#fff,#000)}
 		input[type=submit]:not(:disabled),label:has(input[type=radio]:checked){background-color:light-dark(#000,#fff)}
 		input[type=submit]:disabled{background-color:light-dark(#555,#aaa)}
-		input,label:has(input[type=radio]){text-align:center}
+		input/*,label:has(input[type=radio])*/{text-align:center}
 		input[type=submit]:not(:disabled),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}
 
 		:not(:focus){transition-duration:.25s}
@@ -291,14 +291,17 @@ do{
 		:scope:not(:has(input[name=type][value=返却]:checked)) .return{display:none}
 		:scope:not(:has(input[name=type][value=貸出]:checked,input[name=type][value=返却]:checked)) .borrow-or-return{display:none}
 	}</style>
+	<!--改修 ここまで-->
 
-	<label><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
-	<input name=digits readonly>
-	<label><strong>氏名</strong>（姓名間 空白必須）<br><span><style>
+	<label><style>@scope{:where(:scope){display:block}}</style><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
+	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input name=digits readonly></div>
+	<!--改修 ここから-->
+	<label><style>@scope{:where(:scope){display:block}}</style><strong>氏名</strong>（姓名間 空白必須）<br><span><style>
 		@scope{:where(:scope){font-size:.75em;line-height:calc(1rlh/1em - 1rem/1em + 1)}}
 	</style>表記揺れ対策のため、一部の漢字は使用できません。使用できる漢字または平仮名を代用してください。</span></label>
 	<input name=userName>
-	<label><strong>申請種別</strong></label>
+	<label><style>@scope{:where(:scope){display:block}}</style><strong>申請種別</strong></label>
+	<!--改修 ここまで-->
 	<select name=type required>
 		<style>@scope{:where(option):where(:empty){display:none}}</style>
 		<option></option>
@@ -306,10 +309,11 @@ do{
 		<option value=延長>延長</option>
 		<option value=返却>返却</option>
 	</select>
-	<label class=borrow><strong>貸出日</strong></label>
-	<label class=return><strong>返却日</strong></label>
+	<!--改修 ここから-->
+	<label class=borrow><style>@scope{:where(:scope){display:block}}</style><strong>貸出日</strong></label>
+	<label class=return><style>@scope{:where(:scope){display:block}}</style><strong>返却日</strong></label>
 	<input type=date name=date class=borrow-or-return>
-	<label class=return><strong>お薦めコメント</strong>（任意）</label>
+	<label class=return><style>@scope{:where(:scope){display:block}}</style><strong>お薦めコメント</strong>（任意）</label>
 	<style>@scope{:where(:scope) :where(textarea){block-size:3lh}}</style>
 	<textarea name=comment class=return placeholder=「"」は使用できません。></textarea>
 	<!--改修 ここまで-->
