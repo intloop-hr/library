@@ -273,24 +273,22 @@ do{
 		:where(:scope):where(.posting){pointer-events:none}
 
 		:not(:where(:focus)):where(.invalid){color:#f00}
-		:where(input),:where(select),:where(textarea){appearance:none;border:unset;display:block;inline-size:100%}
+		:where(input),:where(select),:where(textarea){appearance:none;border:unset;border-radius:calc(.5lh - .5em);display:block;inline-size:100%;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em)}
 		:where(input),:where(select){text-align:center}
 		:where(input):where([type=date]){font-family:unset;block-size:calc(2lh - 1em)}
 		:where(input):where([type=submit]):not(:where(:disabled)){cursor:pointer}
 		:where(option):not(:where([value])){display:none}
 		:where(textarea){block-size:calc(5lh - 1em);font-family:unset;resize:none}
 
-		:where(input),:where(select),:where(textarea){border-radius:calc(.5lh - .5em);padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em)}
-
 		:where(input):not(:where([type=submit])),:where(select),:where(textarea){background-color:light-dark(#ddd,#222)}
 		:where(input):where([type=submit]){color:light-dark(#fff,#000)}
 		:where(input):where([type=submit]):not(:where(:disabled)){background-color:light-dark(#000,#fff)}
 		:where(input):where([type=submit]):where(:disabled){background-color:light-dark(#555,#aaa)}
 
-		:where(.貸出),:where(.延長),:where(.返却){
-			:where(:scope):not(:has(:where(option):where([value=貸出]):where(:checked))) &.貸出{display:none}
-			:where(:scope):not(:has(:where(option):where([value=延長]):where(:checked))) &.延長{display:none}
-			:where(:scope):not(:has(:where(option):where([value=返却]):where(:checked))) &.返却{display:none}
+		:where(.貸出),:where(.延長),:where(.返却){:not(
+			:where(:scope):has(:where(option):where([value=貸出]):where(:checked)) &:where(.貸出),
+			:where(:scope):not(:has(:where(option):where([value=延長]):where(:checked))) &:where(.延長),
+			:where(:scope):not(:has(:where(option):where([value=返却]):where(:checked))) &:where(.返却)){display:none}
 		}
 	}</style>
 	<label><style>@scope{:where(:scope){display:block}}</style><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
