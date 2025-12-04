@@ -4,6 +4,7 @@
 <link href=style.css rel=stylesheet>
 <style>:not(*>*)>:where(body){inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);margin-inline:auto;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}</style>
 
+<!--
 <script type=module>
 const[form]=document.forms
 const digits=new URLSearchParams(location.search).get('digits')
@@ -62,9 +63,6 @@ const[form]=document.forms
 form.date.value||=new Date().toLocaleDateString('sv')
 
 do{
-	// 改修 ここから
-	break
-	// 改修 ここまで
 	switch(true){
 		case invalidPattern.test(form.userName.value):
 		form.userName.classList.add('invalid')
@@ -126,9 +124,6 @@ await promise
 
 const[form]=document.forms
 do{
-	// 改修 ここから
-	break
-	// 改修 ここまで
 	switch(true){
 		case form.matches(':has(:not(.貸出,.延長,.返却).invalid)'):
 		// 改修 ここから
@@ -192,9 +187,6 @@ const options={}
 options.method='post'
 */
 do{
-	// 改修 ここから
-	break
-	// 改修 ここまで
 	const{resolve,promise}=Promise.withResolvers()
 	addEventListener('submit',resolve)
 	await promise
@@ -285,6 +277,7 @@ do{
 	}
 } while(true)
 </script>
+-->
 
 <form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
 	<style>@scope{
