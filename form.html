@@ -282,6 +282,7 @@ do{
 		:where(:scope):where(.posting){pointer-events:none}
 
 		:not(:where(:focus)):where(.invalid){color:#f00}
+		/*改修 ここから*/
 		:where(label):not(:has(:where(input):where([type=radio]))){display:block}
 		input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
 		input,textarea{margin-block:calc(.5rlh - .5rem)}
@@ -291,6 +292,7 @@ do{
 		input[type=submit]:disabled{background-color:light-dark(#555,#aaa)}
 		input,label:has(input[type=radio]){text-align:center}
 		input[type=submit]:not(:disabled),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}
+		/*改修 ここまで*/
 
 		:where(.貸出),:where(.延長),:where(.返却){&:not(
 			:where(:scope):has(:where(input):where([name=type]):where([value=貸出]):where(:checked)) :where(.貸出),
@@ -314,10 +316,10 @@ do{
 	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input name=userName></div>
 	<label><strong>申請種別</strong></label>
 	<div>
-		<style>@scope{:where(:scope){column-gap:calc(1rlh - 1rem);display:flex;margin-block:calc(.5rlh - .5rem)}}</style>
-		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input hidden type=radio name=type value=貸出>貸出</label>
-		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input hidden type=radio name=type value=延長>延長</label>
-		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input hidden type=radio name=type value=返却>返却</label>
+		<style>@scope{:where(:scope){column-gap:calc(1rlh - 1rem);display:flex;margin-block:calc(.5rlh - .5rem)}:where(input){display:none}}</style>
+		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input type=radio name=type value=貸出>貸出</label>
+		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input type=radio name=type value=延長>延長</label>
+		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input type=radio name=type value=返却>返却</label>
 	</div><!--
 	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><select name=type required>
 		<option>選択してください</option>
