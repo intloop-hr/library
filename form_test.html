@@ -327,7 +327,7 @@ do{
 	}</style><input name=userName></div>
 	<label><strong>申請種別</strong></label>
 	<div>
-		<style>@scope{label:has(:checked){background-color:red}/*
+		<style>@scope{:where(label):has(:where(:checked)){background-color:red}/*
 			:where(:scope){column-gap:calc(1lh - 1em);display:flex;padding-block:calc(.5lh - .5em)}
 			:where(:scope)>:where(label){border-radius:calc(.5lh - .5em);flex-grow:1;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;text-align:center}
 			:where(:scope)>:where(label):not(:has(:where(input):where([name=type i]):where(:checked))){background-color:light-dark(#ddd,#222);cursor:pointer}
@@ -348,7 +348,7 @@ do{
 		<option value=延長>延長</option>
 		<option value=返却>返却</option>
 	</select></div>
-	--><!--
+	-->
 	<label class=貸出><strong>貸出日</strong></label>
 	<label class=返却><strong>返却日</strong></label>
 	<div class=貸出&#32;返却><style>@scope{
@@ -360,7 +360,7 @@ do{
 	}</style><textarea name=comment placeholder=「"」は使用できません。></textarea></div>
 	<div class=貸出&#32;延長&#32;返却><style>@scope{
 		:where(:scope){padding-block:calc(.5lh - .5em)}
-	}</style><input type=submit name=submitter disabled value=申請></div>-->
+	}</style><input type=submit name=submitter disabled value=申請></div>
 </form>
 
 <!--試験 ここから
