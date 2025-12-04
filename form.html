@@ -281,6 +281,7 @@ do{
 	<style>@scope{
 		:where(:scope):where(.posting){pointer-events:none}
 
+		:not(:where(:focus)):where(:invalid):where(:read-write){color:#f00}
 		:not(:where(:focus)):where(.invalid){color:#f00}
 		/*改修 ここから*/
 		:where(label):not(:has(:where(input):where([type=radio]))){display:block}
