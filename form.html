@@ -297,17 +297,16 @@ do{
 		input,label:has(input[type=radio]){text-align:center}
 		input[type=submit]:not(:disabled),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}
 
-		/*
-		:scope:not(:has(input[name=type]:checked)) input[type=submit]{display:none}
-		:scope:not(:has(input[name=type][value=貸出]:checked)) .borrow{display:none}
-		:scope:not(:has(input[name=type][value=返却]:checked)) .return{display:none}
-		:scope:not(:has(input[name=type][value=貸出]:checked,input[name=type][value=返却]:checked)) .borrow-or-return{display:none}
-		*/
 		:where(.貸出),:where(.延長),:where(.返却){&:not(
 			:where(:scope):has(:where(input):where([name=type]):where([value=貸出]):where(:checked)) :where(.貸出),
 			:where(:scope):has(:where(input):where([name=type]):where([value=延長]):where(:checked)) :where(.延長),
 			:where(:scope):has(:where(input):where([name=type]):where([value=返却]):where(:checked)) :where(.返却)
-		){display:none}}
+		){display:none}}/*
+		:where(.貸出),:where(.延長),:where(.返却){&:not(
+			:where(:scope):has(:where(option):where([value=貸出]):where(:checked)) :where(.貸出),
+			:where(:scope):has(:where(option):where([value=延長]):where(:checked)) :where(.延長),
+			:where(:scope):has(:where(option):where([value=返却]):where(:checked)) :where(.返却)
+		){display:none}}*/
 	}</style>
 	<label><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
 	<input name=digits readonly>
@@ -321,7 +320,13 @@ do{
 		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input type=radio name=type value=貸出>貸出</label>
 		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input type=radio name=type value=延長>延長</label>
 		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input type=radio name=type value=返却>返却</label>
-	</div>
+	</div><!--
+	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><select name=type required>
+		<option>選択してください</option>
+		<option value=貸出>貸出</option>
+		<option value=延長>延長</option>
+		<option value=返却>返却</option>
+	</select></div>-->
 	<label class=貸出><strong>貸出日</strong></label>
 	<label class=返却><strong>返却日</strong></label>
 	<div class=貸出&#32;返却><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input type=date name=date></div>

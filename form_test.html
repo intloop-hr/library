@@ -296,10 +296,15 @@ do{
 		:where(input):where([type=submit]):where(:disabled){background-color:light-dark(#555,#aaa)}
 
 		:where(.貸出),:where(.延長),:where(.返却){&:not(
+			:where(:scope):has(:where(input):where([name=type]):where([value=貸出]):where(:checked)) :where(.貸出),
+			:where(:scope):has(:where(input):where([name=type]):where([value=延長]):where(:checked)) :where(.延長),
+			:where(:scope):has(:where(input):where([name=type]):where([value=返却]):where(:checked)) :where(.返却)
+		){display:none}}/*
+		:where(.貸出),:where(.延長),:where(.返却){&:not(
 			:where(:scope):has(:where(option):where([value=貸出]):where(:checked)) :where(.貸出),
 			:where(:scope):has(:where(option):where([value=延長]):where(:checked)) :where(.延長),
 			:where(:scope):has(:where(option):where([value=返却]):where(:checked)) :where(.返却)
-		){display:none}}
+		){display:none}}*/
 	}</style>
 	<label><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
 	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input name=digits readonly></div>
@@ -307,12 +312,18 @@ do{
 	<div><style>@scope{:where(:scope){font-size:.75em;line-height:calc(1rlh/1em - 1rem/1em + 1)}}</style>表記揺れ対策のため、一部の漢字は使用できません。使用できる漢字または平仮名を代用してください。</div>
 	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input name=userName></div>
 	<label><strong>申請種別</strong></label>
+	<div>
+		<style>@scope{:where(:scope){column-gap:calc(1rlh - 1rem);display:flex;margin-block:calc(.5rlh - .5rem)}}</style>
+		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input type=radio name=type value=貸出>貸出</label>
+		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input type=radio name=type value=延長>延長</label>
+		<label><style>@scope{:where(:scope){flex-grow:1}}</style><input type=radio name=type value=返却>返却</label>
+	</div><!--
 	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><select name=type required>
 		<option>選択してください</option>
 		<option value=貸出>貸出</option>
 		<option value=延長>延長</option>
 		<option value=返却>返却</option>
-	</select></div>
+	</select></div>-->
 	<label class=貸出><strong>貸出日</strong></label>
 	<label class=返却><strong>返却日</strong></label>
 	<div class=貸出&#32;返却><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><input type=date name=date></div>
