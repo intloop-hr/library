@@ -295,7 +295,16 @@ do{
 		:where(:scope):where(.posting){pointer-events:none}
 
 		/*改修 ここから*/
-		:where(input)/*,:where(select)*/,:where(textarea){appearance:none;border:unset;border-radius:calc(.5lh - .5em);display:block;font:unset;inline-size:100%;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em)}
+		:where(input)/*,:where(select)*/,:where(textarea){
+			appearance:none;
+			border:unset;
+			border-radius:calc(.5lh - .5em);
+			display:block;
+			font:unset;
+			inline-size:100%;
+			padding-block:calc(.5lh - .5em);
+			padding-inline:calc(1lh - 1em)
+		}
 		/*改修 ここまで*/
 
 		:not(:where(:focus)):where(:invalid):where(:read-write){color:#f00}

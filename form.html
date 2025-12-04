@@ -295,7 +295,13 @@ do{
 		:where(:scope):where(.posting){pointer-events:none}
 
 		/*改修 ここから*/
-		:where(input),:where(textarea),:where(label):has(:where(input):where([type=radio])){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
+		:where(input)/*,:where(select)*/,:where(textarea){
+			display:inline-block;
+			inline-size:calc(100% - 2rlh + 2rem);
+			min-block-size:1lh;
+			padding-block:calc(.5rlh - .5rem);
+			padding-inline:calc(1rlh - 1rem)
+		}
 		/*改修 ここまで*/
 
 		:not(:where(:focus)):where(:invalid):where(:read-write){color:#f00}
@@ -329,8 +335,10 @@ do{
 	<label><strong>申請種別</strong></label>
 	<div>
 		<style>@scope{
-			:where(:scope){column-gap:calc(1rlh - 1rem);display:flex;padding-block:calc(.5rlh - .5rem)}
-			:where(:scope)>:where(label){border-radius:calc(.5lh - .5em);flex-grow:1;inline-size:100%;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);text-align:center}
+			:where(:scope)>:where(label){/*inline-size:calc(100% - 2rlh + 2rem);*/min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
+
+			:where(:scope){column-gap:calc(1lh - 1em);display:flex;padding-block:calc(.5lh - .5em)}
+			:where(:scope)>:where(label){border-radius:calc(.5lh - .5em);flex-grow:1;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);text-align:center/*;inline-size:100%*/}
 			:where(:scope)>:where(label):not(:has(:where(input):where([type=radio]):where(:checked))){background-color:light-dark(#ddd,#222);cursor:pointer}
 			:where(:scope)>:where(label):has(:where(input):where([type=radio]):where(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
 			:where(:scope)>:where(label)>:where(input){display:none}
