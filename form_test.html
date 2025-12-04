@@ -286,17 +286,19 @@ do{
 		:where(label){display:block}
 		:where(textarea){block-size:calc(5lh - 1em);resize:none}
 
+		:where(input):not(:where([type])),:where(input):where([type=date i])/*,:where(select)*/,:where(textarea){background-color:light-dark(#ddd,#222)}
+
+		:where(input):where([type=submit i]){color:light-dark(#fff,#000)}
+		:where(input):where([type=submit i]):not(:where(:disabled)){background-color:light-dark(#000,#fff)}
+		:where(input):where([type=submit i]):where(:disabled){background-color:light-dark(#555,#aaa)}
+
 		:where(:scope):where(.posting){pointer-events:none}
 
 		/*改修 ここから*/
 		:where(input)/*,:where(select)*/,:where(textarea){appearance:none;border:unset;border-radius:calc(.5lh - .5em);display:block;font:unset;inline-size:100%;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em)}
-
-		:where(input):not(:where([type=submit])),:where(select),:where(textarea){background-color:light-dark(#ddd,#222)}
-		:where(input):where([type=submit]){color:light-dark(#fff,#000)}
-		:where(input):where([type=submit]):not(:where(:disabled)){background-color:light-dark(#000,#fff)}
-		:where(input):where([type=submit]):where(:disabled){background-color:light-dark(#555,#aaa)}
-		:not(:where(:focus)):where(:invalid):where(:read-write){color:#f00}
 		/*改修 ここまで*/
+
+		:not(:where(:focus)):where(:invalid):where(:read-write){color:#f00}
 
 		:where(.貸出),:where(.延長),:where(.返却){&:not(
 			:where(:scope):has(:where(input):where([name=type]):where([value=貸出]):where(:checked)) :where(.貸出),
