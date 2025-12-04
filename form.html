@@ -284,7 +284,7 @@ do{
 		:not(:where(:focus)):where(.invalid){color:#f00}
 		/*改修 ここから*/
 		:where(label):not(:has(:where(input):where([type=radio]))){display:block}
-		input,textarea,label:has(input[type=radio]){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
+		:where(input),:where(textarea),:where(label):has(:where(input):where([type=radio])){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
 		input,textarea{margin-block:calc(.5rlh - .5rem)}
 		input:not([type=submit]),textarea,label:has(input[type=radio]):not(:has(input[type=radio]:checked)){background-color:light-dark(#ddd,#222)}
 		input[type=submit],label:has(input[type=radio]:checked){color:light-dark(#fff,#000)}
