@@ -249,18 +249,18 @@ do{
 		trial=fetch(target.action,options)
 	}/*
 	try{*/
-		const response=await trial
-		submitter.value='申請済'
-		target.classList.remove('posting')
-		if(target.classList.length){
-		} else{
-			target.removeAttribute('class')
-		}
-		const text=await response.text()
-		if('requestIdleCallback'in window){
-			await new Promise(requestIdleCallback)
-		}
-		alert(text)/*
+	const response=await trial
+	submitter.value='申請済'
+	target.classList.remove('posting')
+	if(target.classList.length){
+	} else{
+		target.removeAttribute('class')
+	}
+	const text=await response.text()
+	if('requestIdleCallback'in window){
+		await new Promise(requestIdleCallback)
+	}
+	alert(text)/*
 	} catch(error){
 		submitter.disabled=false
 		submitter.value='申請'
@@ -330,9 +330,12 @@ do{
 		<style>@scope{
 			:where(:scope){column-gap:calc(1lh - 1em);display:flex;padding-block:calc(.5lh - .5em)}
 			:where(:scope)>:where(label){border-radius:calc(.5lh - .5em);flex-grow:1;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;text-align:center}
-			:where(:scope)>:where(label):not(:has(:where(input):where([name=type i]):where(:checked))){background-color:light-dark(#ddd,#222);cursor:pointer}
-			:where(:scope)>:where(label):has(:where(input):where([name=type i]):where(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
+			:where(:scope)>:where(label):not(:has(:where(input):where([name=type i]):where(:checked))){cursor:pointer}
 			:where(:scope)>:where(label)>:where(input):where([name=type i]){display:none}
+			/*バグ改修待ち ここから*/
+			:where(label):not(:has(:where(input):where([name=type i]):where(:checked))){background-color:light-dark(#ddd,#222)}
+			:where(label):has(:where(input):where([name=type i]):where(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
+			/*バグ改修待ち ここまで*/
 		}</style>
 		<label><input type=radio name=type value=貸出>貸出</label>
 		<label><input type=radio name=type value=延長>延長</label>
