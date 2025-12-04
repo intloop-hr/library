@@ -330,7 +330,7 @@ do{
 			:where(:scope)>:where(label){border-radius:calc(.5lh - .5em);display:block;flex-grow:1;inline-size:100%;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);text-align:center}
 			:where(:scope)>:where(label)>:where(input){display:none}
 
-			:where(:scope)>:where(label):not(:has(:where(input):where([type=radio]):where(:checked))){background-color:light-dark(#ddd,#222)}
+			:where(:scope)>:where(label):not(:has(:where(input):where([type=radio]):where(:checked))){background-color:light-dark(#ddd,#222);cursor:pointer}
 			:where(:scope)>:where(label):has(:where(input):where([type=radio]):where(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
 		}</style>
 		<label><input type=radio name=type value=貸出>貸出</label>
