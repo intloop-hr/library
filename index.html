@@ -140,8 +140,11 @@ while(true){
 				if(item); else continue
 				const{summary}=item
 				const{title}=summary
-				if(title); else continue
-				messageLines.push('題名: '+title)
+				if(title){
+					messageLines.push('題名: '+title)
+				} else{
+					messageLines.push('お手数ですが、目視にてご確認ください。')
+				}
 				break
 			}
 
