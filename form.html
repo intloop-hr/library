@@ -247,8 +247,8 @@ do{
 	} catch{
 		await new Promise(requestAnimationFrame)
 		trial=fetch(target.action,options)
-	}
-	try{
+	}/*
+	try{*/
 		const response=await trial
 		submitter.value='申請済'
 		target.classList.remove('posting')
@@ -260,7 +260,7 @@ do{
 		if('requestIdleCallback'in window){
 			await new Promise(requestIdleCallback)
 		}
-		alert(text)
+		alert(text)/*
 	} catch(error){
 		submitter.disabled=false
 		submitter.value='申請'
@@ -273,7 +273,7 @@ do{
 			await new Promise(requestIdleCallback)
 		}
 		alert(error+'\n\nお手数ですが、清田までご連絡ください。手動で処理いたします。ページを離れていただいて構いません。')
-	}
+	}*/
 } while(true)
 </script>
 
@@ -286,6 +286,7 @@ do{
 		:not(:where(:focus)):where(.invalid){color:#f00}
 		:where(input)/*,:where(select)*/{text-align:center}
 		:where(input):where([type=date i]){block-size:calc(2lh - 1em)}
+		::-webkit-calendar-picker-indicator{cursor:pointer}
 		:where(input):where([type=submit i]):not(:where(:disabled)){cursor:pointer}
 		:where(label){display:block}
 		:where(textarea){block-size:calc(5lh - 1em);resize:none}
@@ -336,7 +337,8 @@ do{
 		<label><input type=radio name=type value=貸出>貸出</label>
 		<label><input type=radio name=type value=延長>延長</label>
 		<label><input type=radio name=type value=返却>返却</label>
-	</div><!--
+	</div>
+	<!--
 	<div><style>@scope{
 		:where(:scope){padding-block:calc(.5lh - .5em)}
 		:where(option):not(:where([value])){display:none}
@@ -345,7 +347,8 @@ do{
 		<option value=貸出>貸出</option>
 		<option value=延長>延長</option>
 		<option value=返却>返却</option>
-	</select></div>-->
+	</select></div>
+	-->
 	<label class=貸出><strong>貸出日</strong></label>
 	<label class=返却><strong>返却日</strong></label>
 	<div class=貸出&#32;返却><style>@scope{
