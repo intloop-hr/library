@@ -1,10 +1,9 @@
-<meta name=format-detection content=telephone=no>
+<!--<meta name=format-detection content=telephone=no>
 <meta name=viewport content=width=device-width>
-<title>INTLOOPライブラリー 申請フォーム</title><!--
-<link href=style.css rel=stylesheet>-->
+<title>INTLOOPライブラリー 申請フォーム</title>
+<link href=style.css rel=stylesheet>
 <style>:not(*>*)>:where(body){inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);margin-inline:auto;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}</style>
 
-<!--
 <script type=module>
 const[form]=document.forms
 const digits=new URLSearchParams(location.search).get('digits')
@@ -277,9 +276,8 @@ do{
 	}
 } while(true)
 </script>
--->
 
-<form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post><!--
+<form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
 	<style>@scope{
 		/*改修 ここから*/
 		:where(input)/*,:where(select)*/,:where(textarea){all:unset;background-color:light-dark(#ddd,#222);border-radius:calc(.5lh - .5em);box-sizing:border-box;display:block;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;inline-size:100%}
@@ -327,21 +325,18 @@ do{
 	<div><style>@scope{
 		:where(:scope){padding-block:calc(.5lh - .5em)}
 	}</style><input name=userName></div>
-	<label><strong>申請種別</strong></label>-->
+	<label><strong>申請種別</strong></label>
 	<div>
-		<style>@scope{/*
+		<style>@scope{
 			:where(:scope){column-gap:calc(1lh - 1em);display:flex;padding-block:calc(.5lh - .5em)}
 			:where(:scope)>:where(label){border-radius:calc(.5lh - .5em);flex-grow:1;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;text-align:center}
 			:where(:scope)>:where(label):not(:has(:where(input):where([name=type i]):where(:checked))){background-color:light-dark(#ddd,#222);cursor:pointer}
 			:where(:scope)>:where(label):has(:where(input):where([name=type i]):where(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
-			:where(:scope)>:where(label)>:where(input):where([name=type i]){display:none}*/
+			:where(:scope)>:where(label)>:where(input):where([name=type i]){display:none}
 		}</style>
-		<label><style>@scope{
-			:scope:not(:has(:where(input):where([name=type i]):where(:checked))){background-color:light-dark(#ddd,#222);cursor:pointer}
-			:scope:has(:where(input):where([name=type i]):where(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
-		}</style><input type=radio name=type value=貸出>貸出</label><!--
+		<label><input type=radio name=type value=貸出>貸出</label>
 		<label><input type=radio name=type value=延長>延長</label>
-		<label><input type=radio name=type value=返却>返却</label>-->
+		<label><input type=radio name=type value=返却>返却</label>
 	</div>
 	<!--
 	<div><style>@scope{
@@ -366,15 +361,15 @@ do{
 	<div class=貸出&#32;延長&#32;返却><style>@scope{
 		:where(:scope){padding-block:calc(.5lh - .5em)}
 	}</style><input type=submit name=submitter disabled value=申請></div>
---></form>
+</form>-->
 
-<!--
+<!--試験 ここから-->
 <form>
 	<style>@scope{
 		label:has(:checked){background-color:red}
 	}</style><label><input type=radio>あああ</label>
 </form>
--->
+<!--試験 ここから-->
 
 <!--
 <script type=module>
