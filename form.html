@@ -283,14 +283,17 @@ do{
 
 		:not(:where(:focus)):where(.invalid){color:#f00}
 		:where(input)/*,:where(select)*/{text-align:center}
+		:where(input):where([type=submit i]):not(:where(:disabled)){cursor:pointer}
+		:where(label){display:block}
+		:where(textarea){block-size:calc(5lh - 1em);font-family:unset;resize:none}
+
 		/*改修 ここから*/
-		:where(label):not(:has(:where(input):where([type=radio]))){display:block}
 		:where(input),:where(textarea),:where(label):has(:where(input):where([type=radio])){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
 		input:not([type=submit]),textarea{background-color:light-dark(#ddd,#222)}
 		input[type=submit]{color:light-dark(#fff,#000)}
 		input[type=submit]:not(:disabled){background-color:light-dark(#000,#fff)}
 		input[type=submit]:disabled{background-color:light-dark(#555,#aaa)}
-		input[type=submit]:not(:disabled),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}
+		/*label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}*/
 		/*改修 ここまで*/
 
 		:where(.貸出),:where(.延長),:where(.返却){&:not(
@@ -332,7 +335,10 @@ do{
 		<label><input type=radio name=type value=延長>延長</label>
 		<label><input type=radio name=type value=返却>返却</label>
 	</div><!--
-	<div><style>@scope{:where(:scope){padding-block:calc(.5lh - .5em)}}</style><select name=type required>
+	<div><style>@scope{
+		:where(:scope){padding-block:calc(.5lh - .5em)}
+		:where(option):not(:where([value])){display:none}
+	}</style><select name=type required>
 		<option>選択してください</option>
 		<option value=貸出>貸出</option>
 		<option value=延長>延長</option>
