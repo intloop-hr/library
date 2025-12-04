@@ -123,9 +123,9 @@ while(true){
 			if(9-result%10!=code.slice(-1)) continue
 		}
 
-		video.pause()
-		document.body.prepend(canvas)
+		video.after(canvas)
 		video.remove()
+		video.pause()
 
 		const codeChunks=[]
 		const messageLines=['図書の内容は以下ですか?','']
