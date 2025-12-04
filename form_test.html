@@ -247,20 +247,20 @@ do{
 	} catch{
 		await new Promise(requestAnimationFrame)
 		trial=fetch(target.action,options)
+	}/*
+	try{*/
+	const response=await trial
+	submitter.value='申請済'
+	target.classList.remove('posting')
+	if(target.classList.length){
+	} else{
+		target.removeAttribute('class')
 	}
-	try{
-		const response=await trial
-		submitter.value='申請済'
-		target.classList.remove('posting')
-		if(target.classList.length){
-		} else{
-			target.removeAttribute('class')
-		}
-		const text=await response.text()
-		if('requestIdleCallback'in window){
-			await new Promise(requestIdleCallback)
-		}
-		alert(text)
+	const text=await response.text()
+	if('requestIdleCallback'in window){
+		await new Promise(requestIdleCallback)
+	}
+	alert(text)/*
 	} catch(error){
 		submitter.disabled=false
 		submitter.value='申請'
@@ -273,11 +273,11 @@ do{
 			await new Promise(requestIdleCallback)
 		}
 		alert(error+'\n\nお手数ですが、清田までご連絡ください。手動で処理いたします。ページを離れていただいて構いません。')
-	}
+	}*/
 } while(true)
 </script>
 
-<form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post><!--
+<form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
 	<style>@scope{
 		/*改修 ここから*/
 		:where(input)/*,:where(select)*/,:where(textarea){all:unset;background-color:light-dark(#ddd,#222);border-radius:calc(.5lh - .5em);box-sizing:border-box;display:block;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;inline-size:100%}
@@ -324,7 +324,7 @@ do{
 	}</style>表記揺れ対策のため、一部の漢字は使用できません。使用できる漢字または平仮名を代用してください。</div>
 	<div><style>@scope{
 		:where(:scope){padding-block:calc(.5lh - .5em)}
-	}</style><input name=userName></div>-->
+	}</style><input name=userName></div>
 	<label><strong>申請種別</strong></label>
 	<div>
 		<style>@scope{label:has(:checked){background-color:red}/*
