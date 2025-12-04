@@ -335,7 +335,7 @@ do{
 			:where(:scope)>:where(label):has(:where(input):where([name=type i]):where(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
 			*/
 			/*確認 ここから*/
-			:where(label):has(:where(:checked)){background-color:red}
+			:where(:scope)>:where(label):has(:where(:checked)){background-color:red}
 			/*確認 ここまで*/
 			:where(:scope)>:where(label)>:where(input):where([name=type i]){display:none}
 		}</style>
