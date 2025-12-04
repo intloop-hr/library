@@ -332,6 +332,7 @@ do{
 			:where(:scope)>:where(label){border-radius:calc(.5lh - .5em);flex-grow:1;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;text-align:center}
 			:where(:scope)>:where(label)>:where(input):where([name=type i]){display:none}
 			/*バグ改修待ち ここから*/
+			/*:scopeの子要素:checkedを指定できない*/
 			:where(label):not(:has(:where(input):where([name=type i]):where(:checked))){background-color:light-dark(#ddd,#222);cursor:pointer}
 			:where(label):has(:where(input):where([name=type i]):where(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
 			/*バグ改修待ち ここまで*/
