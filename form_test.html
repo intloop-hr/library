@@ -2,7 +2,7 @@
 <meta name=viewport content=width=device-width>
 <title>INTLOOPライブラリー 申請フォーム</title>
 <link href=style.css rel=stylesheet>
-<style>:not(*>*)>:is(body){inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);margin-inline:auto;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}</style>
+<style>:not(*>*)>:where(body){inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);margin-inline:auto;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}</style>
 
 <!--
 <script type=module>
@@ -279,38 +279,38 @@ do{
 </script>
 -->
 
-<form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
+<form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post><!--
 	<style>@scope{
 		/*改修 ここから*/
-		:is(input)/*,:is(select)*/,:is(textarea){all:unset;background-color:light-dark(#ddd,#222);border-radius:calc(.5lh - .5em);box-sizing:border-box;display:block;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;inline-size:100%}
+		:where(input)/*,:where(select)*/,:where(textarea){all:unset;background-color:light-dark(#ddd,#222);border-radius:calc(.5lh - .5em);box-sizing:border-box;display:block;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;inline-size:100%}
 		/*改修 ここまで*/
 
-		:not(:is(:focus)):is(.invalid){color:#f00}
-		:is(input)/*,:is(select)*/{text-align:center}
-		:is(input):is([type=date i]){block-size:calc(2lh - 1em)}
+		:not(:where(:focus)):where(.invalid){color:#f00}
+		:where(input)/*,:where(select)*/{text-align:center}
+		:where(input):where([type=date i]){block-size:calc(2lh - 1em)}
 		::-webkit-calendar-picker-indicator{cursor:pointer}
-		:is(input):is([type=submit i]):not(:is(:disabled)){cursor:pointer}
-		:is(label){display:block}
-		:is(textarea){block-size:calc(5lh - 1em);resize:none}
+		:where(input):where([type=submit i]):not(:where(:disabled)){cursor:pointer}
+		:where(label){display:block}
+		:where(textarea){block-size:calc(5lh - 1em);resize:none}
 
-		:is(input):is([type=submit i]){color:light-dark(#fff,#000)}
-		:is(input):is([type=submit i]):not(:is(:disabled)){background-color:light-dark(#000,#fff)}
-		:is(input):is([type=submit i]):is(:disabled){background-color:light-dark(#555,#aaa)}
+		:where(input):where([type=submit i]){color:light-dark(#fff,#000)}
+		:where(input):where([type=submit i]):not(:where(:disabled)){background-color:light-dark(#000,#fff)}
+		:where(input):where([type=submit i]):where(:disabled){background-color:light-dark(#555,#aaa)}
 
-		:is(:scope):is(.posting){pointer-events:none}
+		:where(:scope):where(.posting){pointer-events:none}
 
-		:not(:is(:focus)):is(:invalid):is(:read-write){color:#f00}
+		:not(:where(:focus)):where(:invalid):where(:read-write){color:#f00}
 
-		:is(.貸出),:is(.延長),:is(.返却){&:not(
-			:is(:scope):has(:is(input):is([name=type i]):is([value=貸出]):is(:checked)) :is(.貸出),
-			:is(:scope):has(:is(input):is([name=type i]):is([value=延長]):is(:checked)) :is(.延長),
-			:is(:scope):has(:is(input):is([name=type i]):is([value=返却]):is(:checked)) :is(.返却)
+		:where(.貸出),:where(.延長),:where(.返却){&:not(
+			:where(:scope):has(:where(input):where([name=type i]):where([value=貸出]):where(:checked)) :where(.貸出),
+			:where(:scope):has(:where(input):where([name=type i]):where([value=延長]):where(:checked)) :where(.延長),
+			:where(:scope):has(:where(input):where([name=type i]):where([value=返却]):where(:checked)) :where(.返却)
 		){display:none}}
 		/*
-		:is(.貸出),:is(.延長),:is(.返却){&:not(
-			:is(:scope):has(:is(option):is([value=貸出]):is(:checked)) :is(.貸出),
-			:is(:scope):has(:is(option):is([value=延長]):is(:checked)) :is(.延長),
-			:is(:scope):has(:is(option):is([value=返却]):is(:checked)) :is(.返却)
+		:where(.貸出),:where(.延長),:where(.返却){&:not(
+			:where(:scope):has(:where(option):where([value=貸出]):where(:checked)) :where(.貸出),
+			:where(:scope):has(:where(option):where([value=延長]):where(:checked)) :where(.延長),
+			:where(:scope):has(:where(option):where([value=返却]):where(:checked)) :where(.返却)
 		){display:none}}
 		*{transition-property:background-color,color}
 		:not(:focus){transition-duration:.25s}
@@ -318,23 +318,23 @@ do{
 	}</style>
 	<label><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
 	<div><style>@scope{
-		:is(:scope){padding-block:calc(.5lh - .5em)}
+		:where(:scope){padding-block:calc(.5lh - .5em)}
 	}</style><input name=digits readonly></div>
 	<label><strong>氏名</strong>（姓名間 空白必須）</label>
 	<div><style>@scope{
-		:is(:scope){font-size:.75em;line-height:calc(1rlh/1em - 1rem/1em + 1)}
+		:where(:scope){font-size:.75em;line-height:calc(1rlh/1em - 1rem/1em + 1)}
 	}</style>表記揺れ対策のため、一部の漢字は使用できません。使用できる漢字または平仮名を代用してください。</div>
 	<div><style>@scope{
-		:is(:scope){padding-block:calc(.5lh - .5em)}
+		:where(:scope){padding-block:calc(.5lh - .5em)}
 	}</style><input name=userName></div>
-	<label><strong>申請種別</strong></label>
+	<label><strong>申請種別</strong></label>-->
 	<div>
 		<style>@scope{
-			:is(:scope){column-gap:calc(1lh - 1em);display:flex;padding-block:calc(.5lh - .5em)}
-			:is(:scope)>:is(label){border-radius:calc(.5lh - .5em);flex-grow:1;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;text-align:center}
-			:is(:scope)>:is(label):not(:has(:is(input):is([name=type i]):is(:checked))){background-color:light-dark(#ddd,#222);cursor:pointer}
-			:is(:scope)>:is(label):has(:is(input):is([name=type i]):is(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
-			:is(:scope)>:is(label)>:is(input):is([name=type i]){display:none}
+			:where(:scope){column-gap:calc(1lh - 1em);display:flex;padding-block:calc(.5lh - .5em)}
+			:where(:scope)>:where(label){border-radius:calc(.5lh - .5em);flex-grow:1;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;text-align:center}
+			:where(:scope)>:where(label):not(:has(:where(input):where([name=type i]):where(:checked))){background-color:light-dark(#ddd,#222);cursor:pointer}
+			:where(:scope)>:where(label):has(:where(input):where([name=type i]):where(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
+			:where(:scope)>:where(label)>:where(input):where([name=type i]){display:none}
 		}</style>
 		<label><input type=radio name=type value=貸出>貸出</label>
 		<label><input type=radio name=type value=延長>延長</label>
@@ -342,28 +342,28 @@ do{
 	</div>
 	<!--
 	<div><style>@scope{
-		:is(:scope){padding-block:calc(.5lh - .5em)}
-		:is(option):not(:is([value])){display:none}
+		:where(:scope){padding-block:calc(.5lh - .5em)}
+		:where(option):not(:where([value])){display:none}
 	}</style><select name=type required>
 		<option>選択してください</option>
 		<option value=貸出>貸出</option>
 		<option value=延長>延長</option>
 		<option value=返却>返却</option>
 	</select></div>
-	-->
+	--><!--
 	<label class=貸出><strong>貸出日</strong></label>
 	<label class=返却><strong>返却日</strong></label>
 	<div class=貸出&#32;返却><style>@scope{
-		:is(:scope){padding-block:calc(.5lh - .5em)}
+		:where(:scope){padding-block:calc(.5lh - .5em)}
 	}</style><input type=date name=date></div>
 	<label class=返却><strong>お薦めコメント</strong>（任意）</label>
 	<div class=返却><style>@scope{
-		:is(:scope){padding-block:calc(.5lh - .5em)}
+		:where(:scope){padding-block:calc(.5lh - .5em)}
 	}</style><textarea name=comment placeholder=「"」は使用できません。></textarea></div>
 	<div class=貸出&#32;延長&#32;返却><style>@scope{
-		:is(:scope){padding-block:calc(.5lh - .5em)}
+		:where(:scope){padding-block:calc(.5lh - .5em)}
 	}</style><input type=submit name=submitter disabled value=申請></div>
-</form>
+--></form>
 
 <!--
 <form>
