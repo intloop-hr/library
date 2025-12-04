@@ -281,7 +281,7 @@ do{
 	<style>@scope{
 		:not(:where(:focus)):where(.invalid){color:#f00}
 		:where(input)/*,:where(select)*/{text-align:center}
-		:where(input):where([type=date i]){block-size:calc(2lh - 1em)}
+		:where(input):where([type=date i]){block-size:calc(2lh - 1em);box-sizing:border-box}
 		:where(input):where([type=submit i]):not(:where(:disabled)){cursor:pointer}
 		:where(label){display:block}
 		:where(textarea){block-size:calc(5lh - 1em);resize:none}
