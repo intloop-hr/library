@@ -124,11 +124,13 @@ await promise
 const[form]=document.forms
 do{
 	switch(true){
-		case form.matches(':has(:not(.borrow,.return,.borrow-or-return).invalid)'):
+		case form.matches(':has(:not(.貸出,.延長,.返却).invalid)'):
+		// 改修 ここから
 		case form.matches(':has([value=貸出]:checked):has(.borrow.invalid)'):
 		case form.matches(':has([value=貸出]:checked):has(.borrow-or-return.invalid)'):
 		case form.matches(':has([value=返却]:checked):has(.return.invalid)'):
 		case form.matches(':has([value=返却]:checked):has(.borrow-or-return.invalid)'):
+		// 改修 ここから
 		form.submitter.disabled=true
 		break
 		default:
