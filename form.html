@@ -279,13 +279,13 @@ do{
 
 <form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
 	<style>@scope{
-		:where(:scope):where(.posting){pointer-events:none}
-
 		:not(:where(:focus)):where(.invalid){color:#f00}
 		:where(input)/*,:where(select)*/{text-align:center}
 		:where(input):where([type=submit i]):not(:where(:disabled)){cursor:pointer}
 		:where(label){display:block}
 		:where(textarea){block-size:calc(5lh - 1em);font-family:unset;resize:none}
+
+		:where(:scope):where(.posting){pointer-events:none}
 
 		/*改修 ここから*/
 		:where(input),:where(textarea),:where(label):has(:where(input):where([type=radio])){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
@@ -326,7 +326,7 @@ do{
 	<div>
 		<style>@scope{
 			:where(:scope){column-gap:calc(1rlh - 1rem);display:flex;padding-block:calc(.5rlh - .5rem)}
-			:where(:scope)>:where(label){border-radius:calc(.5lh - .5em);display:block;flex-grow:1;inline-size:100%;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);text-align:center}
+			:where(:scope)>:where(label){border-radius:calc(.5lh - .5em);flex-grow:1;inline-size:100%;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);text-align:center}
 			:where(:scope)>:where(label):not(:has(:where(input):where([type=radio]):where(:checked))){background-color:light-dark(#ddd,#222);cursor:pointer}
 			:where(:scope)>:where(label):has(:where(input):where([type=radio]):where(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
 			:where(:scope)>:where(label)>:where(input){display:none}

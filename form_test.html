@@ -279,14 +279,14 @@ do{
 
 <form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
 	<style>@scope{
-		:where(:scope):where(.posting){pointer-events:none}
-
 		:not(:where(:focus)):where(.invalid){color:#f00}
 		:where(input)/*,:where(select)*/{text-align:center}
 		:where(input):where([type=date i]){block-size:calc(2lh - 1em)}
 		:where(input):where([type=submit i]):not(:where(:disabled)){cursor:pointer}
 		:where(label){display:block}
 		:where(textarea){block-size:calc(5lh - 1em);resize:none}
+
+		:where(:scope):where(.posting){pointer-events:none}
 
 		/*改修 ここから*/
 		:where(input)/*,:where(select)*/,:where(textarea){appearance:none;border:unset;border-radius:calc(.5lh - .5em);display:block;font:unset;inline-size:100%;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em)}
