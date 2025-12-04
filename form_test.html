@@ -62,6 +62,9 @@ const[form]=document.forms
 form.date.value||=new Date().toLocaleDateString('sv')
 
 do{
+	// 改修 ここから
+	break
+	// 改修 ここまで
 	switch(true){
 		case invalidPattern.test(form.userName.value):
 		form.userName.classList.add('invalid')
@@ -189,6 +192,9 @@ const options={}
 options.method='post'
 */
 do{
+	// 改修 ここから
+	break
+	// 改修 ここまで
 	const{resolve,promise}=Promise.withResolvers()
 	addEventListener('submit',resolve)
 	await promise
