@@ -1,7 +1,7 @@
 <meta name=format-detection content=telephone=no>
 <meta name=viewport content=width=device-width>
-<title>INTLOOPライブラリー 申請フォーム</title>
-<link href=style.css rel=stylesheet>
+<title>INTLOOPライブラリー 申請フォーム</title><!--
+<link href=style.css rel=stylesheet>-->
 <style>:not(*>*)>:where(body){inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);margin-inline:auto;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}</style>
 
 <!--
@@ -329,12 +329,12 @@ do{
 	}</style><input name=userName></div>
 	<label><strong>申請種別</strong></label>-->
 	<div>
-		<style>@scope{
+		<style>@scope{/*
 			:where(:scope){column-gap:calc(1lh - 1em);display:flex;padding-block:calc(.5lh - .5em)}
-			:where(:scope)>:where(label){border-radius:calc(.5lh - .5em);flex-grow:1;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;text-align:center}
+			:where(:scope)>:where(label){border-radius:calc(.5lh - .5em);flex-grow:1;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;text-align:center}*/
 			:where(:scope)>:where(label):not(:has(:where(input):where([name=type i]):where(:checked))){background-color:light-dark(#ddd,#222);cursor:pointer}
-			:where(:scope)>:where(label):has(:where(input):where([name=type i]):where(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
-			:where(:scope)>:where(label)>:where(input):where([name=type i]){display:none}
+			:where(:scope)>:where(label):has(:where(input):where([name=type i]):where(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}/*
+			:where(:scope)>:where(label)>:where(input):where([name=type i]){display:none}*/
 		}</style>
 		<label><input type=radio name=type value=貸出>貸出</label>
 		<label><input type=radio name=type value=延長>延長</label>
