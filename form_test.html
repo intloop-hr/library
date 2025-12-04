@@ -241,15 +241,13 @@ do{
 	const options={}
 	options.method=target.method
 	options.body=JSON.stringify(payloadSource)
-	/*確認 ここから*/
 	let trial=fetch(target.action,options)
 	try{
 		await trial
 	} catch{
-	await new Promise(requestAnimationFrame)
+		await new Promise(requestAnimationFrame)
 		trial=fetch(target.action,options)
 	}
-	/*確認 ここまで*/
 	try{
 		const response=await trial
 		submitter.value='申請済'
@@ -284,6 +282,7 @@ do{
 		:where(:scope):where(.posting){pointer-events:none}
 
 		:not(:where(:focus)):where(.invalid){color:#f00}
+		/*改修 ここから*/
 		:where(input),:where(select),:where(textarea){appearance:none;border:unset;border-radius:calc(.5lh - .5em);display:block;inline-size:100%;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em)}
 		:where(input),:where(select){text-align:center}
 		:where(input):where([type=date]){font-family:unset;block-size:calc(2lh - 1em)}
@@ -296,6 +295,7 @@ do{
 		:where(input):where([type=submit]){color:light-dark(#fff,#000)}
 		:where(input):where([type=submit]):not(:where(:disabled)){background-color:light-dark(#000,#fff)}
 		:where(input):where([type=submit]):where(:disabled){background-color:light-dark(#555,#aaa)}
+		/*改修 ここまで*/
 
 		:where(.貸出),:where(.延長),:where(.返却){&:not(
 			:where(:scope):has(:where(input):where([name=type]):where([value=貸出]):where(:checked)) :where(.貸出),

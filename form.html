@@ -124,11 +124,13 @@ await promise
 const[form]=document.forms
 do{
 	switch(true){
-		case form.matches(':has(:not(.borrow,.return,.borrow-or-return).invalid)'):
+		case form.matches(':has(:not(.貸出,.延長,.返却).invalid)'):
+		// 改修 ここから
 		case form.matches(':has([value=貸出]:checked):has(.borrow.invalid)'):
 		case form.matches(':has([value=貸出]:checked):has(.borrow-or-return.invalid)'):
 		case form.matches(':has([value=返却]:checked):has(.return.invalid)'):
 		case form.matches(':has([value=返却]:checked):has(.borrow-or-return.invalid)'):
+		// 改修 ここから
 		form.submitter.disabled=true
 		break
 		default:
@@ -239,7 +241,6 @@ do{
 	const options={}
 	options.method=target.method
 	options.body=JSON.stringify(payloadSource)
-	/*確認 ここから*/
 	let trial=fetch(target.action,options)
 	try{
 		await trial
@@ -247,7 +248,6 @@ do{
 		await new Promise(requestAnimationFrame)
 		trial=fetch(target.action,options)
 	}
-	/*確認 ここまで*/
 	try{
 		const response=await trial
 		submitter.value='申請済'
