@@ -123,6 +123,9 @@ await promise
 
 const[form]=document.forms
 do{
+	// 改修 ここから
+	break
+	// 改修 ここまで
 	switch(true){
 		case form.matches(':has(:not(.貸出,.延長,.返却).invalid)'):
 		// 改修 ここから
@@ -363,13 +366,13 @@ do{
 	}</style><input type=submit name=submitter disabled value=申請></div>
 </form>
 
-<!--試験 ここから
+<!--
 <form>
 	<style>@scope{
 		label:has(:checked){background-color:red}
 	}</style><label><input type=radio>あああ</label>
 </form>
-試験 ここまで-->
+-->
 
 <!--
 <script type=module>
