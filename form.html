@@ -285,9 +285,9 @@ do{
 		/*改修 ここから*/
 		:where(label):not(:has(:where(input):where([type=radio]))){display:block}
 		:where(input),:where(textarea),:where(label):has(:where(input):where([type=radio])){display:inline-block;inline-size:calc(100% - 2rlh + 2rem);min-block-size:1lh;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}
-		input:not([type=submit]),textarea,label:has(input[type=radio]):not(:has(input[type=radio]:checked)){background-color:light-dark(#ddd,#222)}
-		input[type=submit],label:has(input[type=radio]:checked){color:light-dark(#fff,#000)}
-		input[type=submit]:not(:disabled),label:has(input[type=radio]:checked){background-color:light-dark(#000,#fff)}
+		input:not([type=submit]),textarea{background-color:light-dark(#ddd,#222)}
+		input[type=submit]{color:light-dark(#fff,#000)}
+		input[type=submit]:not(:disabled){background-color:light-dark(#000,#fff)}
 		input[type=submit]:disabled{background-color:light-dark(#555,#aaa)}
 		input,label:has(input[type=radio]){text-align:center}
 		input[type=submit]:not(:disabled),label:has(input[type=radio]):not(:has(input[type=radio]:checked)){cursor:pointer}
@@ -325,6 +325,9 @@ do{
 			:where(:scope){column-gap:calc(1rlh - 1rem);display:flex;padding-block:calc(.5rlh - .5rem)}
 			:where(:scope)>:where(label){border-radius:calc(.5lh - .5em);display:block;flex-grow:1;inline-size:100%;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em)}
 			:where(:scope)>:where(label)>:where(input){display:none}
+
+			:where(:scope)>:where(label):not(:has(:where(input):where([type=radio]):where(:checked))){background-color:light-dark(#ddd,#222)}
+			:where(:scope)>:where(label):has(:where(input):where([type=radio]):where(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
 		}</style>
 		<label><input type=radio name=type value=貸出>貸出</label>
 		<label><input type=radio name=type value=延長>延長</label>
