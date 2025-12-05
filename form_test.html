@@ -104,7 +104,10 @@ do{
 	const options={}
 	options.method=target.method
 	options.mode='no-cors'
-	options.body=new FormData(target)
+	// 確認 ここから
+	const data=new FormData(target)
+	options.body=`${new URLSearchParams(data)}`.replace(/(%[89A-F][\dA-F])+/g,decodeURI)
+	// 確認 ここまで
 	let trial=fetch(target.action,options)
 	try{
 		await trial
