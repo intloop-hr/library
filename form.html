@@ -147,44 +147,6 @@ do{
 </script>
 
 <script type=module>
-/*
-//
-let autoinput=false
-//
-
-const{resolve,promise}=Promise.withResolvers()
-addEventListener('pageshow',resolve)
-await promise
-if('requestIdleCallback'in window){
-	await new Promise(requestIdleCallback)
-}
-if(confirm('当端末に紐付けられた氏名を入力しますか?')){
-	if(document.hasFocus()){
-	} else{
-		const{resolve,promise}=Promise.withResolvers()
-		addEventListener('focus',resolve)
-		await promise
-	}
-
-	const[form]=document.forms
-	try{
-		const publicKey={}
-		publicKey.challenge=new ArrayBuffer
-		publicKey.allowCredentials=[]
-		const{response}=await navigator.credentials.get({publicKey})
-		form.userName.value=new TextDecoder().decode(response.userHandle)
-		form.dispatchEvent(new Event('input'))
-		//
-		autoinput||=true
-		//
-	} catch(error){
-		alert(error)
-	}
-}
-
-const options={}
-options.method='post'
-*/
 do{
 	const{resolve,promise}=Promise.withResolvers()
 	addEventListener('submit',resolve)
@@ -193,30 +155,6 @@ do{
 	event.preventDefault()
 
 	const{submitter,target}=event
-	/*
-	if(autoinput){
-	} else{
-		if('requestIdleCallback'in window){
-			await new Promise(requestIdleCallback)
-		}
-		if(confirm('当端末に氏名を紐付けますか?')){
-			const publicKey={}
-			publicKey.challenge=new ArrayBuffer
-			publicKey.pubKeyCredParams=[]
-			publicKey.rp={name:'INTLOOPライブラリー'}
-			const name=target.userName.value.replace(/^\s+|\s+$/g,'').replace(/\s+/g,' ')
-			const id=new TextEncoder().encode(name)
-			publicKey.user={name,displayName:name,id}
-
-			try{
-				await navigator.credentials.create({publicKey})
-			} catch(error){
-				alert(error)
-				continue
-			}
-		}
-	}
-	*/
 
 	submitter.disabled=true
 	submitter.value='申請中'
@@ -247,8 +185,7 @@ do{
 	} catch{
 		await new Promise(requestAnimationFrame)
 		trial=fetch(target.action,options)
-	}/*
-	try{*/
+	}
 	const response=await trial
 	submitter.value='申請済'
 	target.classList.remove('posting')
@@ -260,20 +197,7 @@ do{
 	if('requestIdleCallback'in window){
 		await new Promise(requestIdleCallback)
 	}
-	alert(text)/*
-	} catch(error){
-		submitter.disabled=false
-		submitter.value='申請'
-		target.classList.remove('posting')
-		if(target.classList.length){
-		} else{
-			target.removeAttribute('class')
-		}
-		if('requestIdleCallback'in window){
-			await new Promise(requestIdleCallback)
-		}
-		alert(error+'\n\nお手数ですが、清田までご連絡ください。手動で処理いたします。ページを離れていただいて構いません。')
-	}*/
+	alert(text)
 } while(true)
 </script>
 
@@ -364,23 +288,5 @@ do{
 
 <!--
 <script type=module>
-if(Promise.withResolvers){
-} else{
-	const[{submitter}]=document.forms
-	const input=document.createElement('input')
-	input.type='hidden'
-	input.name='withResolvers'
-	input.checked=false
-	submitter.parentElement.insertBefore(input,submitter)
-}
-
-Promise.withResolvers??=function(){
-	const result={}
-	result.promise=new this(function(resolve,reject){
-		result.resolve=resolve
-		result.reject=reject
-	})
-	return result
-}
 </script>
 -->
