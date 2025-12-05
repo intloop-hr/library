@@ -103,6 +103,7 @@ do{
 
 	const options={}
 	options.method=target.method
+	options.mode='no-cors'
 	options.body=new FormData(target)
 	let trial=fetch(target.action,options)
 	try{
