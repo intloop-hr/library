@@ -143,13 +143,11 @@ do{
 		:where(input)/*,:where(select)*/{text-align:center}
 		:where(input):where([type=date i]){block-size:calc(2lh - 1em)}
 		::-webkit-calendar-picker-indicator{cursor:pointer}
-		:where(input):where([type=submit i]):not(:where(:disabled)){cursor:pointer}
+		:where(input):where([type=submit i]){color:light-dark(#fff,#000);-webkit-user-select:none}
+		:where(input):where([type=submit i]):not(:where(:disabled)){background-color:light-dark(#000,#fff);cursor:pointer}
+		:where(input):where([type=submit i]):where(:disabled){background-color:light-dark(#555,#aaa)}
 		:where(label){display:block}
 		:where(textarea){resize:none}
-
-		:where(input):where([type=submit i]){color:light-dark(#fff,#000)}
-		:where(input):where([type=submit i]):not(:where(:disabled)){background-color:light-dark(#000,#fff)}
-		:where(input):where([type=submit i]):where(:disabled){background-color:light-dark(#555,#aaa)}
 
 		:where(:scope):where(.posting){pointer-events:none}
 
