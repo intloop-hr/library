@@ -76,8 +76,19 @@ await promise
 const[form]=document.forms
 form.date.value||=new Date().toLocaleDateString('sv')
 do{
-	/*改修 ここから*/
-	/*改修 ここまで*/
+	switch(form.type){
+		case'貸出':
+		form.date.disabled&&=false
+		form.comment.disabled&&=true
+		break
+		case'返却':
+		form.date.disabled&&=false
+		form.comment.disabled&&=false
+		break
+		default:
+		form.date.disabled&&=true
+		form.comment.disabled&&=true
+	}
 	form.submitter.value='申請'
 	if(form.matches(':valid')){
 		form.submitter.disabled&&=false
@@ -98,34 +109,15 @@ do{
 	await promise
 	if(event.target.method!='post') continue
 	event.preventDefault()
-
-	// 改修 ここから
 	const{submitter,target}=event
 
 	submitter.disabled=true
 	submitter.value='申請中'
 	target.classList.add('posting')
 
-	const payloadSource={}
-	payloadSource.digits=target.digits.value
-	payloadSource.userName=target.userName.value
-	payloadSource.type=target.type.value
-	switch(target.type.value){
-		case'貸出':
-		payloadSource.date=target.date.value
-		break
-		case'返却':
-		payloadSource.date=target.date.value
-		payloadSource.comment=target.comment.value
-	}
-	if(target.withResolvers){
-		payloadSource.withResolvers=target.withResolvers.checked
-	}
-	// 改修 ここまで
-
 	const options={}
 	options.method=target.method
-	options.body=JSON.stringify(payloadSource)
+	options.body=new FormData(target)
 	let trial=fetch(target.action,options)
 	try{
 		await trial
