@@ -112,7 +112,11 @@ do{
 	let trial=fetch(target.action,options)
 	try{
 		await trial
-	} catch{
+	} catch(error){
+		if('requestIdleCallback'in window){
+			await new Promise(requestIdleCallback)
+		}
+		alert(error)
 		await new Promise(requestAnimationFrame)
 		trial=fetch(target.action,options)
 	}
