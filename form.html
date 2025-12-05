@@ -30,7 +30,7 @@ if(form.digits.matches(':invalid')){
 <script type=module>
 const usableCharacters=function(){
 	const decoder=new TextDecoder('sjis')
-	let result='\'\\-a-z々あいうえお-ろわ-んゝゞァ-ロワ-ヴーヽヾ'
+	let result='\'\\-A-Za-z々あいうえお-ろわ-んゝゞァ-ロワ-ヴーヽヾ'
 	for(let number=0x8800;number<0xec00;++number){
 		const array=[]
 		let number_2=number
