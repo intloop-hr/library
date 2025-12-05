@@ -56,20 +56,6 @@ form.date.max=new Date().toLocaleDateString('sv')
 </script>
 
 <script type=module>
-const[form]=document.forms
-do{
-	const{resolve,promise}=Promise.withResolvers()
-	form.comment.addEventListener('blur',resolve)
-	await promise
-	if(form.comment.matches(':valid')) continue
-	if('requestIdleCallback'in window){
-		await new Promise(requestIdleCallback)
-	}
-	alert('「"」は使用できません。(Googleスプレッドシートとの連携の都合上)')
-} while(true)
-</script>
-
-<script type=module>
 const{resolve,promise}=Promise.withResolvers()
 addEventListener('pageshow',resolve)
 await promise
@@ -77,25 +63,25 @@ const[form]=document.forms
 form.date.value||=new Date().toLocaleDateString('sv')
 do{
 	// 改修 ここから
-	switch(form.type){
+	switch(form.type.value){
 		case'貸出':
-		form.date.disabled=false
-		form.comment.disabled=true
+		form.date.disabled&&=false
+		form.comment.disabled||=true
 		break
 		case'返却':
-		form.date.disabled=false
-		form.comment.disabled=false
+		form.date.disabled&&=false
+		form.comment.disabled&&=false
 		break
 		default:
-		form.date.disabled=true
-		form.comment.disabled=true
+		form.date.disabled||=true
+		form.comment.disabled||=true
 	}
 	form.submitter.value='申請'
 	if(form.matches(':valid')){
-		form.submitter.disabled=false
+		form.submitter.disabled&&=false
 	}
 	if(form.matches(':invalid')){
-		form.submitter.disabled=true
+		form.submitter.disabled||=true
 	}
 	// 改修 ここまで
 	const{resolve,promise}=Promise.withResolvers()
