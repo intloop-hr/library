@@ -40,10 +40,8 @@ const usableCharacters=function(){
 		}
 		const uint8Array=new Uint8Array(array)
 		const text=decoder.decode(uint8Array)
-
 		if(text.codePointAt()<0x4e00) continue
 		if(text.codePointAt()>=0xa000) continue
-
 		result+=text
 	}
 	return result
@@ -58,42 +56,12 @@ form.date.max=new Date().toLocaleDateString('sv')
 </script>
 
 <script type=module>
-const{resolve,promise}=Promise.withResolvers()
-addEventListener('pageshow',resolve)
-await promise
-
-const[form]=document.forms
-form.date.value||=new Date().toLocaleDateString('sv')
-
-/*改修 ここから*/
-do{
-	switch(true){
-		case form.comment.value.includes('"'):
-		form.comment.classList.add('invalid')
-		break
-		default:
-		form.comment.classList.remove('invalid')
-		if(form.comment.classList.length) break
-		form.comment.removeAttribute('class')
-	}
-
-	const{resolve,promise}=Promise.withResolvers()
-	form.addEventListener('input',resolve)
-	await promise
-} while(true)
-/*改修 ここまで*/
-</script>
-
-<script type=module>
 const[form]=document.forms
 do{
 	const{resolve,promise}=Promise.withResolvers()
 	form.comment.addEventListener('blur',resolve)
 	await promise
-
-	if(form.comment.value.includes('"')){
-	} else continue
-
+	if(form.comment.matches(':valid')) continue
 	if('requestIdleCallback'in window){
 		await new Promise(requestIdleCallback)
 	}
@@ -105,29 +73,19 @@ do{
 const{resolve,promise}=Promise.withResolvers()
 addEventListener('pageshow',resolve)
 await promise
-
 const[form]=document.forms
+form.date.value||=new Date().toLocaleDateString('sv')
 do{
-	switch(true){
-		case form.matches(':has(:not(.貸出,.延長,.返却).invalid)'):
-		// 改修 ここから
-		case form.matches(':has([value=貸出]:checked):has(.borrow.invalid)'):
-		case form.matches(':has([value=貸出]:checked):has(.borrow-or-return.invalid)'):
-		case form.matches(':has([value=返却]:checked):has(.return.invalid)'):
-		case form.matches(':has([value=返却]:checked):has(.borrow-or-return.invalid)'):
-		// 改修 ここから
-		form.submitter.disabled=true
-		break
-		default:
-		form.submitter.disabled=false
+	form.submitter.value='申請'
+	if(form.matches(':valid')){
+		form.submitter.disabled&&=false
 	}
-
+	if(form.matches(':invalid')){
+		form.submitter.disabled||=true
+	}
 	const{resolve,promise}=Promise.withResolvers()
 	form.addEventListener('input',resolve)
 	await promise
-
-	form.submitter.disabled=false
-	form.submitter.value='申請'
 } while(true)
 </script>
 
@@ -139,6 +97,7 @@ do{
 	if(event.target.method!='post') continue
 	event.preventDefault()
 
+	// 改修 ここから
 	const{submitter,target}=event
 
 	submitter.disabled=true
@@ -160,6 +119,7 @@ do{
 	if(target.withResolvers){
 		payloadSource.withResolvers=target.withResolvers.checked
 	}
+	// 改修 ここまで
 
 	const options={}
 	options.method=target.method
@@ -204,17 +164,21 @@ do{
 
 		:where(:scope):where(.posting){pointer-events:none}
 
+		:where(input)/*,:where(select)*/,:where(textarea){&:where(:disabled){display:none}}
+
+		/*
 		:where(.貸出),:where(.延長),:where(.返却){&:not(
 			:where(:scope):has(:where(input):where([name=type i]):where([value=貸出]):where(:checked)) :where(.貸出),
 			:where(:scope):has(:where(input):where([name=type i]):where([value=延長]):where(:checked)) :where(.延長),
 			:where(:scope):has(:where(input):where([name=type i]):where([value=返却]):where(:checked)) :where(.返却)
 		){display:none}}
-		/*
+
 		:where(.貸出),:where(.延長),:where(.返却){&:not(
 			:where(:scope):has(:where(option):where([value=貸出]):where(:checked)) :where(.貸出),
 			:where(:scope):has(:where(option):where([value=延長]):where(:checked)) :where(.延長),
 			:where(:scope):has(:where(option):where([value=返却]):where(:checked)) :where(.返却)
 		){display:none}}
+
 		*{transition-property:background-color,color}
 		:not(:focus){transition-duration:.25s}
 		*/
