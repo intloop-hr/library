@@ -76,6 +76,8 @@ await promise
 const[form]=document.forms
 form.date.value||=new Date().toLocaleDateString('sv')
 do{
+	/*改修 ここから*/
+	/*改修 ここまで*/
 	form.submitter.value='申請'
 	if(form.matches(':valid')){
 		form.submitter.disabled&&=false
@@ -164,21 +166,15 @@ do{
 
 		:where(:scope):where(.posting){pointer-events:none}
 
-		:where(input)/*,:where(select)*/,:where(textarea){&:where(:disabled){display:none}}
+		:where(input),:where(label)/*,:where(select)*/,:where(textarea){&:where(:disabled){display:none}}
+
+		:where(input):where([type=submit i]):not(
+			:where(:scope):has(:where(input):where([name=type i]):where([value=貸出]):where(:checked)) *,
+			:where(:scope):has(:where(input):where([name=type i]):where([value=延長]):where(:checked)) *,
+			:where(:scope):has(:where(input):where([name=type i]):where([value=返却]):where(:checked)) *
+		){display:none}
 
 		/*
-		:where(.貸出),:where(.延長),:where(.返却){&:not(
-			:where(:scope):has(:where(input):where([name=type i]):where([value=貸出]):where(:checked)) :where(.貸出),
-			:where(:scope):has(:where(input):where([name=type i]):where([value=延長]):where(:checked)) :where(.延長),
-			:where(:scope):has(:where(input):where([name=type i]):where([value=返却]):where(:checked)) :where(.返却)
-		){display:none}}
-
-		:where(.貸出),:where(.延長),:where(.返却){&:not(
-			:where(:scope):has(:where(option):where([value=貸出]):where(:checked)) :where(.貸出),
-			:where(:scope):has(:where(option):where([value=延長]):where(:checked)) :where(.延長),
-			:where(:scope):has(:where(option):where([value=返却]):where(:checked)) :where(.返却)
-		){display:none}}
-
 		*{transition-property:background-color,color}
 		:not(:focus){transition-duration:.25s}
 		*/
