@@ -178,6 +178,7 @@ do{
 
 	const options={}
 	options.method=target.method
+	options.mode='no-cors'
 	options.body=JSON.stringify(payloadSource)
 	let trial=fetch(target.action,options)
 	try{

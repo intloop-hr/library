@@ -145,7 +145,7 @@ do{
 		::-webkit-calendar-picker-indicator{cursor:pointer}
 		:where(input):where([type=submit i]):not(:where(:disabled)){cursor:pointer}
 		:where(label){display:block}
-		:where(textarea){block-size:calc(5lh - 1em);resize:none}
+		:where(textarea){resize:none}
 
 		:where(input):where([type=submit i]){color:light-dark(#fff,#000)}
 		:where(input):where([type=submit i]):not(:where(:disabled)){background-color:light-dark(#000,#fff)}
@@ -218,7 +218,7 @@ do{
 	<label class=返却><strong>お薦めコメント</strong>（任意）</label>
 	<div class=返却><style>@scope{
 		:where(:scope){padding-block:calc(.5lh - .5em)}
-	}</style><textarea name=comment></textarea></div>
+	}</style><textarea name=comment rows=4></textarea></div>
 	<div><style>@scope{
 		:where(:scope){padding-block:calc(.5lh - .5em)}
 	}</style><input type=submit name=submitter disabled value=申請></div>
