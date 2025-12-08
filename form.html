@@ -161,11 +161,13 @@ do{
 			:where(:scope):has(:where(input):where([name=type]):where([value=延長]):where(:checked)) :where(.延長),
 			:where(:scope):has(:where(input):where([name=type]):where([value=返却]):where(:checked)) :where(.返却)
 		){display:none}}
+		/*
 		:where(div):has(:where(input):where([type=submit]):not(
 			:where(:scope):has(:where(input):where([name=type]):where([value=貸出]):where(:checked)) *,
 			:where(:scope):has(:where(input):where([name=type]):where([value=延長]):where(:checked)) *,
 			:where(:scope):has(:where(input):where([name=type]):where([value=返却]):where(:checked)) *
 		)){display:none}
+		*/
 		/*
 		:where(.貸出),:where(.延長),:where(.返却){&:not(
 			:where(:scope):has(:where(option):where([value=貸出]):where(:checked)) :where(.貸出),
@@ -197,9 +199,9 @@ do{
 			:where(label):not(:has(:where(input):where([name=type]):where(:checked))){background-color:light-dark(#ddd,#222);cursor:pointer}
 			:where(label):has(:where(input):where([name=type]):where(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
 		}</style>
-		<label><input type=radio name=type value=貸出>貸出</label>
-		<label><input type=radio name=type value=延長>延長</label>
-		<label><input type=radio name=type value=返却>返却</label>
+		<label><input type=radio name=type value=貸出 required>貸出</label>
+		<label><input type=radio name=type value=延長 required>延長</label>
+		<label><input type=radio name=type value=返却 required>返却</label>
 		<!--
 		<style>@scope{
 			:where(:scope){padding-block:calc(.5lh - .5em)}
