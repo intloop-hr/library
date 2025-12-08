@@ -6,8 +6,12 @@
 
 <script type=module>
 const[form]=document.forms
-form.digits.value=new URLSearchParams(location.search).get('digits')
+const digits=new URLSearchParams(location.search).get('digits')
+if(digits!==null){
+	form.digits.value=digits
+}
 if(form.digits.matches(':invalid')){
+	form.digits.readOnly=true
 	if(document.hasFocus()){
 	} else{
 		const{resolve,promise}=Promise.withResolvers()
@@ -25,6 +29,7 @@ if(form.digits.matches(':invalid')){
 		history.back()
 	} while(true)
 }
+form.digits.readOnly=true
 </script>
 
 <script type=module>
@@ -156,11 +161,11 @@ do{
 			:where(:scope):has(:where(input):where([name=type]):where([value=延長]):where(:checked)) :where(.延長),
 			:where(:scope):has(:where(input):where([name=type]):where([value=返却]):where(:checked)) :where(.返却)
 		){display:none}}
-		:where(input):where([type=submit]):not(
+		:where(div):has(:where(input):where([type=submit]):not(
 			:where(:scope):has(:where(input):where([name=type]):where([value=貸出]):where(:checked)) *,
 			:where(:scope):has(:where(input):where([name=type]):where([value=延長]):where(:checked)) *,
 			:where(:scope):has(:where(input):where([name=type]):where([value=返却]):where(:checked)) *
-		){display:none}
+		)){display:none}
 		/*
 		:where(.貸出),:where(.延長),:where(.返却){&:not(
 			:where(:scope):has(:where(option):where([value=貸出]):where(:checked)) :where(.貸出),
@@ -174,7 +179,7 @@ do{
 	<label><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
 	<div><style>@scope{
 		:where(:scope){padding-block:calc(.5lh - .5em)}
-	}</style><input name=digits readonly required pattern=(97[89]|491)\d{9}></div>
+	}</style><input name=digits required pattern=(97[89]|491)\d{9}></div>
 	<label><strong>氏名</strong>（姓名間 空白必須）</label>
 	<div><style>@scope{
 		:where(:scope){font-size:.75em;line-height:calc(1rlh/1em - 1rem/1em + 1)}
