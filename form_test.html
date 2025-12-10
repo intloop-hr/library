@@ -15,6 +15,34 @@ do{
 </script>
 
 <script type=module>
+const[form]=document.forms
+const digits=new URLSearchParams(location.search).get('digits')
+if(digits!==null){
+	form.digits.value=digits
+}
+/*
+if(form.digits.matches(':invalid')){
+	if(document.hasFocus()){
+	} else{
+		const{resolve,promise}=Promise.withResolvers()
+		addEventListener('focus',resolve)
+		await promise
+	}
+	do{
+		const{resolve,promise}=Promise.withResolvers()
+		addEventListener('pageshow',resolve)
+		await promise
+		if('requestIdleCallback'in window){
+			await new Promise(requestIdleCallback)
+		}
+		alert('URLのパラメーター digits が不正です。')
+		// history.back()
+	} while(true)
+}
+*/
+</script>
+
+<script type=module>
 const decoder=new TextDecoder('sjis')
 const usableCharacters=[...'\'\\-A-Za-z々あいうえお-ろわ-んゝゞァ-ロワ-ヴーヽヾ']
 for(let number=0x8800;number<0xec00;++number){
