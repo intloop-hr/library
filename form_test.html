@@ -8,7 +8,15 @@
 const[form]=document.forms
 do{
 	const{resolve,promise}=Promise.withResolvers()
+	// 改修 ここから
 	form.digits.addEventListener(`select`,resolve)
+	form.digits.addEventListener(`keydown`,resolve)
+	form.digits.addEventListener(`keyup`,resolve)
+	form.digits.addEventListener(`mousedown`,resolve)
+	form.digits.addEventListener(`mouseup`,resolve)
+	form.digits.addEventListener(`click`,resolve)
+	form.digits.addEventListener(`focus`,resolve)
+	// 改修 ここまで
 	await promise
 	event.preventDefault()
 } while(true)
