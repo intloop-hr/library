@@ -6,12 +6,11 @@
 
 <script type=module>
 const[form]=document.forms
-const{digits}=form
 do{
-    const{resolve,promise}=Promise.withResolvers()
-    digits.addEventListener(`focus`,resolve)
-    await promise
-    event.preventDefault()
+	const{resolve,promise}=Promise.withResolvers()
+	form.digits.addEventListener(`select`,resolve)
+	await promise
+	event.preventDefault()
 } while(true)
 </script>
 
