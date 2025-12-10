@@ -6,53 +6,40 @@
 
 <script type=module>
 const[form]=document.forms
+do{
+	const{resolve,promise}=Promise.withResolvers()
+	form.digits.addEventListener(`mousedown`,resolve)
+	await promise
+	event.preventDefault()
+} while(true)
+</script>
+
+<script type=module>
+const[form]=document.forms
 const digits=new URLSearchParams(location.search).get('digits')
 if(digits!==null){
 	form.digits.value=digits
 }
-if(form.digits.matches(':invalid')){
-	form.digits.readOnly=true
-	if(document.hasFocus()){
-	} else{
-		const{resolve,promise}=Promise.withResolvers()
-		addEventListener('focus',resolve)
-		await promise
-	}
-	do{
-		const{resolve,promise}=Promise.withResolvers()
-		addEventListener('pageshow',resolve)
-		await promise
-		if('requestIdleCallback'in window){
-			await new Promise(requestIdleCallback)
-		}
-		alert('URLのパラメーター digits が不正です。')
-		history.back()
-	} while(true)
-}
-form.digits.readOnly=true
 </script>
 
 <script type=module>
-const usableCharacters=function(){
-	const decoder=new TextDecoder('sjis')
-	let result='\'\\-A-Za-z々あいうえお-ろわ-んゝゞァ-ロワ-ヴーヽヾ'
-	for(let number=0x8800;number<0xec00;++number){
-		const array=[]
-		let number_2=number
-		while(number_2){
-			array.unshift(--number_2%0x100)
-			number_2>>=0x8
-		}
-		const uint8Array=new Uint8Array(array)
-		const text=decoder.decode(uint8Array)
-		if(text.codePointAt()<0x4e00) continue
-		if(text.codePointAt()>=0xa000) continue
-		result+=text
+const decoder=new TextDecoder('sjis')
+const usableCharacters=[...'\'\\-A-Za-z々あいうえお-ろわ-んゝゞァ-ロワ-ヴーヽヾ']
+for(let number=0x8800;number<0xec00;++number){
+	const array=[]
+	let number_2=number
+	while(number_2){
+		array.unshift(--number_2%0x100)
+		number_2>>=0x8
 	}
-	return result
-}()
+	const uint8Array=new Uint8Array(array)
+	const character=decoder.decode(uint8Array)
+	if(character.codePointAt()<0x4e00) continue
+	if(character.codePointAt()>=0xa000) continue
+	usableCharacters.push(character)
+}
 const[form]=document.forms
-form.userName.pattern=`[ 　${usableCharacters}]*[${usableCharacters}]+[ 　]+[${usableCharacters}]+[ 　${usableCharacters}]*`
+form.userName.pattern='(?=.*[^ 　]+[ 　]+[^ 　]+)[ 　'+usableCharacters.join('')+']*'
 </script>
 
 <script type=module>
@@ -108,21 +95,20 @@ do{
 
 	const options={}
 	options.method=target.method
-	//options.mode='no-cors'
-	// 確認 ここから
 	const entries=new FormData(target).entries()
 	const object=Object.fromEntries(entries)
 	options.body=JSON.stringify(object)
-	// 確認 ここまで
 	let trial=fetch(target.action,options)
 	try{
 		await trial
 	} catch(error){
 		if('requestIdleCallback'in window){
 			await new Promise(requestIdleCallback)
+			alert(error)
+		} else{
+			alert(error)
+			await new Promise(queueMicrotask)
 		}
-		alert(error)
-		await new Promise(requestAnimationFrame)
 		trial=fetch(target.action,options)
 	}
 	const response=await trial
@@ -142,10 +128,10 @@ do{
 
 <form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
 	<style>@scope{
-		:where(input)/*,:where(select)*/,:where(textarea){all:unset;background-color:light-dark(#ddd,#222);border-radius:calc(.5lh - .5em);box-sizing:border-box;cursor:revert;display:block;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;inline-size:100%}
+		:where(input),:where(textarea){all:unset;background-color:light-dark(#ddd,#222);border-radius:calc(.5lh - .5em);box-sizing:border-box;cursor:revert;display:block;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;inline-size:100%}
 
-		:where(input)/*,:where(select)*/,:where(textarea){&:not(:where(:focus)):where(:invalid){color:#f00}}
-		:where(input)/*,:where(select)*/{text-align:center}
+		:where(input),:where(textarea){&:not(:where(:focus)):invalid{color:#f00}}
+		:where(input){text-align:center}
 		:where(input):where([type=date]){block-size:calc(2lh - 1em)}
 		::-webkit-calendar-picker-indicator{cursor:pointer}
 		:where(input):where([type=submit]){color:light-dark(#fff,#000);-webkit-user-select:none}
@@ -162,18 +148,6 @@ do{
 			:where(:scope):has(:where(input):where([name=type]):where([value=返却]):where(:checked)) :where(.返却)
 		){display:none}}
 		/*
-		:where(div):has(:where(input):where([type=submit]):not(
-			:where(:scope):has(:where(input):where([name=type]):where([value=貸出]):where(:checked)) *,
-			:where(:scope):has(:where(input):where([name=type]):where([value=延長]):where(:checked)) *,
-			:where(:scope):has(:where(input):where([name=type]):where([value=返却]):where(:checked)) *
-		)){display:none}
-		*/
-		/*
-		:where(.貸出),:where(.延長),:where(.返却){&:not(
-			:where(:scope):has(:where(option):where([value=貸出]):where(:checked)) :where(.貸出),
-			:where(:scope):has(:where(option):where([value=延長]):where(:checked)) :where(.延長),
-			:where(:scope):has(:where(option):where([value=返却]):where(:checked)) :where(.返却)
-		){display:none}}
 		*{transition-property:background-color,color}
 		:not(:focus){transition-duration:.25s}
 		*/
@@ -202,18 +176,6 @@ do{
 		<label><input type=radio name=type value=貸出 required>貸出</label>
 		<label><input type=radio name=type value=延長 required>延長</label>
 		<label><input type=radio name=type value=返却 required>返却</label>
-		<!--
-		<style>@scope{
-			:where(:scope){padding-block:calc(.5lh - .5em)}
-			:where(option):not(:where([value])){display:none}
-		}</style>
-		<select name=type required>
-			<option>選択してください</option>
-			<option value=貸出>貸出</option>
-			<option value=延長>延長</option>
-			<option value=返却>返却</option>
-		</select>
-		-->
 	</div>
 	<label class=貸出><strong>貸出日</strong></label>
 	<label class=返却><strong>返却日</strong></label>
