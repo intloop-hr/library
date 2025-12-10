@@ -7,11 +7,12 @@
 <!--テスト ここから-->
 <script type=module>
 const[form]=document.forms
+const{digits}=form
 do{
-	const{resolve,promise}=Promise.withResolvers()
-	addEventListener('click',resolve)
-	await promise
-	alert(form.digits.matches(':invalid'))
+    const{resolve,promise}=Promise.withResolvers()
+    digits.addEventListener(`keydown`,resolve)
+    await promise
+    event.preventDefault()
 } while(true)
 </script>
 <!--テスト ここまで-->
@@ -23,7 +24,6 @@ if(digits!==null){
 	form.digits.value=digits
 }
 if(form.digits.matches(':invalid')){
-	form.digits.readOnly=true
 	if(document.hasFocus()){
 	} else{
 		const{resolve,promise}=Promise.withResolvers()
@@ -41,7 +41,6 @@ if(form.digits.matches(':invalid')){
 		// history.back()
 	} while(true)
 }
-form.digits.readOnly=true
 </script>
 
 <script type=module>
