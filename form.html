@@ -107,7 +107,9 @@ do{
 			alert(error)
 		} else{
 			alert(error)
-			await new Promise(queueMicrotask)
+			const{resolve,promise}=Promise.withResolvers()
+			setTimeout(resolve)
+			await promise
 		}
 		trial=fetch(target.action,options)
 	}
