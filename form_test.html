@@ -4,18 +4,16 @@
 <link href=style.css rel=stylesheet>
 <style>:not(*>*)>:where(body){inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);margin-inline:auto;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}</style>
 
-<!--テスト ここから-->
 <script type=module>
 const[form]=document.forms
 const{digits}=form
 do{
     const{resolve,promise}=Promise.withResolvers()
-    digits.addEventListener(`keydown`,resolve)
+    digits.addEventListener(`focus`,resolve)
     await promise
     event.preventDefault()
 } while(true)
 </script>
-<!--テスト ここまで-->
 
 <script type=module>
 const[form]=document.forms
@@ -119,26 +117,26 @@ do{
 
 	const options={}
 	options.method=target.method
-	//options.mode='no-cors'
-	// 確認 ここから
 	const entries=new FormData(target).entries()
 	const object=Object.fromEntries(entries)
 	options.body=JSON.stringify(object)
-	// 確認 ここまで
-	let trial=fetch(target.action,options)
 	/*
+	let trial=fetch(target.action,options)
 	try{
 		await trial
 	} catch(error){
 		if('requestIdleCallback'in window){
 			await new Promise(requestIdleCallback)
+			alert(error)
+		} else{
+			alert(error)
+			await new Promise(queueMicrotask)
 		}
-		alert(error)
-		await new Promise(requestAnimationFrame)
 		trial=fetch(target.action,options)
 	}
-	*/
 	const response=await trial
+	*/
+	const response=await fetch(target.action,options)
 	submitter.value='申請済'
 	target.classList.remove('posting')
 	if(target.classList.length){
@@ -155,10 +153,10 @@ do{
 
 <form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
 	<style>@scope{
-		:where(input)/*,:where(select)*/,:where(textarea){all:unset;background-color:light-dark(#ddd,#222);border-radius:calc(.5lh - .5em);box-sizing:border-box;cursor:revert;display:block;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;inline-size:100%}
+		:where(input),:where(textarea){all:unset;background-color:light-dark(#ddd,#222);border-radius:calc(.5lh - .5em);box-sizing:border-box;cursor:revert;display:block;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;inline-size:100%}
 
-		:where(input)/*,:where(select)*/,:where(textarea){&:not(:where(:focus)):invalid{color:#f00}}
-		:where(input)/*,:where(select)*/{text-align:center}
+		:where(input),:where(textarea){&:not(:where(:focus)):invalid{color:#f00}}
+		:where(input){text-align:center}
 		:where(input):where([type=date]){block-size:calc(2lh - 1em)}
 		::-webkit-calendar-picker-indicator{cursor:pointer}
 		:where(input):where([type=submit]){color:light-dark(#fff,#000);-webkit-user-select:none}
@@ -175,18 +173,6 @@ do{
 			:where(:scope):has(:where(input):where([name=type]):where([value=返却]):where(:checked)) :where(.返却)
 		){display:none}}
 		/*
-		:where(div):has(:where(input):where([type=submit]):not(
-			:where(:scope):has(:where(input):where([name=type]):where([value=貸出]):where(:checked)) *,
-			:where(:scope):has(:where(input):where([name=type]):where([value=延長]):where(:checked)) *,
-			:where(:scope):has(:where(input):where([name=type]):where([value=返却]):where(:checked)) *
-		)){display:none}
-		*/
-		/*
-		:where(.貸出),:where(.延長),:where(.返却){&:not(
-			:where(:scope):has(:where(option):where([value=貸出]):where(:checked)) :where(.貸出),
-			:where(:scope):has(:where(option):where([value=延長]):where(:checked)) :where(.延長),
-			:where(:scope):has(:where(option):where([value=返却]):where(:checked)) :where(.返却)
-		){display:none}}
 		*{transition-property:background-color,color}
 		:not(:focus){transition-duration:.25s}
 		*/
@@ -215,18 +201,6 @@ do{
 		<label><input type=radio name=type value=貸出 required>貸出</label>
 		<label><input type=radio name=type value=延長 required>延長</label>
 		<label><input type=radio name=type value=返却 required>返却</label>
-		<!--
-		<style>@scope{
-			:where(:scope){padding-block:calc(.5lh - .5em)}
-			:where(option):not(:where([value])){display:none}
-		}</style>
-		<select name=type required>
-			<option>選択してください</option>
-			<option value=貸出>貸出</option>
-			<option value=延長>延長</option>
-			<option value=返却>返却</option>
-		</select>
-		-->
 	</div>
 	<label class=貸出><strong>貸出日</strong></label>
 	<label class=返却><strong>返却日</strong></label>
