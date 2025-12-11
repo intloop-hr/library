@@ -159,40 +159,50 @@ do{
 		:not(:focus){transition-duration:.25s}
 		*/
 	}</style>
-	<label><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
-	<div><style>@scope{
-		:where(:scope){padding-block:calc(.5lh - .5em)}
-	}</style><input name=digits required pattern=(97[89]|491)\d{9}></div>
-	<label><strong>氏名</strong>（姓名間 空白必須）</label>
-	<div><style>@scope{
-		:where(:scope){font-size:.75em;line-height:calc(1rlh/1em - 1rem/1em + 1)}
-	}</style>表記揺れ対策のため、一部の漢字は使用できません。使用できる漢字または平仮名を代用してください。</div>
-	<div><style>@scope{
-		:where(:scope){padding-block:calc(.5lh - .5em)}
-	}</style><input name=userName required></div>
-	<label><strong>申請種別</strong></label>
-	<div>
-		<style>@scope{
-			:where(:scope){column-gap:calc(1lh - 1em);display:flex;padding-block:calc(.5lh - .5em)}
-			:where(:scope)>:where(label){border-radius:calc(.5lh - .5em);flex-grow:1;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;text-align:center;-webkit-user-select:none}
-			:where(:scope)>:where(label)>:where(input):where([name=type]){display:none}
-			/*iOS Safariにて、:scopeの子要素:checkedを指定できない*/
-			:where(label):not(:has(:where(input):where([name=type]):where(:checked))){background-color:light-dark(#ddd,#222);cursor:pointer}
-			:where(label):has(:where(input):where([name=type]):where(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
-		}</style>
-		<label><input type=radio name=type value=貸出 required>貸出</label>
-		<label><input type=radio name=type value=延長 required>延長</label>
-		<label><input type=radio name=type value=返却 required>返却</label>
-	</div>
-	<label class=貸出><strong>貸出日</strong></label>
-	<label class=返却><strong>返却日</strong></label>
-	<div class=貸出&#32;返却><style>@scope{
-		:where(:scope){padding-block:calc(.5lh - .5em)}
-	}</style><input type=date name=date required></div>
-	<label class=返却><strong>お薦めコメント</strong>（任意）</label>
-	<div class=返却><style>@scope{
-		:where(:scope){padding-block:calc(.5lh - .5em)}
-	}</style><textarea name=comment rows=4></textarea></div>
+	<fieldset>
+		<legend><strong>ISBNまたは雑誌コード</strong>（上12桁）</legend>
+		<div><style>@scope{
+			:where(:scope){padding-block:calc(.5lh - .5em)}
+		}</style><input name=digits required pattern=(97[89]|491)\d{9}></div>
+	</fieldset>
+	<fieldset>
+		<legend><strong>氏名</strong>（姓名間 空白必須）</legend>
+		<div><style>@scope{
+			:where(:scope){font-size:.75em;line-height:calc(1rlh/1em - 1rem/1em + 1)}
+		}</style>表記揺れ対策のため、一部の漢字は使用できません。使用できる漢字または平仮名を代用してください。</div>
+		<div><style>@scope{
+			:where(:scope){padding-block:calc(.5lh - .5em)}
+		}</style><input name=userName required></div>
+	</fieldset>
+	<fieldset>
+		<legend><strong>申請種別</strong></legend>
+		<div>
+			<style>@scope{
+				:where(:scope){column-gap:calc(1lh - 1em);display:flex;padding-block:calc(.5lh - .5em)}
+				:where(:scope)>:where(label){border-radius:calc(.5lh - .5em);flex-grow:1;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;text-align:center;-webkit-user-select:none}
+				:where(:scope)>:where(label)>:where(input):where([name=type]){display:none}
+				/*iOS Safariにて、:scopeの子要素:checkedを指定できない*/
+				:where(label):not(:has(:where(input):where([name=type]):where(:checked))){background-color:light-dark(#ddd,#222);cursor:pointer}
+				:where(label):has(:where(input):where([name=type]):where(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
+			}</style>
+			<label><input type=radio name=type value=貸出 required>貸出</label>
+			<label><input type=radio name=type value=延長 required>延長</label>
+			<label><input type=radio name=type value=返却 required>返却</label>
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend class=貸出><strong>貸出日</strong></legend>
+		<legend class=返却><strong>返却日</strong></legend>
+		<div class=貸出&#32;返却><style>@scope{
+			:where(:scope){padding-block:calc(.5lh - .5em)}
+		}</style><input type=date name=date required></div>
+	</fieldset>
+	<fieldset>
+		<legend class=返却><strong>お薦めコメント</strong>（任意）</legend>
+		<div class=返却><style>@scope{
+			:where(:scope){padding-block:calc(.5lh - .5em)}
+		}</style><textarea name=comment rows=4></textarea></div>
+	</fieldset>
 	<div><style>@scope{
 		:where(:scope){padding-block:calc(.5lh - .5em)}
 	}</style><input type=submit name=submitter disabled value=申請></div>
