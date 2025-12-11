@@ -182,12 +182,16 @@ while(true){
 location.reload()
 </script>
 
-<video id=video playsinline><style>@scope{
-	:where(:scope){block-size:100%;inline-size:100%}
-}</style></video>
-<canvas id=canvas><style>@scope{
-	:where(:scope){inset:0;object-fit:contain;position:absolute;block-size:100%;inline-size:100%}
-}</style></canvas>
+<video id=video playsinline>
+	<style>@scope{
+		:where(:scope){block-size:100%;inline-size:100%}
+	}</style>
+</video>
+<canvas id=canvas>
+	<style>@scope{
+		:where(:scope){inset:0;object-fit:contain;position:absolute;block-size:100%;inline-size:100%}
+	}</style>
+</canvas>
 <svg id=svg>
 	<style>@scope{
 		:where(:scope){display:block;inset:0;position:absolute;block-size:100%;inline-size:100%}
