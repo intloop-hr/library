@@ -4,7 +4,7 @@
 <link href=style.css rel=stylesheet>
 <style>:not(*>*){@media not (prefers-color-scheme:dark){background-color:#000;color-scheme:dark}touch-action:none}</style>
 
-<script src=https://cdn.jsdelivr.net/npm/quagga></script>
+<script src=https://unpkg.com/@zxing/library></script>
 
 <script type=module>
 if('withResolvers'in Promise){
@@ -26,12 +26,53 @@ if(event.persisted){
 }
 </script>
 
+<!--
+<style>
+	#video {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+</style>
+<script src=https://unpkg.com/@zxing/library></script>
 <script type=module>
-const{video,canvas,svg}=window
+const reader=new ZXing.BrowserMultiFormatReader
+/*
+const hints=new Map
+hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
+*/
+
+addEventListener('beforeunload',function(){
+	reader.reset()
+})
+
+const videoInputDevices=await reader.listVideoInputDevices()
+try{
+	const[{deviceId}]=videoInputDevices
+	reader.decodeFromVideoDevice(deviceId,video,function(){
+		const[result]=arguments
+		if(result){
+		} else return
+		console.log(result.text)
+	}/*,hints*/)
+} catch(error){
+	if('requestIdleCallback'in window){
+		await new Promise(requestIdleCallback)
+	}
+	alert(error)
+}
+</script>
+
+<video id=video playsinline></video>
+-->
+
+<script type=module>
+const{video,svg}=window
 video.removeAttribute('id')
-canvas.removeAttribute('id')
 svg.removeAttribute('id')
-canvas.remove()
 
 const constraints={}
 constraints.video={}
@@ -70,9 +111,6 @@ while(true){
 	const{videoWidth,videoHeight}=video
 	const width=800*videoWidth/Math.max(videoWidth,videoHeight)
 	const height=800*videoHeight/Math.max(videoWidth,videoHeight)
-	canvas.width=width
-	canvas.height=height
-	canvas.getContext('2d').drawImage(video,0,0,videoWidth,videoHeight,0,0,width,height)
 	const viewBox='0,0,'+width+','+height
 	if(svg.getAttribute('viewBox')!=viewBox){
 		svg.setAttribute('viewBox',viewBox)
@@ -80,7 +118,6 @@ while(true){
 		redPath.setAttribute('d','')
 	}
 
-	constraints.src=canvas.toDataURL()
 	const{resolve,promise}=Promise.withResolvers()
 	Quagga.decodeSingle(constraints,resolve)
 	try{
@@ -121,8 +158,6 @@ while(true){
 			if(9-result%10!=code.slice(-1)) continue
 		}
 
-		video.after(canvas)
-		video.remove()
 		video.pause()
 
 		const codeChunks=[]
@@ -187,11 +222,6 @@ location.reload()
 		:where(:scope){block-size:100%;inline-size:100%}
 	}</style>
 </video>
-<canvas id=canvas>
-	<style>@scope{
-		:where(:scope){inset:0;object-fit:contain;position:absolute;block-size:100%;inline-size:100%}
-	}</style>
-</canvas>
 <svg id=svg>
 	<style>@scope{
 		:where(:scope){display:block;inset:0;position:absolute;block-size:100%;inline-size:100%}
