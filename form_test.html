@@ -1,0 +1,199 @@
+<meta name=format-detection content=telephone=no>
+<meta name=viewport content=width=device-width>
+<title>INTLOOPライブラリー 申請フォーム</title>
+<link href=style.css rel=stylesheet>
+<style>:not(*>*)>:where(body){inline-size:min(640px - 2rlh + 2rem,100% - 2rlh + 2rem);margin-inline:auto;padding-block:calc(.5rlh - .5rem);padding-inline:calc(1rlh - 1rem)}</style>
+
+<script type=module>
+const[form]=document.forms
+do{
+	const{resolve,promise}=Promise.withResolvers()
+	form.digits.addEventListener(`beforeinput`,resolve)
+	await promise
+	form.digits.removeEventListener(`beforeinput`,resolve)
+	event.preventDefault()
+} while(true)
+</script>
+
+<script type=module>
+const[form]=document.forms
+const digits=new URLSearchParams(location.search).get('digits')
+if(digits!==null){
+	form.digits.value=digits
+}
+</script>
+
+<script type=module>
+const decoder=new TextDecoder('sjis')
+const usableCharacters=[...'\'\\-A-Za-z々あいうえお-ろわ-んゝゞァ-ロワ-ヴーヽヾ']
+for(let number=0x8800;number<0xec00;++number){
+	const array=[]
+	let number_2=number
+	while(number_2){
+		array.unshift(--number_2%0x100)
+		number_2>>=0x8
+	}
+	const uint8Array=new Uint8Array(array)
+	const character=decoder.decode(uint8Array)
+	if(character.codePointAt()<0x4e00) continue
+	if(character.codePointAt()>=0xa000) continue
+	usableCharacters.push(character)
+}
+const[form]=document.forms
+form.userName.pattern='(?=.*[^ 　]+[ 　]+[^ 　]+)[ 　'+usableCharacters.join('')+']*'
+</script>
+
+<script type=module>
+const[form]=document.forms
+form.date.max=new Date().toLocaleDateString('sv')
+</script>
+
+<script type=module>
+const{resolve,promise}=Promise.withResolvers()
+addEventListener('pageshow',resolve)
+await promise
+removeEventListener('pageshow',resolve)
+const[form]=document.forms
+form.date.value||=new Date().toLocaleDateString('sv')
+do{
+	switch(form.type.value){
+		case'貸出':
+		form.date.disabled&&=false
+		form.comment.disabled||=true
+		break
+		case'返却':
+		form.date.disabled&&=false
+		form.comment.disabled&&=false
+		break
+		default:
+		form.date.disabled||=true
+		form.comment.disabled||=true
+	}
+	form.submitter.value='申請'
+	if(form.matches(':valid')){
+		form.submitter.disabled&&=false
+	}
+	if(form.matches(':invalid')){
+		form.submitter.disabled||=true
+	}
+	const{resolve,promise}=Promise.withResolvers()
+	form.addEventListener('input',resolve)
+	await promise
+	form.removeEventListener('input',resolve)
+} while(true)
+</script>
+
+<script type=module>
+const[form]=document.forms
+do{
+	const{resolve,promise}=Promise.withResolvers()
+	form.addEventListener('submit',resolve)
+	await promise
+	form.removeEventListener('submit',resolve)
+	if(event.target.method!='post') continue
+	event.preventDefault()
+	const{submitter,target}=event
+
+	submitter.disabled=true
+	submitter.value='申請中'
+	target.classList.add('posting')
+
+	const options={}
+	options.method=target.method
+	const entries=new FormData(target).entries()
+	const object=Object.fromEntries(entries)
+	options.body=JSON.stringify(object)
+	let trial=fetch(target.action,options)
+	try{
+		await trial
+	} catch(error){
+		if('requestIdleCallback'in window){
+			await new Promise(requestIdleCallback)
+			alert(error)
+		} else{
+			alert(error)
+			const{resolve,promise}=Promise.withResolvers()
+			setTimeout(resolve)
+			await promise
+		}
+		trial=fetch(target.action,options)
+	}
+	const response=await trial
+	submitter.value='申請済'
+	target.classList.remove('posting')
+	if(target.classList.length){
+	} else{
+		target.removeAttribute('class')
+	}
+	const text=await response.text()
+	if('requestIdleCallback'in window){
+		await new Promise(requestIdleCallback)
+	}
+	alert(text)
+} while(true)
+</script>
+
+<form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
+	<style>@scope{
+		:where(input),:where(textarea){all:unset;background-color:light-dark(#ddd,#222);border-radius:calc(.5lh - .5em);box-sizing:border-box;cursor:revert;display:block;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;inline-size:100%}
+
+		:where(input),:where(textarea){&:not(:where(:focus)):invalid{color:#f00}}
+		:where(input){text-align:center}
+		:where(input):where([type=date]){block-size:calc(2lh - 1em)}
+		::-webkit-calendar-picker-indicator{cursor:pointer}
+		:where(input):where([type=submit]){color:light-dark(#fff,#000);-webkit-user-select:none}
+		:where(input):where([type=submit]):not(:where(:disabled)){background-color:light-dark(#000,#fff);cursor:pointer}
+		:where(input):where([type=submit]):where(:disabled){background-color:light-dark(#555,#aaa)}
+		:where(label){display:block}
+		:where(textarea){resize:none}
+
+		:where(:scope):where(.posting){pointer-events:none}
+
+		:where(.貸出),:where(.延長),:where(.返却){&:not(
+			:where(:scope):has(:where(input):where([name=type]):where([value=貸出]):where(:checked)) :where(.貸出),
+			:where(:scope):has(:where(input):where([name=type]):where([value=延長]):where(:checked)) :where(.延長),
+			:where(:scope):has(:where(input):where([name=type]):where([value=返却]):where(:checked)) :where(.返却)
+		){display:none}}
+		/*
+		*{transition-property:background-color,color}
+		:not(:focus){transition-duration:.25s}
+		*/
+	}</style>
+	<label><strong>ISBNまたは雑誌コード</strong>（上12桁）</label>
+	<div><style>@scope{
+		:where(:scope){padding-block:calc(.5lh - .5em)}
+	}</style><input name=digits required pattern=(97[89]|491)\d{9}></div>
+	<label><strong>氏名</strong>（姓名間 空白必須）</label>
+	<div><style>@scope{
+		:where(:scope){font-size:.75em;line-height:calc(1rlh/1em - 1rem/1em + 1)}
+	}</style>表記揺れ対策のため、一部の漢字は使用できません。使用できる漢字または平仮名を代用してください。</div>
+	<div><style>@scope{
+		:where(:scope){padding-block:calc(.5lh - .5em)}
+	}</style><input name=userName required></div>
+	<label><strong>申請種別</strong></label>
+	<div>
+		<style>@scope{
+			:where(:scope){column-gap:calc(1lh - 1em);display:flex;padding-block:calc(.5lh - .5em)}
+			:where(:scope)>:where(label){border-radius:calc(.5lh - .5em);flex-grow:1;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;text-align:center;-webkit-user-select:none}
+			:where(:scope)>:where(label)>:where(input):where([name=type]){display:none}
+			/*iOS Safariにて、:scopeの子要素:checkedを指定できない*/
+			:where(label):not(:has(:where(input):where([name=type]):where(:checked))){background-color:light-dark(#ddd,#222);cursor:pointer}
+			:where(label):has(:where(input):where([name=type]):where(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
+		}</style>
+		<label><input type=radio name=type value=貸出 required>貸出</label>
+		<label><input type=radio name=type value=延長 required>延長</label>
+		<label><input type=radio name=type value=返却 required>返却</label>
+	</div>
+	<label class=貸出><strong>貸出日</strong></label>
+	<label class=返却><strong>返却日</strong></label>
+	<div class=貸出&#32;返却><style>@scope{
+		:where(:scope){padding-block:calc(.5lh - .5em)}
+	}</style><input type=date name=date required></div>
+	<label class=返却><strong>お薦めコメント</strong>（任意）</label>
+	<div class=返却><style>@scope{
+		:where(:scope){padding-block:calc(.5lh - .5em)}
+	}</style><textarea name=comment rows=4></textarea></div>
+	<div><style>@scope{
+		:where(:scope){padding-block:calc(.5lh - .5em)}
+	}</style><input type=submit name=submitter disabled value=申請></div>
+</form>
