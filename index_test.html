@@ -1,0 +1,212 @@
+<meta name=format-detection content=telephone=no>
+<meta name=viewport content=width=device-width>
+<title>INTLOOPライブラリー</title>
+<link href=style.css rel=stylesheet>
+<style>:not(*>*){@media not (prefers-color-scheme:dark){background-color:#000;color-scheme:dark}touch-action:none}</style>
+
+<script src=https://cdn.jsdelivr.net/npm/quagga></script>
+
+<script type=module>
+if('withResolvers'in Promise){
+} else{
+	if('requestIdleCallback'in window){
+		await new Promise(requestIdleCallback)
+	}
+	alert('お手数ですが、他の最新のブラウザーをご利用いただくか、清田へお問い合わせください。')
+}
+</script>
+
+<script type=module>
+const{resolve,promise}=Promise.withResolvers()
+addEventListener('pageshow',resolve)
+await promise
+removeEventListener('pageshow',resolve)
+if(event.persisted){
+	location=''
+}
+</script>
+
+<script type=module>
+const{video,canvas,svg}=window
+video.removeAttribute('id')
+canvas.removeAttribute('id')
+svg.removeAttribute('id')
+canvas.remove()
+
+const constraints={}
+constraints.video={}
+{
+	const{video}=constraints
+	video.facingMode='environment'
+	video.aspectRatio={max:4/3,min:.75}
+	video.brightness=170
+	video.contrast=100
+	video.saturation=75
+	video.exposureMode='continuous'
+	video.focusMode='continuous'
+	video.whiteBalanceMode='continuous'
+}
+video.srcObject=await navigator.mediaDevices.getUserMedia(constraints)
+await video.play()
+delete constraints.video
+constraints.decoder={}
+{
+	const{decoder}=constraints
+	decoder.multiple=true
+	decoder.readers=['ean_reader']
+}
+constraints.locator={}
+{
+	const{locator}=constraints
+	locator.halfSample=true
+	locator.patchSize='medium'
+}
+constraints.numOfWorkers=navigator.hardwareConcurrency
+// constraints.frequency=10
+
+const codeRegExp=/^978\d{10}$|^979\d{10}$|^491\d{10}$/
+const digitPairRegExp=/\d{2}/g
+while(true){
+	const{videoWidth,videoHeight}=video
+	const width=800*videoWidth/Math.max(videoWidth,videoHeight)
+	const height=800*videoHeight/Math.max(videoWidth,videoHeight)
+	canvas.width=width
+	canvas.height=height
+	canvas.getContext('2d').drawImage(video,0,0,videoWidth,videoHeight,0,0,width,height)
+	const viewBox='0,0,'+width+','+height
+	if(svg.getAttribute('viewBox')!=viewBox){
+		svg.setAttribute('viewBox',viewBox)
+		bluePath.setAttribute('d','')
+		redPath.setAttribute('d','')
+	}
+
+	constraints.src=canvas.toDataURL()
+	const{resolve,promise}=Promise.withResolvers()
+	Quagga.decodeSingle(constraints,resolve)
+	try{
+		await promise
+	} catch(error){
+		if('requestIdleCallback'in window){
+			await new Promise(requestIdleCallback)
+		}
+		alert(error)
+		break
+	}
+
+	bluePath.setAttribute('d','')
+	redPath.setAttribute('d','')
+	if(await promise); else continue
+
+	for(const{box,codeResult}of await promise){
+		const path=codeResult?redPath:bluePath
+		const vertices=[]
+		for(const[x,y]of box){
+			vertices.push(x+' '+y)
+		}
+		const d=path.getAttribute('d')
+		path.setAttribute('d',d+'M'+vertices.join('L')+'Z')
+	}
+
+	for(const{codeResult}of await promise){
+		if(codeResult); else continue
+
+		const{code}=codeResult
+		if(codeRegExp.test(code)); else continue
+		{
+			const digitPairs=code.match(digitPairRegExp)
+			let result=-1
+			for(const[digit1,digit2]of digitPairs){
+				result+=+digit1+3*digit2
+			}
+			if(9-result%10!=code.slice(-1)) continue
+		}
+
+		video.after(canvas)
+		video.remove()
+		video.pause()
+
+		const codeChunks=[]
+		const messageLines=['図書の内容は以下ですか?','']
+		switch(code.slice(0,3)){
+			case'978':
+			case'979':
+			const url=new URL('https:api.openbd.jp')
+			url.pathname='v1/get'
+			url.searchParams.set('isbn',code)
+			const response=await fetch(url)
+			// 保留 ここから
+			let titleUnknown=true
+			// 保留 ここまで
+			for(const item of await response.json()){
+				if(item); else continue
+				const{summary}=item
+				const{title}=summary
+				if(title){
+					messageLines.push('題名: '+title)
+					// 保留 ここから
+					titleUnknown=false
+					// 保留 ここまで
+				}
+				break
+			}
+			// 保留 ここから
+			if(titleUnknown){
+				messageLines.push('目視にてISBNをご確認ください。')
+			}
+			// 保留 ここまで
+
+			codeChunks.push(code.slice(0,3))
+			codeChunks.push(code.slice(3,6))
+			codeChunks.push(code.slice(6,9))
+			codeChunks.push(code.slice(9,12))
+			codeChunks.push(code.slice(12,13))
+			messageLines.push('ISBN: '+codeChunks.join(' '))
+			break
+
+			case'491':
+			codeChunks.push(code.slice(0,3))
+			codeChunks.push(code.slice(3,4))
+			codeChunks.push(code.slice(4,9))
+			codeChunks.push(code.slice(9,11))
+			codeChunks.push(code.slice(11,12))
+			codeChunks.push(code.slice(12,13))
+			messageLines.push('雑誌コード: '+codeChunks.join(' '))
+		}
+		if(confirm(messageLines.join('\n'))){
+			location.href='form.html?digits='+code.slice(0,-1)
+			await Promise.race('')
+		}
+	}
+	if(video.paused) break
+}
+location.reload()
+</script>
+
+<video id=video playsinline>
+	<style>@scope{
+		:where(:scope){block-size:100%;inline-size:100%}
+	}</style>
+</video>
+<canvas id=canvas>
+	<style>@scope{
+		:where(:scope){inset:0;object-fit:contain;position:absolute;block-size:100%;inline-size:100%}
+	}</style>
+</canvas>
+<svg id=svg>
+	<style>@scope{
+		:where(:scope){display:block;inset:0;position:absolute;block-size:100%;inline-size:100%}
+	}</style>
+	<path id=bluePath>
+		<style>@scope{
+			:where(:scope){fill:none;stroke:#00f;stroke-width:2}
+		}</style>
+	</path>
+	<path id=redPath>
+		<style>@scope{
+			:where(:scope){fill:none;stroke:#f00;stroke-width:2}
+		}</style>
+	</path>
+</svg>
+<div><style>@scope{
+	:where(:scope){inset-block:calc(1.5rem - .5rlh);inset-inline:1rem;position:absolute;block-size:fit-content;inline-size:fit-content;-webkit-user-select:none;filter:drop-shadow(0 0 .25em light-dark(#fff,#000))}
+}</style>裏表紙のバーコードを読み取ってください。</div>
