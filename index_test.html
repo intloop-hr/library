@@ -37,7 +37,6 @@ addEventListener('beforeunload',function(){
 try{
 	const[{deviceId}]=await reader.listVideoInputDevices()
 
-	/*
 	const constraints={}
 	constraints.video={}
 	{
@@ -54,7 +53,6 @@ try{
 	const stream=await navigator.mediaDevices.getUserMedia(constraints)
 	video.srcObject=stream
 	await video.play()
-	*/
 
 	/*
 	const hints=new Map
