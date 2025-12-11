@@ -8,9 +8,9 @@
 const[form]=document.forms
 do{
 	const{resolve,promise}=Promise.withResolvers()
-	form.digits.addEventListener(`mousedown`,resolve)
+	form.digits.addEventListener(`beforeinput`,resolve)
 	await promise
-	form.digits.removeEventListener(`mousedown`,resolve)
+	form.digits.removeEventListener(`beforeinput`,resolve)
 	event.preventDefault()
 } while(true)
 </script>
@@ -84,11 +84,12 @@ do{
 </script>
 
 <script type=module>
+const[form]=document.forms
 do{
 	const{resolve,promise}=Promise.withResolvers()
-	addEventListener('submit',resolve)
+	form.addEventListener('submit',resolve)
 	await promise
-	removeEventListener('submit',resolve)
+	form.removeEventListener('submit',resolve)
 	if(event.target.method!='post') continue
 	event.preventDefault()
 	const{submitter,target}=event
