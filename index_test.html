@@ -37,6 +37,7 @@ addEventListener('beforeunload',function(){
 try{
 	const[{deviceId}]=await reader.listVideoInputDevices()
 
+	/*
 	const constraints={}
 	constraints.video={}
 	{
@@ -52,8 +53,6 @@ try{
 	}
 	video.srcObject=await navigator.mediaDevices.getUserMedia(constraints)
 	await video.play()
-	/*
-	delete constraints.video
 	*/
 
 	/*
@@ -117,10 +116,10 @@ try{
 		}
 		if(confirm(messageLines.join('\n'))){
 			location.href='form.html?digits='+code.slice(0,-1)
-			await Promise.race('')
 		} else{
 			location.reload()
 		}
+		await Promise.race('')
 	}/*,hints*/)
 	
 } catch(error){
