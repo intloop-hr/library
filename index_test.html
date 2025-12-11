@@ -37,24 +37,24 @@ addEventListener('beforeunload',function(){
 try{
 	const[{deviceId}]=await reader.listVideoInputDevices()
 
+	/*
 	const constraints={}
 	constraints.video={}
 	{
 		const{video}=constraints
 		video.facingMode='environment'
 		video.aspectRatio={max:4/3,min:.75}
-		/*
 		video.brightness=170
 		video.contrast=100
 		video.saturation=75
 		video.exposureMode='continuous'
 		video.focusMode='continuous'
 		video.whiteBalanceMode='continuous'
-		*/
 	}
 	const stream=await navigator.mediaDevices.getUserMedia(constraints)
 	video.srcObject=stream
 	await video.play()
+	*/
 
 	/*
 	const hints=new Map
