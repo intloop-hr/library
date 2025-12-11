@@ -37,17 +37,6 @@ addEventListener('beforeunload',function(){
 })
 try{
 	const[{deviceId}]=await reader.listVideoInputDevices()
-	/*
-	const hints=new Map
-	hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
-
-	*/
-	reader.decodeFromVideoDevice(deviceId,video,function(){
-		const[result]=arguments
-		if(result){
-		} else return
-		console.log(result.text)
-	}/*,hints*/)
 
 	const constraints={}
 	constraints.video={}
@@ -68,83 +57,70 @@ try{
 	delete constraints.video
 	*/
 
-	const codeRegExp=/^978\d{10}$|^979\d{10}$|^491\d{10}$/
-	const digitPairRegExp=/\d{2}/g
-	while(true){
-		// 改修 ここから
-		for(const{codeResult}of await promise){
-			if(codeResult); else continue
+	/*
+	const hints=new Map
+	hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
+	*/
+	reader.decodeFromVideoDevice(deviceId,video,async function(){
+		const[result]=arguments
+		if(result){
+		} else return
 
-			const{code}=codeResult
-			if(codeRegExp.test(code)); else continue
-			{
-				const digitPairs=code.match(digitPairRegExp)
-				let result=-1
-				for(const[digit1,digit2]of digitPairs){
-					result+=+digit1+3*digit2
+		const{text}=result
+		video.pause()
+
+		const codeChunks=[]
+		const messageLines=['図書の内容は以下ですか?','']
+		switch(code.slice(0,3)){
+			case'978':
+			case'979':
+			const url=new URL('https:api.openbd.jp')
+			url.pathname='v1/get'
+			url.searchParams.set('isbn',code)
+			const response=await fetch(url)
+			// 保留 ここから
+			let titleUnknown=true
+			// 保留 ここまで
+			for(const item of await response.json()){
+				if(item); else continue
+				const{summary}=item
+				const{title}=summary
+				if(title){
+					messageLines.push('題名: '+title)
+					// 保留 ここから
+					titleUnknown=false
+					// 保留 ここまで
 				}
-				if(9-result%10!=code.slice(-1)) continue
-			}
-			// 改修 ここまで
-
-			video.pause()
-
-			const codeChunks=[]
-			const messageLines=['図書の内容は以下ですか?','']
-			switch(code.slice(0,3)){
-				case'978':
-				case'979':
-				const url=new URL('https:api.openbd.jp')
-				url.pathname='v1/get'
-				url.searchParams.set('isbn',code)
-				const response=await fetch(url)
-				// 保留 ここから
-				let titleUnknown=true
-				// 保留 ここまで
-				for(const item of await response.json()){
-					if(item); else continue
-					const{summary}=item
-					const{title}=summary
-					if(title){
-						messageLines.push('題名: '+title)
-						// 保留 ここから
-						titleUnknown=false
-						// 保留 ここまで
-					}
-					break
-				}
-				// 保留 ここから
-				if(titleUnknown){
-					messageLines.push('目視にてISBNをご確認ください。')
-				}
-				// 保留 ここまで
-
-				codeChunks.push(code.slice(0,3))
-				codeChunks.push(code.slice(3,6))
-				codeChunks.push(code.slice(6,9))
-				codeChunks.push(code.slice(9,12))
-				codeChunks.push(code.slice(12,13))
-				messageLines.push('ISBN: '+codeChunks.join(' '))
 				break
+			}
+			// 保留 ここから
+			if(titleUnknown){
+				messageLines.push('目視にてISBNをご確認ください。')
+			}
+			// 保留 ここまで
 
-				case'491':
-				codeChunks.push(code.slice(0,3))
-				codeChunks.push(code.slice(3,4))
-				codeChunks.push(code.slice(4,9))
-				codeChunks.push(code.slice(9,11))
-				codeChunks.push(code.slice(11,12))
-				codeChunks.push(code.slice(12,13))
-				messageLines.push('雑誌コード: '+codeChunks.join(' '))
-			}
-			if(confirm(messageLines.join('\n'))){
-				location.href='form.html?digits='+code.slice(0,-1)
-				await Promise.race('')
-			}
-			// 改修 ここから
+			codeChunks.push(code.slice(0,3))
+			codeChunks.push(code.slice(3,6))
+			codeChunks.push(code.slice(6,9))
+			codeChunks.push(code.slice(9,12))
+			codeChunks.push(code.slice(12,13))
+			messageLines.push('ISBN: '+codeChunks.join(' '))
+			break
+
+			case'491':
+			codeChunks.push(code.slice(0,3))
+			codeChunks.push(code.slice(3,4))
+			codeChunks.push(code.slice(4,9))
+			codeChunks.push(code.slice(9,11))
+			codeChunks.push(code.slice(11,12))
+			codeChunks.push(code.slice(12,13))
+			messageLines.push('雑誌コード: '+codeChunks.join(' '))
 		}
-		if(video.paused) break
-		// 改修 ここまで
-	}
+		if(confirm(messageLines.join('\n'))){
+			location.href='form.html?digits='+code.slice(0,-1)
+			await Promise.race('')
+		}
+	}/*,hints*/)
 	location.reload()
 	
 } catch(error){
