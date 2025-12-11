@@ -20,6 +20,7 @@ if('withResolvers'in Promise){
 const{resolve,promise}=Promise.withResolvers()
 addEventListener('pageshow',resolve)
 await promise
+removeEventListener('pageshow',resolve)
 if(event.persisted){
 	location=''
 }
