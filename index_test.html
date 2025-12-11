@@ -118,9 +118,10 @@ try{
 		if(confirm(messageLines.join('\n'))){
 			location.href='form.html?digits='+code.slice(0,-1)
 			await Promise.race('')
+		} else{
+			location.reload()
 		}
 	}/*,hints*/)
-	location.reload()
 	
 } catch(error){
 	if('requestIdleCallback'in window){
