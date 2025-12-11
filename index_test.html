@@ -58,7 +58,7 @@ try{
 
 	const hints=new Map
 	hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
-	const codeRegExp=/^978\d{10}$|^979\d{10}$|^491\d{6}(0[1-9]|1[0-2])\d{2}$/
+	const codeRegExp=/^97[89]\d{10}$|^491\d{6}(0[1-9]|1[0-2])\d{2}$/
 	reader.decodeFromVideoDevice(deviceId,video,async function(){
 		const[result]=arguments
 		if(result){
