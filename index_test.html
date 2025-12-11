@@ -35,9 +35,7 @@ addEventListener('beforeunload',function(){
 	reader.reset()
 })
 try{
-	/*
 	const[{deviceId}]=await reader.listVideoInputDevices()
-	*/
 
 	const constraints={}
 	constraints.video={}
@@ -140,7 +138,6 @@ try{
 		}
 		await Promise.race('')
 	}/*,hints*/)
-	
 } catch(error){
 	if('requestIdleCallback'in window){
 		await new Promise(requestIdleCallback)
