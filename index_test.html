@@ -115,6 +115,10 @@ try{
 			codeChunks.push(text.slice(11,12))
 			codeChunks.push(text.slice(12,13))
 			messageLines.push('雑誌コード: '+codeChunks.join(' '))
+			break
+
+			default:
+			throw new Error('えらー')
 		}
 		if(confirm(messageLines.join('\n'))){
 			location.href='form.html?digits='+text.slice(0,-1)
