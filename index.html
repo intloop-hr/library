@@ -30,7 +30,7 @@ if(event.persisted){
 const{video}=window
 video.removeAttribute('id')
 
-const reader=new ZXing.BrowserMultiFormatReader
+const reader=new ZXing.BrowserMultiFormatReader/*BrowserMultiFormatOneDReader*/
 addEventListener('beforeunload',function(){
 	reader.reset()
 })
