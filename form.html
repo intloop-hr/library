@@ -191,20 +191,20 @@ do{
 			<label><input type=radio name=type value=返却 required>返却</label>
 		</div>
 	</fieldset>
-	<fieldset>
+	<fieldset class=貸出&#32;返却>
 		<legend class=貸出><strong>貸出日</strong></legend>
 		<legend class=返却><strong>返却日</strong></legend>
-		<div class=貸出&#32;返却><style>@scope{
+		<div><style>@scope{
 			:where(:scope){padding-block:calc(.5lh - .5em)}
 		}</style><input type=date name=date required></div>
 	</fieldset>
-	<fieldset>
-		<legend class=返却><strong>お薦めコメント</strong>（任意）</legend>
-		<div class=返却><style>@scope{
+	<fieldset class=返却>
+		<legend><strong>お薦めコメント</strong>（任意）</legend>
+		<div><style>@scope{
 			:where(:scope){padding-block:calc(.5lh - .5em)}
 		}</style><textarea name=comment rows=4></textarea></div>
 	</fieldset>
-	<div><style>@scope{
+	<div class=貸出&#32;延長&#32;返却><style>@scope{
 		:where(:scope){padding-block:calc(.5lh - .5em)}
 	}</style><input type=submit name=submitter value=申請 disabled></div>
 </form>
