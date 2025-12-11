@@ -134,17 +134,26 @@ while(true){
 			url.pathname='v1/get'
 			url.searchParams.set('isbn',code)
 			const response=await fetch(url)
+			// 保留 ここから
+			let titleUnknown=true
+			// 保留 ここまで
 			for(const item of await response.json()){
 				if(item); else continue
 				const{summary}=item
 				const{title}=summary
 				if(title){
 					messageLines.push('題名: '+title)
-				} else{
-					messageLines.push('お手数ですが、目視にてご確認ください。')
+					// 保留 ここから
+					titleUnknown=false
+					// 保留 ここまで
 				}
 				break
 			}
+			// 保留 ここから
+			if(titleUnknown){
+				messageLines.push('目視にてISBNをご確認ください。')
+			}
+			// 保留 ここまで
 
 			codeChunks.push(code.slice(0,3))
 			codeChunks.push(code.slice(3,6))
