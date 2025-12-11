@@ -136,20 +136,16 @@ while(true){
 			const response=await fetch(url)
 			// 保留 ここから
 			let titleUnknown=true
-			// 保留 ここまで
 			for(const item of await response.json()){
 				if(item); else continue
 				const{summary}=item
 				const{title}=summary
 				if(title){
 					messageLines.push('題名: '+title)
-					// 保留 ここから
 					titleUnknown=false
-					// 保留 ここまで
 				}
 				break
 			}
-			// 保留 ここから
 			if(titleUnknown){
 				messageLines.push('目視にてISBNをご確認ください。')
 			}
@@ -171,6 +167,10 @@ while(true){
 			codeChunks.push(code.slice(11,12))
 			codeChunks.push(code.slice(12,13))
 			messageLines.push('雑誌コード: '+codeChunks.join(' '))
+			break
+
+			default:
+			throw new Error('えらー')
 		}
 		if(confirm(messageLines.join('\n'))){
 			location.href='form.html?digits='+code.slice(0,-1)
