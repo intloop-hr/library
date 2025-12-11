@@ -57,14 +57,13 @@ try{
 	const stream=await navigator.mediaDevices.getUserMedia(constraints)
 	video.srcObject=stream
 	await video.play()
-	*/
 
 	/*
 	const hints=new Map
 	hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
 	*/
 	const codeRegExp=/^978\d{10}$|^979\d{10}$|^491\d{6}(0[1-9]|1[0-2])\d{2}$/
-	reader.decodeFromStream(deviceId,video,async function(){
+	reader.decodeFromStream/*decodeFromVideoDevice*/(deviceId,video,async function(){
 		const[result]=arguments
 		if(result){
 		} else return
