@@ -32,18 +32,16 @@ video.removeAttribute('id')
 svg.removeAttribute('id')
 
 const reader=new ZXing.BrowserMultiFormatReader
-/*
-const hints=new Map
-hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
-
 addEventListener('beforeunload',function(){
 	reader.reset()
 })
-*/
-
-const videoInputDevices=await reader.listVideoInputDevices()
 try{
-	const[{deviceId}]=videoInputDevices
+	const[{deviceId}]=await reader.listVideoInputDevices()
+	/*
+	const hints=new Map
+	hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
+
+	*/
 	reader.decodeFromVideoDevice(deviceId,video,function(){
 		const[result]=arguments
 		if(result){
