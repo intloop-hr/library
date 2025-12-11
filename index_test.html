@@ -27,16 +27,6 @@ if(event.persisted){
 </script>
 
 <!--
-<style>
-	#video {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: contain;
-	}
-</style>
 <script src=https://unpkg.com/@zxing/library></script>
 <script type=module>
 const reader=new ZXing.BrowserMultiFormatReader
@@ -65,8 +55,6 @@ try{
 	alert(error)
 }
 </script>
-
-<video id=video playsinline></video>
 -->
 
 <script type=module>
@@ -220,6 +208,7 @@ location.reload()
 <video id=video playsinline>
 	<style>@scope{
 		:where(:scope){block-size:100%;inline-size:100%}
+		/*position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain*/
 	}</style>
 </video>
 <svg id=svg>
