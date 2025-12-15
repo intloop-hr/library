@@ -42,9 +42,10 @@ try{
 	reader.decodeFromVideoDevice(deviceId,video,async function(){
 		bluePath.setAttribute('d','')
 		redPath.setAttribute('d','')
-		if('0'in arguments){
+		const[result]=arguments
+		if(result){
 		} else return
-		const[{resultPoints,text}]=arguments
+		const{resultPoints,text}=result
 		const vertices=[]
 		for(const{x,y}of resultPoints){
 			vertices.push(x+' '+y)
