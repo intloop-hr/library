@@ -48,8 +48,11 @@ try{
 		const{resultPoints,text}=result
 		const[point1,point2]=resultPoints
 		const vertices=[]
-		const y1=y+point1.x/2-point2.x/2
-		const y2=y-point1.x/2+point2.x/2
+		if(point1.y!==point2.y){
+			console.error(point1.y,point2.y)
+		}
+		const y1=point1.y/2+point2.y/2+point1.x/4-point2.x/4
+		const y2=point1.y/2+point2.y/2-point1.x/4+point2.x/4
 		vertices.push(point1.x+' '+y1)
 		vertices.push(point2.x+' '+y1)
 		vertices.push(point2.x+' '+y2)
