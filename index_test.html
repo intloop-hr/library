@@ -42,16 +42,19 @@ try{
 	reader.decodeFromVideoDevice(deviceId,video,async function(){
 		bluePath.setAttribute('d','')
 		redPath.setAttribute('d','')
-		const[result]=arguments
-		if(result){
+		if('0'in arguments){
 		} else return
-		const{text,resultPoints}=result
-		const path=codeRegExp.test(text)?redPath:bluePath
+		const[{resultPoints,text}]=arguments
 		const vertices=[]
 		for(const{x,y}of resultPoints){
 			vertices.push(x+' '+y)
 		}
-		path.setAttribute('d','M'+vertices.join('L'))
+		if(codeRegExp.test(text)){
+		} else{
+			bluePath.setAttribute('d','M'+vertices.join('L'))
+			return
+		}
+		redPath.setAttribute('d','M'+vertices.join('L'))
 
 		video.pause()
 		const codeChunks=[]
