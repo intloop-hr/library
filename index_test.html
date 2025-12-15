@@ -40,13 +40,13 @@ try{
 	hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
 	const codeRegExp=/^97[89]\d{10}$|^491\d{6}(0[1-9]|1[0-2])\d{2}$/
 	reader.decodeFromVideoDevice(deviceId,video,async function(){
-		path.setAttribute('d','')
+		bluePath.setAttribute('d','')
+		redPath.setAttribute('d','')
 		const[result]=arguments
 		if(result){
 		} else return
 		const{text,resultPoints}=result
-		if(codeRegExp.test(text)){
-		} else return
+		const path=codeRegExp.test(text)?redPath:bluePath
 		const vertices=[]
 		for(const{x,y}of resultPoints){
 			vertices.push(x+' '+y)
@@ -126,9 +126,14 @@ try{
 	<style>@scope{
 		:where(:scope){display:block;inset:0;position:absolute;block-size:100%;inline-size:100%}
 	}</style>
-	<path id=path>
+	<path id=bluePath>
 		<style>@scope{
 			:where(:scope){fill:none;stroke:#00f;stroke-width:2}
+		}</style>
+	</path>
+	<path id=redPath>
+		<style>@scope{
+			:where(:scope){fill:none;stroke:#f00;stroke-width:2}
 		}</style>
 	</path>
 </svg>
