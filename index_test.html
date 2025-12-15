@@ -68,9 +68,6 @@ try{
 		vertices.push(point2.x+' '+y2)
 		vertices.push(point1.x+' '+y2)
 		const d='M'+vertices.join('L')+'Z'
-		//
-		document.querySelector('body>div').innerText=d
-		//
 		if(codeRegExp.test(text)){
 		} else{
 			bluePath.setAttribute('d',d)
@@ -88,6 +85,7 @@ try{
 			url.pathname='v1/get'
 			url.searchParams.set('isbn',text)
 			const response=await fetch(url)
+			// 改修 ここから
 			let titleUnknown=true
 			for(const item of await response.json()){
 				if(item); else continue
@@ -102,6 +100,7 @@ try{
 			if(titleUnknown){
 				messageLines.push('目視にてISBNをご確認ください。')
 			}
+			// 改修 ここまで
 
 			codeChunks.push(text.slice(0,3))
 			codeChunks.push(text.slice(3,6))
@@ -142,14 +141,14 @@ try{
 }
 </script>
 
-<video id=video autoplay playsinline>
+<video id=video playsinline>
 	<style>@scope{
 		:where(:scope){block-size:100%;inline-size:100%}
 	}</style>
 </video>
 <svg id=svg>
 	<style>@scope{
-		:where(:scope){display:block;inset:0;position:absolute;block-size:100%;inline-size:100%}
+		:where(:scope){inset:0;position:absolute;block-size:100%;inline-size:100%}
 	}</style>
 	<path id=bluePath>
 		<style>@scope{

@@ -1,6 +1,6 @@
 <meta name=format-detection content=telephone=no>
 <meta name=viewport content=width=device-width>
-<title>INTLOOPライブラリー</title>
+<title>ライブラリー</title>
 <link href=style.css rel=stylesheet>
 <style>:not(*>*){@media not (prefers-color-scheme:dark){background-color:#000;color-scheme:dark}touch-action:none}</style>
 
@@ -28,7 +28,6 @@ if(event.persisted){
 
 <script type=module>
 const{video}=window
-video.removeAttribute('id')
 
 const reader=new ZXing.BrowserMultiFormatReader/*BrowserMultiFormatOneDReader*/
 addEventListener('beforeunload',function(){
@@ -40,26 +39,41 @@ try{
 	hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
 	const codeRegExp=/^97[89]\d{10}$|^491\d{6}(0[1-9]|1[0-2])\d{2}$/
 	reader.decodeFromVideoDevice(deviceId,video,async function(){
+		const{videoWidth,videoHeight}=video
+		const viewBox='0,0,'+videoWidth+','+videoHeight
+		if(svg.getAttribute('viewBox')!==viewBox){
+			svg.setAttribute('viewBox',viewBox)
+			/*
+			bluePath.setAttribute('d','')
+			redPath.setAttribute('d','')
+			*/
+		}
+
+		bluePath.setAttribute('d','')
+		redPath.setAttribute('d','')
+		
 		const[result]=arguments
 		if(result){
 		} else return
-		const{text}=result
-		if(codeRegExp.test(text)){
-		} else return
-
-		/*
-		bluePath.setAttribute('d','')
-		redPath.setAttribute('d','')
-		for(const{}of result){
-			const path=codeResult?redPath:bluePath
-			const vertices=[]
-			for(const[x,y]of box){
-				vertices.push(x+' '+y)
-			}
-			const d=path.getAttribute('d')
-			path.setAttribute('d',d+'M'+vertices.join('L')+'Z')
+		const{resultPoints,text}=result
+		const[point1,point2]=resultPoints
+		if(point1.y!==point2.y){
+			console.error(point1.y,point2.y)
 		}
-		*/
+		const vertices=[]
+		const y1=point1.y/2+point2.y/2+point1.x/4-point2.x/4
+		const y2=point1.y/2+point2.y/2-point1.x/4+point2.x/4
+		vertices.push(point1.x+' '+y1)
+		vertices.push(point2.x+' '+y1)
+		vertices.push(point2.x+' '+y2)
+		vertices.push(point1.x+' '+y2)
+		const d='M'+vertices.join('L')+'Z'
+		if(codeRegExp.test(text)){
+		} else{
+			bluePath.setAttribute('d',d)
+			return
+		}
+		redPath.setAttribute('d',d)
 
 		video.pause()
 		const codeChunks=[]
@@ -71,7 +85,7 @@ try{
 			url.pathname='v1/get'
 			url.searchParams.set('isbn',text)
 			const response=await fetch(url)
-			// 保留 ここから
+			// 改修 ここから
 			let titleUnknown=true
 			for(const item of await response.json()){
 				if(item); else continue
@@ -86,7 +100,7 @@ try{
 			if(titleUnknown){
 				messageLines.push('目視にてISBNをご確認ください。')
 			}
-			// 保留 ここまで
+			// 改修 ここまで
 
 			codeChunks.push(text.slice(0,3))
 			codeChunks.push(text.slice(3,6))
@@ -111,9 +125,11 @@ try{
 		}
 		if(confirm(messageLines.join('\n'))){
 			location.href='form.html?digits='+text.slice(0,-1)
-		} else{
-			location.reload()
+			const{resolve,promise}=Promise.withResolvers()
+			addEventListener('pageshow',resolve)
+			await promise
 		}
+		location.reload()
 		await Promise.race('')
 	},hints)
 } catch(error){
@@ -127,13 +143,11 @@ try{
 <video id=video playsinline>
 	<style>@scope{
 		:where(:scope){block-size:100%;inline-size:100%}
-		/*position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain*/
 	}</style>
 </video>
-<!--
 <svg id=svg>
 	<style>@scope{
-		:where(:scope){display:block;inset:0;position:absolute;block-size:100%;inline-size:100%}
+		:where(:scope){inset:0;position:absolute;block-size:100%;inline-size:100%}
 	}</style>
 	<path id=bluePath>
 		<style>@scope{
@@ -146,7 +160,6 @@ try{
 		}</style>
 	</path>
 </svg>
--->
 <div><style>@scope{
 	:where(:scope){inset-block:calc(1.5rem - .5rlh);inset-inline:1rem;position:absolute;block-size:fit-content;inline-size:fit-content;-webkit-user-select:none;filter:drop-shadow(0 0 .25em light-dark(#fff,#000))}
 }</style>裏表紙のバーコードを読み取ってください。</div>
