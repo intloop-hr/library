@@ -31,18 +31,18 @@ const{video,canvas,svg}=window
 do{
 	const{videoWidth,videoHeight}=video
 	if(videoWidth*videoHeight){
-	} else continue
-	const width=800*videoWidth/Math.max(videoWidth,videoHeight)
-	const height=800*videoHeight/Math.max(videoWidth,videoHeight)
-	console.log(width,height)
-	canvas.width=width
-	canvas.height=height
-	canvas.getContext('2d').drawImage(video,0,0,videoWidth,videoHeight,0,0,width,height)
-	const viewBox='0,0,'+width+','+height
-	if(svg.getAttribute('viewBox')!=viewBox){
-		svg.setAttribute('viewBox',viewBox)
-		bluePath.setAttribute('d','')
-		redPath.setAttribute('d','')
+		const width=800*videoWidth/Math.max(videoWidth,videoHeight)
+		const height=800*videoHeight/Math.max(videoWidth,videoHeight)
+		console.log(width,height)
+		canvas.width=width
+		canvas.height=height
+		canvas.getContext('2d').drawImage(video,0,0,videoWidth,videoHeight,0,0,width,height)
+		const viewBox='0,0,'+width+','+height
+		if(svg.getAttribute('viewBox')!=viewBox){
+			svg.setAttribute('viewBox',viewBox)
+			bluePath.setAttribute('d','')
+			redPath.setAttribute('d','')
+		}
 	}
 	const{resolve,promise}=Promise.withResolvers()
 	video.addEventListener('loadedmetadata',resolve)
