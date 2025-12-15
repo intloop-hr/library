@@ -32,6 +32,7 @@ do{
 	const{videoWidth,videoHeight}=video
 	const width=800*videoWidth/Math.max(videoWidth,videoHeight)
 	const height=800*videoHeight/Math.max(videoWidth,videoHeight)
+	console.log(width,height)
 	canvas.width=width
 	canvas.height=height
 	canvas.getContext('2d').drawImage(video,0,0,videoWidth,videoHeight,0,0,width,height)
