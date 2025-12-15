@@ -28,6 +28,11 @@ if(event.persisted){
 
 <script type=module>
 const{video,svg}=window
+{
+	const{resolve,promise}=Promise.withResolvers()
+	video.addEventListener('loadedmetadata',resolve)
+	await promise
+}
 do{
 	const{videoWidth,videoHeight}=video
 	const viewBox='0 0 '+videoWidth+' '+videoHeight// カンマ?
@@ -37,7 +42,7 @@ do{
 		redPath.setAttribute('d','')
 	}
 	const{resolve,promise}=Promise.withResolvers()
-	video.addEventListener('loadedmetadata',resolve)
+	video.requestVideoFrameCallback(resolve)
 	await promise
 } while(true)
 </script>
