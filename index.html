@@ -27,7 +27,13 @@ if(event.persisted){
 </script>
 
 <script type=module>
-const{video}=window
+const{video,svg,bluePath,redPath}=window
+/*
+video.removeAttribute('id')
+svg.removeAttribute('id')
+bluePath.removeAttribute('id')
+redPath.removeAttribute('id')
+*/
 
 console.log('ZXing',ZXing)
 const reader=new ZXing.BrowserMultiFormatReader
