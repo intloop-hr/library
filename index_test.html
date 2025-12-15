@@ -28,7 +28,6 @@ if(event.persisted){
 
 <script type=module>
 const{video}=window
-video.removeAttribute('id')
 
 const reader=new ZXing.BrowserMultiFormatReader/*BrowserMultiFormatOneDReader*/
 addEventListener('beforeunload',function(){
@@ -40,17 +39,28 @@ try{
 	hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
 	const codeRegExp=/^97[89]\d{10}$|^491\d{6}(0[1-9]|1[0-2])\d{2}$/
 	reader.decodeFromVideoDevice(deviceId,video,async function(){
+		const{videoWidth,videoHeight}=video
+		const viewBox='0,0,'+videoWidth+','+videoHeight
+		if(svg.getAttribute('viewBox')!==viewBox){
+			svg.setAttribute('viewBox',viewBox)
+			/*
+			bluePath.setAttribute('d','')
+			redPath.setAttribute('d','')
+			*/
+		}
+
 		bluePath.setAttribute('d','')
 		redPath.setAttribute('d','')
+		
 		const[result]=arguments
 		if(result){
 		} else return
 		const{resultPoints,text}=result
 		const[point1,point2]=resultPoints
-		const vertices=[]
 		if(point1.y!==point2.y){
 			console.error(point1.y,point2.y)
 		}
+		const vertices=[]
 		const y1=point1.y/2+point2.y/2+point1.x/4-point2.x/4
 		const y2=point1.y/2+point2.y/2-point1.x/4+point2.x/4
 		vertices.push(point1.x+' '+y1)
