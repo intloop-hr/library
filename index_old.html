@@ -38,9 +38,14 @@ do{
 
 <script type=module>
 const{video,canvas,svg}=window
+{
+	const{resolve,promise}=Promise.withResolvers()
+	video.addEventListener('loadedmetadata',resolve)
+	await promise
+}
 do{
-	const{videoWidth,videoHeight}=video
-	if(videoWidth*videoHeight){
+	const{videoWidth,videoHeight}=video/*
+	if(videoWidth*videoHeight){*/
 		const width=800*videoWidth/Math.max(videoWidth,videoHeight)
 		const height=800*videoHeight/Math.max(videoWidth,videoHeight)
 		console.log(width,height)
@@ -52,10 +57,10 @@ do{
 			svg.setAttribute('viewBox',viewBox)
 			bluePath.setAttribute('d','')
 			redPath.setAttribute('d','')
-		}
-	}
+		}/*
+	}*/
 	const{resolve,promise}=Promise.withResolvers()
-	video.addEventListener('loadedmetadata',resolve)
+	video.requestVideoFrameCallback(resolve)
 	await promise
 } while(true)
 </script>
