@@ -71,7 +71,6 @@ try{
 			url.pathname='v1/get'
 			url.searchParams.set('isbn',text)
 			const response=await fetch(url)
-			// 保留 ここから
 			let titleUnknown=true
 			for(const item of await response.json()){
 				if(item); else continue
@@ -86,7 +85,6 @@ try{
 			if(titleUnknown){
 				messageLines.push('目視にてISBNをご確認ください。')
 			}
-			// 保留 ここまで
 
 			codeChunks.push(text.slice(0,3))
 			codeChunks.push(text.slice(3,6))
@@ -127,7 +125,6 @@ try{
 <video id=video autoplay playsinline>
 	<style>@scope{
 		:where(:scope){block-size:100%;inline-size:100%}
-		/*position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain*/
 	}</style>
 </video>
 <svg id=svg>
