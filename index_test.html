@@ -29,13 +29,12 @@ if(event.persisted){
 <script type=module>
 const{video}=window
 
-const reader=new ZXing.BrowserMultiFormatReader/*BrowserMultiFormatOneDReader*/
-addEventListener('beforeunload',function(){
-	reader.reset()
-})
+console.log('ZXing',ZXing)
+const reader=new ZXing.BrowserMultiFormatReader
 try{
 	const[{deviceId}]=await reader.listVideoInputDevices()
 	const hints=new Map
+	hints.set(ZXing.DecodeHintType.TRY_HARDER,true)
 	hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
 	const codeRegExp=/^97[89]\d{10}$|^491\d{6}(0[1-9]|1[0-2])\d{2}$/
 	await reader.decodeFromVideoDevice(deviceId,video,async function(){
