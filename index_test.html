@@ -50,12 +50,16 @@ try{
 		for(const{x,y}of resultPoints){
 			vertices.push(x+' '+y)
 		}
+		const d='M'+vertices.join('L')
+		//
+		document.querySelector('body>div').innerText=d
+		//
 		if(codeRegExp.test(text)){
 		} else{
-			bluePath.setAttribute('d','M'+vertices.join('L'))
+			bluePath.setAttribute('d',d)
 			return
 		}
-		redPath.setAttribute('d','M'+vertices.join('L'))
+		redPath.setAttribute('d',d)
 
 		video.pause()
 		const codeChunks=[]
