@@ -30,6 +30,8 @@ if(event.persisted){
 const{video,canvas,svg}=window
 do{
 	const{videoWidth,videoHeight}=video
+	if(videoWidth*videoHeight){
+	} else continue
 	const width=800*videoWidth/Math.max(videoWidth,videoHeight)
 	const height=800*videoHeight/Math.max(videoWidth,videoHeight)
 	console.log(width,height)
