@@ -42,15 +42,11 @@ try{
 		const viewBox='0,0,'+videoWidth+','+videoHeight
 		if(svg.getAttribute('viewBox')!==viewBox){
 			svg.setAttribute('viewBox',viewBox)
-			/*
-			bluePath.setAttribute('d','')
-			redPath.setAttribute('d','')
-			*/
 		}
 
 		bluePath.setAttribute('d','')
 		redPath.setAttribute('d','')
-		
+
 		const[result]=arguments
 		if(result){
 		} else return
@@ -75,6 +71,10 @@ try{
 		redPath.setAttribute('d',d)
 
 		video.pause()
+		// 確認 ここから
+		const tracks=video.srcObject?.getTracks()
+		tracks?.forEach(track=>track.stop())
+		// 確認 ここまで
 		const codeChunks=[]
 		const messageLines=['図書の内容は以下ですか?','']
 		switch(text.slice(0,3)){
@@ -120,7 +120,7 @@ try{
 			break
 
 			default:
-			throw new Error('えらー')
+			throw new Error('不明なバーコード形式')
 		}
 		if(confirm(messageLines.join('\n'))){
 			location.href='form.html?digits='+text.slice(0,-1)
