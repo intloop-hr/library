@@ -27,6 +27,9 @@ if(event.persisted){
 </script>
 
 <script type=module>
+</script>
+
+<script type=module>
 const{video,canvas,svg}=window
 video.removeAttribute('id')
 canvas.removeAttribute('id')
@@ -111,15 +114,15 @@ while(true){
 	for(const{codeResult}of await promise){
 		if(codeResult); else continue
 
-		const{code}=codeResult
-		if(codeRegExp.test(code)); else continue
+		const text=codeResult.code
+		if(codeRegExp.test(text)); else continue
 		{
-			const digitPairs=code.match(digitPairRegExp)
+			const digitPairs=text.match(digitPairRegExp)
 			let result=-1
 			for(const[digit1,digit2]of digitPairs){
 				result+=+digit1+3*digit2
 			}
-			if(9-result%10!=code.slice(-1)) continue
+			if(9-result%10!=text.slice(-1)) continue
 		}
 
 		video.after(canvas)
@@ -128,14 +131,14 @@ while(true){
 
 		const codeChunks=[]
 		const messageLines=['図書の内容は以下ですか?','']
-		switch(code.slice(0,3)){
+		switch(text.slice(0,3)){
 			case'978':
 			case'979':
 			const url=new URL('https:api.openbd.jp')
 			url.pathname='v1/get'
-			url.searchParams.set('isbn',code)
+			url.searchParams.set('isbn',text)
 			const response=await fetch(url)
-			// 保留 ここから
+			// 改修 ここから
 			let titleUnknown=true
 			for(const item of await response.json()){
 				if(item){
@@ -151,23 +154,23 @@ while(true){
 			if(titleUnknown){
 				messageLines.push('目視にてISBNをご確認ください。')
 			}
-			// 保留 ここまで
+			// 改修 ここまで
 
-			codeChunks.push(code.slice(0,3))
-			codeChunks.push(code.slice(3,6))
-			codeChunks.push(code.slice(6,9))
-			codeChunks.push(code.slice(9,12))
-			codeChunks.push(code.slice(12,13))
+			codeChunks.push(text.slice(0,3))
+			codeChunks.push(text.slice(3,6))
+			codeChunks.push(text.slice(6,9))
+			codeChunks.push(text.slice(9,12))
+			codeChunks.push(text.slice(12,13))
 			messageLines.push('ISBN: '+codeChunks.join(' '))
 			break
 
 			case'491':
-			codeChunks.push(code.slice(0,3))
-			codeChunks.push(code.slice(3,4))
-			codeChunks.push(code.slice(4,9))
-			codeChunks.push(code.slice(9,11))
-			codeChunks.push(code.slice(11,12))
-			codeChunks.push(code.slice(12,13))
+			codeChunks.push(text.slice(0,3))
+			codeChunks.push(text.slice(3,4))
+			codeChunks.push(text.slice(4,9))
+			codeChunks.push(text.slice(9,11))
+			codeChunks.push(text.slice(11,12))
+			codeChunks.push(text.slice(12,13))
 			messageLines.push('雑誌コード: '+codeChunks.join(' '))
 			break
 
@@ -175,7 +178,7 @@ while(true){
 			throw new Error('不明なコード形式')
 		}
 		if(confirm(messageLines.join('\n'))){
-			location.href='form.html?digits='+code.slice(0,-1)
+			location.href='form.html?digits='+text.slice(0,-1)
 			await Promise.race('')
 		}
 	}
