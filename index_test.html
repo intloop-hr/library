@@ -43,10 +43,6 @@ try{
 		const[result]=arguments
 		if(result){
 		} else return
-		//
-		console.log(result)
-		return
-		//
 		const{text}=result
 		if(codeRegExp.test(text)){
 		} else return
@@ -128,7 +124,7 @@ try{
 }
 </script>
 
-<video id=video playsinline>
+<video id=video autoplay playsinline>
 	<style>@scope{
 		:where(:scope){block-size:100%;inline-size:100%}
 		/*position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain*/
