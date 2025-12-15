@@ -27,13 +27,33 @@ if(event.persisted){
 </script>
 
 <script type=module>
-const{video,svg,bluePath,redPath}=window
 /*
-video.removeAttribute('id')
-svg.removeAttribute('id')
-bluePath.removeAttribute('id')
-redPath.removeAttribute('id')
+const{video,svg}=window
+{
+	const{resolve,promise}=Promise.withResolvers()
+	video.addEventListener('loadedmetadata',resolve)
+	await promise
+	video.removeEventListener('loadedmetadata',resolve)
+}
+do{
+	const{videoWidth,videoHeight}=video
+	const viewBox='0 0 '+videoWidth+' '+videoHeight
+	if(svg.getAttribute('viewBox')!==viewBox){
+		svg.setAttribute('viewBox',viewBox)
+		bluePath.setAttribute('d','')
+		redPath.setAttribute('d','')
+	}
+	const{resolve,promise}=Promise.withResolvers()
+	requestAnimationFrame(resolve)
+	setTimeout(resolve)
+	video.requestVideoFrameCallback(resolve)
+	await promise
+} while(true)
 */
+</script>
+
+<script type=module>
+const{video,svg,bluePath,redPath}=window
 
 console.log('ZXing',ZXing)
 const reader=new ZXing.BrowserMultiFormatReader
@@ -44,11 +64,13 @@ try{
 	hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
 	const codeRegExp=/^97[89]\d{10}$|^491\d{6}(0[1-9]|1[0-2])\d{2}$/
 	await reader.decodeFromVideoDevice(deviceId,video,async function(){
+		//
 		const{videoWidth,videoHeight}=video
 		const viewBox='0,0,'+videoWidth+','+videoHeight
 		if(svg.getAttribute('viewBox')!==viewBox){
 			svg.setAttribute('viewBox',viewBox)
 		}
+		//
 
 		bluePath.setAttribute('d','')
 		redPath.setAttribute('d','')

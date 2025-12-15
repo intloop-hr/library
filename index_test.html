@@ -43,6 +43,8 @@ do{
 		redPath.setAttribute('d','')
 	}
 	const{resolve,promise}=Promise.withResolvers()
+	requestAnimationFrame(resolve)
+	setTimeout(resolve)
 	video.requestVideoFrameCallback(resolve)
 	await promise
 } while(true)
