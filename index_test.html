@@ -1,6 +1,6 @@
 <meta name=format-detection content=telephone=no>
 <meta name=viewport content=width=device-width>
-<title>INTLOOPライブラリー</title>
+<title>ライブラリー</title>
 <link href=style.css rel=stylesheet>
 <style>:not(*>*){@media not (prefers-color-scheme:dark){background-color:#000;color-scheme:dark}touch-action:none}</style>
 
@@ -126,9 +126,8 @@ try{
 		}
 		if(confirm(messageLines.join('\n'))){
 			location.href='form.html?digits='+text.slice(0,-1)
-		} else{
-			location.reload()
 		}
+		location.reload()
 		await Promise.race('')
 	},hints)
 } catch(error){
