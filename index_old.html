@@ -170,7 +170,7 @@ while(true){
 			break
 
 			default:
-			throw new Error('えらー')
+			throw new Error('不明なバーコード形式')
 		}
 		if(confirm(messageLines.join('\n'))){
 			location.href='form.html?digits='+code.slice(0,-1)
