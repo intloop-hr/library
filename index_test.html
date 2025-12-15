@@ -51,119 +51,113 @@ do{
 <script type=module>
 const{video,svg,bluePath,redPath}=window
 
-const constraints={}
-constraints.video={}
-{
-	const{video}=constraints
-	video.facingMode='environment'
-	video.aspectRatio={max:4/3,min:.75}
-	video.brightness=170
-	video.contrast=100
-	video.saturation=75
-	video.exposureMode='continuous'
-	video.focusMode='continuous'
-	video.whiteBalanceMode='continuous'
-}
-video.srcObject=await navigator.mediaDevices.getUserMedia(constraints)
-await video.play()
-
 console.log('ZXing',ZXing)
 const reader=new ZXing.BrowserMultiFormatReader
-const hints=new Map
-hints.set(ZXing.DecodeHintType.TRY_HARDER,true)
-hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
-
-const codeRegExp=/^97[89]\d{10}$|^491\d{6}(0[1-9]|1[0-2])\d{2}$/
-do{
-	const result=await reader.decodeOnceFromStream(video.srcObject,hints)
-	const{resultPoints,text}=result
-	const[point1,point2]=resultPoints
-	if(point1.y!==point2.y){
-		console.error(point1.y,point2.y)
-	}
-	const vertices=[]
-	const y1=point1.y/2+point2.y/2+point1.x/4-point2.x/4
-	const y2=point1.y/2+point2.y/2-point1.x/4+point2.x/4
-	vertices.push(point1.x+' '+y1)
-	vertices.push(point2.x+' '+y1)
-	vertices.push(point2.x+' '+y2)
-	vertices.push(point1.x+' '+y2)
-	const d='M'+vertices.join('L')+'Z'
-	if(codeRegExp.test(text)){
-	} else{
+try{
+	const[{deviceId}]=await reader.listVideoInputDevices()
+	const hints=new Map
+	hints.set(ZXing.DecodeHintType.TRY_HARDER,true)
+	hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
+	const codeRegExp=/^97[89]\d{10}$|^491\d{6}(0[1-9]|1[0-2])\d{2}$/
+	await reader.decodeFromVideoDevice(deviceId,video,async function(){
+		bluePath.setAttribute('d','')
 		redPath.setAttribute('d','')
-		bluePath.setAttribute('d',d)
-		continue
-	}
-	redPath.setAttribute('d',d)
-	bluePath.setAttribute('d','')
 
-	video.pause()
-	// 確認 ここから
-	const tracks=video.srcObject.getTracks()
-	tracks?.forEach(track=>track.stop())
-	// 確認 ここまで
-
-	const codeChunks=[]
-	const messageLines=['図書の内容は以下ですか?','']
-	switch(text.slice(0,3)){
-		case'978':
-		case'979':
-		const url=new URL('https:api.openbd.jp')
-		url.pathname='v1/get'
-		url.searchParams.set('isbn',text)
-		const response=await fetch(url)
-		// 改修 ここから
-		let titleUnknown=true
-		for(const item of await response.json()){
-			if(item){
-			} else continue
-			const{summary}=item
-			const{title}=summary
-			if(title){
-				messageLines.push('題名: '+title)
-				titleUnknown=false
-			}
-			break
+		const[result]=arguments
+		if(result){
+		} else return
+		const{resultPoints,text}=result
+		const[point1,point2]=resultPoints
+		if(point1.y!==point2.y){
+			console.error(point1.y,point2.y)
 		}
-		if(titleUnknown){
-			messageLines.push('目視にてISBNをご確認ください。')
+		const vertices=[]
+		const y1=point1.y/2+point2.y/2+point1.x/4-point2.x/4
+		const y2=point1.y/2+point2.y/2-point1.x/4+point2.x/4
+		vertices.push(point1.x+' '+y1)
+		vertices.push(point2.x+' '+y1)
+		vertices.push(point2.x+' '+y2)
+		vertices.push(point1.x+' '+y2)
+		const d='M'+vertices.join('L')+'Z'
+		if(codeRegExp.test(text)){
+		} else{
+			bluePath.setAttribute('d',d)
+			return
 		}
-		// 改修 ここまで
+		redPath.setAttribute('d',d)
 
-		codeChunks.push(text.slice(0,3))
-		codeChunks.push(text.slice(3,6))
-		codeChunks.push(text.slice(6,9))
-		codeChunks.push(text.slice(9,12))
-		codeChunks.push(text.slice(12,13))
-		messageLines.push('ISBN: '+codeChunks.join(' '))
-		break
-
-		case'491':
-		codeChunks.push(text.slice(0,3))
-		codeChunks.push(text.slice(3,4))
-		codeChunks.push(text.slice(4,9))
-		codeChunks.push(text.slice(9,11))
-		codeChunks.push(text.slice(11,12))
-		codeChunks.push(text.slice(12,13))
-		messageLines.push('雑誌コード: '+codeChunks.join(' '))
-		break
-
-		default:
-		throw new Error('不明なバーコード形式')
-	}
-	if(confirm(messageLines.join('\n'))){
-		location.href='form.html?digits='+text.slice(0,-1)
+		video.pause()
 		// 確認 ここから
-		const{resolve,promise}=Promise.withResolvers()
-		addEventListener('pageshow',resolve)
-		await promise
-		removeEventListener('pageshow',resolve)
+		const tracks=video.srcObject?.getTracks()
+		tracks?.forEach(track=>track.stop())
 		// 確認 ここまで
+
+		const codeChunks=[]
+		const messageLines=['図書の内容は以下ですか?','']
+		switch(text.slice(0,3)){
+			case'978':
+			case'979':
+			const url=new URL('https:api.openbd.jp')
+			url.pathname='v1/get'
+			url.searchParams.set('isbn',text)
+			const response=await fetch(url)
+			// 改修 ここから
+			let titleUnknown=true
+			for(const item of await response.json()){
+				if(item){
+				} else continue
+				const{summary}=item
+				const{title}=summary
+				if(title){
+					messageLines.push('題名: '+title)
+					titleUnknown=false
+				}
+				break
+			}
+			if(titleUnknown){
+				messageLines.push('目視にてISBNをご確認ください。')
+			}
+			// 改修 ここまで
+
+			codeChunks.push(text.slice(0,3))
+			codeChunks.push(text.slice(3,6))
+			codeChunks.push(text.slice(6,9))
+			codeChunks.push(text.slice(9,12))
+			codeChunks.push(text.slice(12,13))
+			messageLines.push('ISBN: '+codeChunks.join(' '))
+			break
+
+			case'491':
+			codeChunks.push(text.slice(0,3))
+			codeChunks.push(text.slice(3,4))
+			codeChunks.push(text.slice(4,9))
+			codeChunks.push(text.slice(9,11))
+			codeChunks.push(text.slice(11,12))
+			codeChunks.push(text.slice(12,13))
+			messageLines.push('雑誌コード: '+codeChunks.join(' '))
+			break
+
+			default:
+			throw new Error('不明なバーコード形式')
+		}
+		if(confirm(messageLines.join('\n'))){
+			location.href='form.html?digits='+text.slice(0,-1)
+			// 確認 ここから
+			const{resolve,promise}=Promise.withResolvers()
+			addEventListener('pageshow',resolve)
+			await promise
+			removeEventListener('pageshow',resolve)
+			// 確認 ここまで
+		}
+		location.reload()
+		await Promise.race('')
+	},hints)
+} catch(error){
+	if('requestIdleCallback'in window){
+		await new Promise(requestIdleCallback)
 	}
-	break
-} while(true)
-location.reload()
+	alert(error)
+}
 </script>
 
 <video id=video playsinline>
