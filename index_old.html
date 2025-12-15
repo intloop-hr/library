@@ -46,6 +46,9 @@ do{
 		bluePath.setAttribute('d','')
 		redPath.setAttribute('d','')
 	}
+	//
+	document.querySelector(':root>body>div').childNodes[1].textContent=Math.random()
+	//
 	const{resolve,promise}=Promise.withResolvers()
 	video.requestVideoFrameCallback(resolve)
 	await promise
