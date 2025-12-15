@@ -30,32 +30,12 @@ if(event.persisted){
 const{video}=window
 video.removeAttribute('id')
 
-const reader=new ZXing.BrowserMultiFormatReader
+const reader=new ZXing.BrowserMultiFormatReader/*BrowserMultiFormatOneDReader*/
 addEventListener('beforeunload',function(){
 	reader.reset()
 })
 try{
 	const[{deviceId}]=await reader.listVideoInputDevices()
-
-	/*
-	const constraints={}
-	constraints.video={}
-	{
-		const{video}=constraints
-		video.facingMode='environment'
-		video.aspectRatio={max:4/3,min:.75}
-		video.brightness=170
-		video.contrast=100
-		video.saturation=75
-		video.exposureMode='continuous'
-		video.focusMode='continuous'
-		video.whiteBalanceMode='continuous'
-	}
-	const stream=await navigator.mediaDevices.getUserMedia(constraints)
-	video.srcObject=stream
-	await video.play()
-	*/
-
 	const hints=new Map
 	hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
 	const codeRegExp=/^97[89]\d{10}$|^491\d{6}(0[1-9]|1[0-2])\d{2}$/
@@ -63,8 +43,10 @@ try{
 		const[result]=arguments
 		if(result){
 		} else return
+		//
 		console.log(result)
 		return
+		//
 		const{text}=result
 		if(codeRegExp.test(text)){
 		} else return
