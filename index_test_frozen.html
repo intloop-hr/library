@@ -27,9 +27,8 @@ if(event.persisted){
 </script>
 
 <script type=module>
-const{video,svg}=window
+const{video,svg,bluePath,redPath}=window
 
-/*
 const constraints={}
 constraints.video={}
 {
@@ -45,31 +44,14 @@ constraints.video={}
 }
 video.srcObject=await navigator.mediaDevices.getUserMedia(constraints)
 await video.play()
-delete constraints.video
-constraints.decoder={}
-{
-	const{decoder}=constraints
-	decoder.multiple=true
-	decoder.readers=['ean_reader']
-}
-constraints.locator={}
-{
-	const{locator}=constraints
-	locator.halfSample=true
-	locator.patchSize='medium'
-}
-constraints.numOfWorkers=navigator.hardwareConcurrency
-// constraints.frequency=10
-*/
 
 console.log('ZXing',ZXing)
 const reader=new ZXing.BrowserMultiFormatReader
-try{
-	const[{deviceId}]=await reader.listVideoInputDevices()
-	const hints=new Map
-	hints.set(ZXing.DecodeHintType.TRY_HARDER,true)
-	hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
-	const codeRegExp=/^97[89]\d{10}$|^491\d{6}(0[1-9]|1[0-2])\d{2}$/
+const hints=new Map
+hints.set(ZXing.DecodeHintType.TRY_HARDER,true)
+hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
+
+const codeRegExp=/^97[89]\d{10}$|^491\d{6}(0[1-9]|1[0-2])\d{2}$/
 	do{
 		const{videoWidth,videoHeight}=video
 		const viewBox='0,0,'+videoWidth+','+videoHeight
@@ -106,6 +88,7 @@ try{
 		const tracks=video.srcObject?.getTracks()
 		tracks?.forEach(track=>track.stop())
 		// 確認 ここまで
+
 		const codeChunks=[]
 		const messageLines=['図書の内容は以下ですか?','']
 		switch(text.slice(0,3)){
@@ -118,7 +101,8 @@ try{
 			// 改修 ここから
 			let titleUnknown=true
 			for(const item of await response.json()){
-				if(item); else continue
+				if(item){
+				} else continue
 				const{summary}=item
 				const{title}=summary
 				if(title){

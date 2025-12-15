@@ -26,6 +26,7 @@ if(event.persisted){
 }
 </script>
 
+<!---->
 <script type=module>
 const{video,svg}=window
 do{
@@ -41,6 +42,7 @@ do{
 	await promise
 } while(true)
 </script>
+<!---->
 
 <script type=module>
 const{video,svg,bluePath,redPath}=window
@@ -69,108 +71,90 @@ hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
 
 const codeRegExp=/^97[89]\d{10}$|^491\d{6}(0[1-9]|1[0-2])\d{2}$/
 while(true){
+	const result=await reader.decodeOnceFromStream(stream,hints)
+	const{resultPoints,text}=result
 
+	// 検出矩形を赤で描画
+	const [point1, point2] = resultPoints;
+	const y1 = point1.y / 2 + point2.y / 2 + point1.x / 4 - point2.x / 4;
+	const y2 = point1.y / 2 + point2.y / 2 - point1.x / 4 + point2.x / 4;
+	const vertices = [
+		`${point1.x} ${y1}`,
+		`${point2.x} ${y1}`,
+		`${point2.x} ${y2}`,
+		`${point1.x} ${y2}`
+	];
+	redPath.setAttribute('d', 'M' + vertices.join('L') + 'Z');
+	bluePath.setAttribute('d', '');
 
-    // 2. decodeOnceFromStream をループで繰り返す（検出されるまで継続）
-    let result;
-    while (true) {
-        try {
-            result = await reader.decodeOnceFromStream(stream, hints);
-            break; // 検出成功したらループ終了
-        } catch (err) {
-            // 検出失敗（NotFoundException など）は無視して次フレームを試す
-            if (err.name !== 'NotFoundException') {
-                throw err; // その他のエラーは投げ直す
-            }
-            // NotFoundException の場合は単に継続
-            await new Promise(resolve => requestAnimationFrame(resolve)); // 次のフレームまで待機
-        }
-    }
+	// フォーマットチェック
+	if (!codeRegExp.test(text)) {
+		alert('対応していないバーコード形式です。裏表紙のISBNバーコードを読み取ってください。');
+		throw new Error('無効なフォーマット');
+	}
+		video.pause()
+		// 確認 ここから
+		const tracks=video.srcObject?.getTracks()
+		tracks?.forEach(track=>track.stop())
+		// 確認 ここまで
 
-    // ここに到達した時点で result は必ず存在
-    const { resultPoints, text } = result;
+		const codeChunks=[]
+		const messageLines=['図書の内容は以下ですか?','']
+		switch(text.slice(0,3)){
+			case'978':
+			case'979':
+			const url=new URL('https:api.openbd.jp')
+			url.pathname='v1/get'
+			url.searchParams.set('isbn',text)
+			const response=await fetch(url)
+			// 改修 ここから
+			let titleUnknown=true
+			for(const item of await response.json()){
+				if(item){
+				} else continue
+				const{summary}=item
+				const{title}=summary
+				if(title){
+					messageLines.push('題名: '+title)
+					titleUnknown=false
+				}
+				break
+			}
+			if(titleUnknown){
+				messageLines.push('目視にてISBNをご確認ください。')
+			}
+			// 改修 ここまで
 
-    // 検出矩形を赤で描画
-    const [point1, point2] = resultPoints;
-    const y1 = point1.y / 2 + point2.y / 2 + point1.x / 4 - point2.x / 4;
-    const y2 = point1.y / 2 + point2.y / 2 - point1.x / 4 + point2.x / 4;
-    const vertices = [
-        `${point1.x} ${y1}`,
-        `${point2.x} ${y1}`,
-        `${point2.x} ${y2}`,
-        `${point1.x} ${y2}`
-    ];
-    redPath.setAttribute('d', 'M' + vertices.join('L') + 'Z');
-    bluePath.setAttribute('d', '');
+			codeChunks.push(text.slice(0,3))
+			codeChunks.push(text.slice(3,6))
+			codeChunks.push(text.slice(6,9))
+			codeChunks.push(text.slice(9,12))
+			codeChunks.push(text.slice(12,13))
+			messageLines.push('ISBN: '+codeChunks.join(' '))
+			break
 
-    // フォーマットチェック
-    if (!codeRegExp.test(text)) {
-        alert('対応していないバーコード形式です。裏表紙のISBNバーコードを読み取ってください。');
-        throw new Error('無効なフォーマット');
-    }
+			case'491':
+			codeChunks.push(text.slice(0,3))
+			codeChunks.push(text.slice(3,4))
+			codeChunks.push(text.slice(4,9))
+			codeChunks.push(text.slice(9,11))
+			codeChunks.push(text.slice(11,12))
+			codeChunks.push(text.slice(12,13))
+			messageLines.push('雑誌コード: '+codeChunks.join(' '))
+			break
 
-    // ビデオ停止
-    video.pause();
-    stream.getTracks().forEach(track => track.stop());
+			default:
+			throw new Error('不明なコード形式')
+		}
 
-    // 以降の処理（openBD 問い合わせ、確認ダイアログ）は変更なし
-    const messageLines = ['図書の内容は以下ですか?', ''];
-    const codeChunks = [];
-
-    switch (text.slice(0, 3)) {
-        case '978':
-        case '979':
-            const url = new URL('https://api.openbd.jp/v1/get');
-            url.searchParams.set('isbn', text);
-            const response = await fetch(url);
-            let titleUnknown = true;
-            for (const item of await response.json()) {
-                if (!item) continue;
-                const { summary } = item;
-                const { title } = summary;
-                if (title) {
-                    messageLines.push('題名: ' + title);
-                    titleUnknown = false;
-                }
-                break;
-            }
-            if (titleUnknown) {
-                messageLines.push('目視にてISBNをご確認ください。');
-            }
-
-            codeChunks.push(text.slice(0, 3), text.slice(3, 6), text.slice(6, 9), text.slice(9, 12), text.slice(12, 13));
-            messageLines.push('ISBN: ' + codeChunks.join(' '));
-            break;
-
-        case '491':
-            codeChunks.push(text.slice(0, 3), text.slice(3, 4), text.slice(4, 9), text.slice(9, 11), text.slice(11, 12), text.slice(12, 13));
-            messageLines.push('雑誌コード: ' + codeChunks.join(' '));
-            break;
-
-        default:
-            throw new Error('不明なコード形式です');
-    }
-
-    if (confirm(messageLines.join('\n'))) {
-        location.href = 'form.html?digits=' + text.slice(0, -1);
-        const { resolve, promise } = Promise.withResolvers();
-        addEventListener('pageshow', resolve);
-        await promise;
-    }
-    location.reload();
-
-} catch (error) {
-    // カメラアクセス拒否、ストリーム取得失敗、検出以外のエラーなど
-    if (video.srcObject) {
-        video.pause();
-        video.srcObject.getTracks().forEach(track => track.stop());
-    }
-    if ('requestIdleCallback' in window) {
-        await new Promise(requestIdleCallback);
-    }
-    alert('バーコードの読み取りに失敗しました。\nカメラの許可を確認するか、位置を調整してページを再読み込みしてください。\n\n詳細: ' + (error.message || error));
-    location.reload();
+		if(confirm(messageLines.join('\n'))){
+			location.href='form.html?digits='+text.slice(0,-1)
+			await Promise.race('')
+		}
+	}
+	if(video.paused) break
 }
+location.reload()
 </script>
 
 <video id=video playsinline>

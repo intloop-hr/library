@@ -48,6 +48,7 @@ constraints.video={}
 }
 video.srcObject=await navigator.mediaDevices.getUserMedia(constraints)
 await video.play()
+
 delete constraints.video
 constraints.decoder={}
 {
@@ -137,7 +138,8 @@ while(true){
 			// 保留 ここから
 			let titleUnknown=true
 			for(const item of await response.json()){
-				if(item); else continue
+				if(item){
+				} else continue
 				const{summary}=item
 				const{title}=summary
 				if(title){
@@ -170,7 +172,7 @@ while(true){
 			break
 
 			default:
-			throw new Error('えらー')
+			throw new Error('不明なコード形式')
 		}
 		if(confirm(messageLines.join('\n'))){
 			location.href='form.html?digits='+code.slice(0,-1)
