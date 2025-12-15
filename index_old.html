@@ -27,6 +27,16 @@ if(event.persisted){
 </script>
 
 <script type=module>
+const{video}=window
+do{
+	const{resolve,promise}=Promise.withResolvers()
+	video.addEventListener('loadedmetadata',resolve)
+	await promise
+	document.querySelector('body>div').innerText=Math.random()
+} while(true)
+</script>
+
+<script type=module>
 const{video,canvas,svg}=window
 do{
 	const{videoWidth,videoHeight}=video
