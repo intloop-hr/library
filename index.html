@@ -133,6 +133,7 @@ try{
 			const{resolve,promise}=Promise.withResolvers()
 			addEventListener('pageshow',resolve)
 			await promise
+			removeEventListener('pageshow',resolve)
 		}
 		location.reload()
 		await Promise.race('')

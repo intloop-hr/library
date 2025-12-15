@@ -32,6 +32,7 @@ const{video,canvas,svg}=window
 	const{resolve,promise}=Promise.withResolvers()
 	video.addEventListener('loadedmetadata',resolve)
 	await promise
+	video.removeEventListener('loadedmetadata',resolve)
 }
 do{
 	const{videoWidth,videoHeight}=video
@@ -40,15 +41,12 @@ do{
 	canvas.width=width
 	canvas.height=height
 	canvas.getContext('2d').drawImage(video,0,0,videoWidth,videoHeight,0,0,width,height)
-	const viewBox='0 0 '+width+' '+height// カンマ?
+	const viewBox='0 0 '+width+' '+height
 	if(svg.getAttribute('viewBox')!==viewBox){
 		svg.setAttribute('viewBox',viewBox)
 		bluePath.setAttribute('d','')
 		redPath.setAttribute('d','')
 	}
-	//
-	document.querySelector(':root>body>div').childNodes[1].textContent=Math.random()
-	//
 	const{resolve,promise}=Promise.withResolvers()
 	video.requestVideoFrameCallback(resolve)
 	await promise

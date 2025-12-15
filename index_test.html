@@ -32,10 +32,11 @@ const{video,svg}=window
 	const{resolve,promise}=Promise.withResolvers()
 	video.addEventListener('loadedmetadata',resolve)
 	await promise
+	video.removeEventListener('loadedmetadata',resolve)
 }
 do{
 	const{videoWidth,videoHeight}=video
-	const viewBox='0 0 '+videoWidth+' '+videoHeight// カンマ?
+	const viewBox='0 0 '+videoWidth+' '+videoHeight
 	if(svg.getAttribute('viewBox')!==viewBox){
 		svg.setAttribute('viewBox',viewBox)
 		bluePath.setAttribute('d','')
@@ -157,6 +158,7 @@ do{
 		const{resolve,promise}=Promise.withResolvers()
 		addEventListener('pageshow',resolve)
 		await promise
+		removeEventListener('pageshow',resolve)
 		// 確認 ここまで
 	}
 	break
