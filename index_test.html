@@ -46,11 +46,15 @@ try{
 		if(result){
 		} else return
 		const{resultPoints,text}=result
+		const[point1,point2]=resultPoints
 		const vertices=[]
-		for(const{x,y}of resultPoints){
-			vertices.push(x+' '+y)
-		}
-		const d='M'+vertices.join('L')
+		const y1=y+point1.x/2-point2.x/2
+		const y2=y-point1.x/2+point2.x/2
+		vertices.push(point1.x+' '+y1)
+		vertices.push(point2.x+' '+y1)
+		vertices.push(point2.x+' '+y2)
+		vertices.push(point1.x+' '+y2)
+		const d='M'+vertices.join('L')+'Z'
 		//
 		document.querySelector('body>div').innerText=d
 		//
