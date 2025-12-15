@@ -27,7 +27,7 @@ if(event.persisted){
 </script>
 
 <script type=module>
-const{video,svg}=window
+const{video,canvas,svg}=window
 do{
 	const{videoWidth,videoHeight}=video
 	const width=800*videoWidth/Math.max(videoWidth,videoHeight)
@@ -48,7 +48,7 @@ do{
 </script>
 
 <script type=module>
-const{video,canvas,svg}=window
+const{video,canvas,svg,bluePath,redPath}=window
 /*
 video.removeAttribute('id')
 canvas.removeAttribute('id')
