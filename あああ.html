@@ -1,0 +1,17 @@
+<div id=a>0</div>
+<script type=module>
+let i=0
+while(true){
+	await new Promise(requestIdleCallback)
+	a.innerText=++i
+}
+</script>
+
+<div id=d>0</div>
+<script type=module>
+let i=0
+while(true){
+	await fetch('data:,')
+	d.innerText=++i
+}
+</script>
