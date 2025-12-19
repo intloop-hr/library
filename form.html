@@ -103,6 +103,7 @@ do{
 	const entries=new FormData(target).entries()
 	const object=Object.fromEntries(entries)
 	options.body=JSON.stringify(object)
+	/*
 	let trial=fetch(target.action,options)
 	try{
 		await trial
@@ -118,18 +119,23 @@ do{
 		}
 		trial=fetch(target.action,options)
 	}
-	const response=await trial
+	*/
+	const response=await fetch(target.action,options)//trial
 	submitter.value='申請済'
 	target.classList.remove('posting')
 	if(target.classList.length){
 	} else{
 		target.removeAttribute('class')
 	}
-	const text=await response.text()
+	const message=await response.text()
 	if('requestIdleCallback'in window){
-		await new Promise(requestIdleCallback)
+		const{resolve,promise}=Promise.withResolvers()
+		requestIdleCallback(resolve)
+		await promise
+	} else{
+		await fetch('data:,')
 	}
-	alert(text)
+	alert(message)
 } while(true)
 </script>
 
