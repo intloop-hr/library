@@ -103,24 +103,7 @@ do{
 	const entries=new FormData(target).entries()
 	const object=Object.fromEntries(entries)
 	options.body=JSON.stringify(object)
-	/*
-	let trial=fetch(target.action,options)
-	try{
-		await trial
-	} catch(error){
-		if('requestIdleCallback'in window){
-			await new Promise(requestIdleCallback)
-			alert(error)
-		} else{
-			alert(error)
-			const{resolve,promise}=Promise.withResolvers()
-			setTimeout(resolve)
-			await promise
-		}
-		trial=fetch(target.action,options)
-	}
-	*/
-	const response=await fetch(target.action,options)//trial
+	const response=await fetch(target.action,options)
 	submitter.value='申請済'
 	target.classList.remove('posting')
 	if(target.classList.length){
