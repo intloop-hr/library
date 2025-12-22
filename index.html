@@ -54,7 +54,9 @@ location.reload()
 <script type=module>
 const{video,svg,bluePath,redPath}=window
 
+// 改修 ここから
 console.log('ZXing',ZXing)
+// 改修 ここまで
 const reader=new ZXing.BrowserMultiFormatReader
 try{
 	const[{deviceId}]=await reader.listVideoInputDevices()
@@ -140,7 +142,9 @@ try{
 			break
 
 			default:
+			// 改修 ここから
 			throw new Error('不明なバーコード形式')
+			// 改修 ここまで
 		}
 		if(confirm(messageLines.join('\n'))){
 			location.href='form.html?digits='+text.slice(0,-1)
