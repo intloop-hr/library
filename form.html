@@ -124,6 +124,8 @@ do{
 
 <form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
 	<style>@scope{
+		*{transition-property:background-color,color}
+		:not(:where(:focus)){transition-duration:.25s}
 		:where(fieldset){border:unset}
 		:where(input),:where(textarea){all:unset;background-color:light-dark(#ddd,#222);border-radius:calc(.5lh - .5em);box-sizing:border-box;cursor:revert;display:block;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;inline-size:100%}
 
@@ -144,10 +146,6 @@ do{
 			:where(:scope):has(:where(input):where([name=type]):where([value=延長]):where(:checked)) :where(.延長),
 			:where(:scope):has(:where(input):where([name=type]):where([value=返却]):where(:checked)) :where(.返却)
 		){display:none}}
-		/*
-		*{transition-property:background-color,color}
-		:not(:focus){transition-duration:.25s}
-		*/
 	}</style>
 	<fieldset>
 		<legend><strong>ISBNまたは雑誌コード</strong>（上12桁）</legend>
