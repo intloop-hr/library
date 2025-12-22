@@ -62,6 +62,7 @@ const reader=new ZXing.BrowserMultiFormatReader
 console.log('new ZXing.BrowserMultiFormatReader',reader)
 // 改修 ここまで
 try{
+	await reader.decodeOnceFromVideoDevice(undefined,video).then(console.log)
 	/*
 	const[,{deviceId}]=await navigator.mediaDevices.enumerateDevices()
 	*/
