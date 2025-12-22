@@ -58,6 +58,9 @@ const{video,svg,bluePath,redPath}=window
 console.log('ZXing',ZXing)
 // 改修 ここまで
 const reader=new ZXing.BrowserMultiFormatReader
+// 改修 ここから
+console.log('new ZXing',reader)
+// 改修 ここまで
 try{
 	const[{deviceId}]=await reader.listVideoInputDevices()
 	const hints=new Map
