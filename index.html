@@ -55,20 +55,20 @@ location.reload()
 const{video,svg,bluePath,redPath}=window
 
 // 改修 ここから
+const hints=new Map
+hints.set(ZXing.DecodeHintType.TRY_HARDER,true)
+hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
+
 console.log('ZXing',ZXing)
-// 改修 ここまで
-const reader=new ZXing.BrowserMultiFormatReader
-// 改修 ここから
+const reader=new ZXing.BrowserMultiFormatReader(hints,250)
 console.log('new ZXing.BrowserMultiFormatReader',reader)
+// reader.timeBetweenScansMillis = 250;
 // 改修 ここまで
 try{
 	/*
 	const[,{deviceId}]=await navigator.mediaDevices.enumerateDevices()
 	*/
 	const[{deviceId}]=await reader.listVideoInputDevices()
-	const hints=new Map
-	hints.set(ZXing.DecodeHintType.TRY_HARDER,true)
-	hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
 	const codeRegExp=/^97[89]\d{10}$|^491\d{6}(0[1-9]|1[0-2])\d{2}$/
 	await reader.decodeFromVideoDevice(deviceId,video,async function(){
 		bluePath.setAttribute('d','')
@@ -153,7 +153,7 @@ try{
 		} else{
 			location.reload()
 		}
-	},hints)
+	}/*,hints*/)
 } catch(error){
 	if('requestIdleCallback'in window){
 		const{resolve,promise}=Promise.withResolvers()
