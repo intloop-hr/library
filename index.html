@@ -10,9 +10,7 @@
 if('withResolvers'in Promise){
 } else{
 	if('requestIdleCallback'in window){
-		const{resolve,promise}=Promise.withResolvers()
-		requestIdleCallback(resolve)
-		await promise
+		await new Promise(requestIdleCallback)
 	} else{
 		await fetch('data:,')
 	}
@@ -32,10 +30,28 @@ location.reload()
 </script>
 
 <script type=module>
+const{video,canvas,svg}=window
+
 {
 	const{resolve,promise}=Promise.withResolvers()
-	screen.orientation.addEventListener('change',resolve)
+	video.addEventListener('loadedmetadata',resolve)
 	await promise
+	video.removeEventListener('loadedmetadata',resolve)
+}
+const{videoWidth,videoHeight}=video
+const width=800*videoWidth/Math.max(videoWidth,videoHeight)
+const height=800*videoHeight/Math.max(videoWidth,videoHeight)
+canvas.width=width
+canvas.height=height
+canvas.getContext('2d').drawImage(video,0,0,videoWidth,videoHeight,0,0,width,height)
+svg.setAttribute('viewBox','0 0 '+width+' '+height)
+
+{
+	const{orientation}=screen
+	const{resolve,promise}=Promise.withResolvers()
+	orientation.addEventListener('change',resolve)
+	await promise
+	orientation.removeEventListener('change',resolve)
 }
 location.reload()
 </script>
@@ -52,13 +68,13 @@ try{
 	hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
 	const codeRegExp=/^97[89]\d{10}$|^491\d{6}(0[1-9]|1[0-2])\d{2}$/
 	await reader.decodeFromVideoDevice(deviceId,video,async function(){
-		//
+		/*
 		const{videoWidth,videoHeight}=video
 		const viewBox='0 0 '+videoWidth+' '+videoHeight
 		if(svg.getAttribute('viewBox')!==viewBox){
 			svg.setAttribute('viewBox',viewBox)
 		}
-		//
+		*/
 
 		bluePath.setAttribute('d','')
 		redPath.setAttribute('d','')
