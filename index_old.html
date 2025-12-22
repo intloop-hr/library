@@ -34,9 +34,9 @@ const{video,canvas,svg}=window
 
 {
 	const{resolve,promise}=Promise.withResolvers()
-	video.addEventListener('play',resolve)
+	video.addEventListener('loadedmetadata',resolve)
 	await promise
-	video.removeEventListener('play',resolve)
+	video.removeEventListener('loadedmetadata',resolve)
 }
 const{videoWidth,videoHeight}=video
 //
