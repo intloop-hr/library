@@ -33,6 +33,8 @@ if(event.persisted){
 </script>
 
 <script type=module>
+video.addEventListener('loadedmetadata',alert)
+/*
 do{
 	const{resolve,promise}=Promise.withResolvers()
 	video.addEventListener('loadedmetadata',resolve)
@@ -47,6 +49,7 @@ do{
 	}
 	alert(event)
 } while(true)
+*/
 </script>
 
 <script type=module>
@@ -188,6 +191,12 @@ try{
 	}
 	alert(error)
 }
+</script>
+
+<script type=module>
+const{video,svg}=window
+video.removeAttribute('id')
+svg.removeAttribute('id')
 </script>
 
 <video id=video playsinline>
