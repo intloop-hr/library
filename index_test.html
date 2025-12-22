@@ -39,6 +39,7 @@ video.addEventListener('loadedmetadata',alert)
 
 <script type=module>
 const{video,svg}=window
+/*
 {
 	const{resolve,promise}=Promise.withResolvers()
 	video.addEventListener('loadedmetadata',resolve)
@@ -46,7 +47,12 @@ const{video,svg}=window
 	video.removeEventListener('loadedmetadata',resolve)
 	console.log(event)
 }
+*/
 do{
+	if(video.videoWidth){
+	} else continue
+	if(video.videoHeight){
+	} else continue
 	const{videoWidth,videoHeight}=video
 	const viewBox='0 0 '+videoWidth+' '+videoHeight
 	if(svg.getAttribute('viewBox')!==viewBox){
