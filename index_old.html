@@ -10,7 +10,11 @@
 if('withResolvers'in Promise){
 } else{
 	if('requestIdleCallback'in window){
-		await new Promise(requestIdleCallback)
+		const{resolve,promise}=Promise.withResolvers()
+		requestIdleCallback(resolve)
+		await promise
+	} else{
+		await fetch('data:,')
 	}
 	alert('お手数ですが、他の最新のブラウザーをご利用いただくか、清田へお問い合わせください。')
 }
