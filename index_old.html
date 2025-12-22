@@ -46,11 +46,17 @@ canvas.height=height
 svg.setAttribute('viewBox','0 0 '+width+' '+height)
 
 {
+	const{resolve,promise}=Promise.withResolvers()
+	video.addEventListener('resize',resolve)
+	await promise
+	video.removeEventListener('resize',resolve)
+	/*
 	const{orientation}=screen
 	const{resolve,promise}=Promise.withResolvers()
 	orientation.addEventListener('change',resolve)
 	await promise
 	orientation.removeEventListener('change',resolve)
+	*/
 }
 location.reload()
 </script>
