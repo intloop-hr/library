@@ -20,7 +20,7 @@ if('withResolvers'in Promise){
 }
 </script>
 
-<script type=module>
+<!--script type=module>
 {
 	const{resolve,promise}=Promise.withResolvers()
 	addEventListener('pageshow',resolve)
@@ -28,30 +28,17 @@ if('withResolvers'in Promise){
 	removeEventListener('pageshow',resolve)
 }
 if(event.persisted){
-	location=''
+	location.reload()
 }
-</script>
+</script-->
 
 <script type=module>
-/*
-const{video,svg}=window
 {
 	const{resolve,promise}=Promise.withResolvers()
-	video.addEventListener('loadedmetadata',resolve)
+	addEventListener('deviceorientation',resolve)
 	await promise
-	video.removeEventListener('loadedmetadata',resolve)
 }
-do{
-	const{videoWidth,videoHeight}=video
-	const viewBox='0 0 '+videoWidth+' '+videoHeight
-	if(svg.getAttribute('viewBox')!==viewBox){
-		svg.setAttribute('viewBox',viewBox)
-		bluePath.setAttribute('d','')
-		redPath.setAttribute('d','')
-	}
-	await fetch('data:,')
-} while(true)
-*/
+location.reload()
 </script>
 
 <script type=module>

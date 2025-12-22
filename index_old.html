@@ -21,10 +21,12 @@ if('withResolvers'in Promise){
 </script>
 
 <script type=module>
-const{resolve,promise}=Promise.withResolvers()
-addEventListener('pageshow',resolve)
-await promise
-removeEventListener('pageshow',resolve)
+{
+	const{resolve,promise}=Promise.withResolvers()
+	addEventListener('pageshow',resolve)
+	await promise
+	removeEventListener('pageshow',resolve)
+}
 if(event.persisted){
 	location=''
 }
