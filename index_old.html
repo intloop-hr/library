@@ -10,9 +10,7 @@
 if('withResolvers'in Promise){
 } else{
 	if('requestIdleCallback'in window){
-		const{resolve,promise}=Promise.withResolvers()
-		requestIdleCallback(resolve)
-		await promise
+		await new Promise(requestIdleCallback)
 	} else{
 		await fetch('data:,')
 	}
