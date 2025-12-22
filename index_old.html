@@ -21,15 +21,23 @@ if('withResolvers'in Promise){
 </script>
 
 <script type=module>
-{
+do{
 	const{resolve,promise}=Promise.withResolvers()
 	addEventListener('pageshow',resolve)
 	await promise
 	removeEventListener('pageshow',resolve)
+	if(event.persisted) break
+} while(true)
+location.reload()
+</script>
+
+<script type=module>
+{
+	const{resolve,promise}=Promise.withResolvers()
+	screen.orientation.addEventListener('change',resolve)
+	await promise
 }
-if(event.persisted){
-	location=''
-}
+location.reload()
 </script>
 
 <script type=module>
