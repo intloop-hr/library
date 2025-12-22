@@ -90,10 +90,10 @@ try{
 		redPath.setAttribute('d',d)
 
 		video.pause()
-		// 確認 ここから
+		/*
 		const tracks=video.srcObject?.getTracks()
 		tracks?.forEach(track=>track.stop())
-		// 確認 ここまで
+		*/
 		const codeChunks=[]
 		const messageLines=['図書の内容は以下ですか?','']
 		switch(text.slice(0,3)){
@@ -144,13 +144,17 @@ try{
 		}
 		if(confirm(messageLines.join('\n'))){
 			location.href='form.html?digits='+text.slice(0,-1)
+			/*
 			const{resolve,promise}=Promise.withResolvers()
 			addEventListener('pageshow',resolve)
 			await promise
 			removeEventListener('pageshow',resolve)
+			*/
 		}
+		/*
 		location.reload()
 		await Promise.race('')
+		*/
 	},hints)
 } catch(error){
 	if('requestIdleCallback'in window){
