@@ -49,11 +49,7 @@ do{
 		bluePath.setAttribute('d','')
 		redPath.setAttribute('d','')
 	}
-	const{resolve,promise}=Promise.withResolvers()
-	requestAnimationFrame(resolve)
-	setTimeout(resolve)
-	video.requestVideoFrameCallback(resolve)
-	await promise
+	await fetch('data:,')
 } while(true)
 */
 </script>
@@ -72,7 +68,7 @@ try{
 	await reader.decodeFromVideoDevice(deviceId,video,async function(){
 		//
 		const{videoWidth,videoHeight}=video
-		const viewBox='0,0,'+videoWidth+','+videoHeight
+		const viewBox='0 0 '+videoWidth+' '+videoHeight
 		if(svg.getAttribute('viewBox')!==viewBox){
 			svg.setAttribute('viewBox',viewBox)
 		}
