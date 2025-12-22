@@ -39,9 +39,6 @@ const{video,canvas,svg}=window
 	video.removeEventListener('loadedmetadata',resolve)
 }
 const{videoWidth,videoHeight}=video
-//
-console.log(videoWidth,videoHeight)
-//
 const width=800*videoWidth/Math.max(videoWidth,videoHeight)
 const height=800*videoHeight/Math.max(videoWidth,videoHeight)
 canvas.width=width
