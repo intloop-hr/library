@@ -35,7 +35,7 @@ if(event.persisted){
 <script type=module>
 {
 	const{resolve,promise}=Promise.withResolvers()
-	addEventListener('deviceorientation',resolve)
+	screen.orientation.addEventListener('change',resolve)
 	await promise
 }
 location.reload()
