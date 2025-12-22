@@ -54,15 +54,17 @@ location.reload()
 <script type=module>
 const{video,svg,bluePath,redPath}=window
 
-// 改修 ここから
 const hints=new Map
 hints.set(ZXing.DecodeHintType.TRY_HARDER,true)
 hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13])
 
+// 改修 ここから
 console.log('ZXing',ZXing)
-const reader=new ZXing.BrowserMultiFormatReader(hints,250)
+// 改修 ここまで
+const reader=new ZXing.BrowserMultiFormatReader
+// 改修 ここから
+reader.timeBetweenScansMillis = 250;
 console.log('new ZXing.BrowserMultiFormatReader',reader)
-// reader.timeBetweenScansMillis = 250;
 // 改修 ここまで
 try{
 	/*
@@ -153,7 +155,7 @@ try{
 		} else{
 			location.reload()
 		}
-	}/*,hints*/)
+	},hints)
 } catch(error){
 	if('requestIdleCallback'in window){
 		const{resolve,promise}=Promise.withResolvers()
