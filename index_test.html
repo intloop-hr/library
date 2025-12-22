@@ -35,22 +35,6 @@ if(event.persisted){
 <script type=module>
 const{video}=window
 video.addEventListener('loadedmetadata',alert)
-/*
-do{
-	const{resolve,promise}=Promise.withResolvers()
-	video.addEventListener('loadedmetadata',resolve)
-	await promise
-	video.removeEventListener('loadedmetadata',resolve)
-	if('requestIdleCallback'in window){
-		const{resolve,promise}=Promise.withResolvers()
-		requestIdleCallback(resolve)
-		await promise
-	} else{
-		await fetch('data:,')
-	}
-	alert(event)
-} while(true)
-*/
 </script>
 
 <script type=module>
