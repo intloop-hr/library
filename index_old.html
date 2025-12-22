@@ -32,35 +32,34 @@ location.reload()
 </script>
 
 <script type=module>
+const{video,canvas,svg}=window
+
 {
 	const{resolve,promise}=Promise.withResolvers()
-	screen.orientation.addEventListener('change',resolve)
+	video.addEventListener('play',resolve)
 	await promise
+	video.removeEventListener('play',resolve)
+}
+const{videoWidth,videoHeight}=video
+const width=800*videoWidth/Math.max(videoWidth,videoHeight)
+const height=800*videoHeight/Math.max(videoWidth,videoHeight)
+canvas.width=width
+canvas.height=height
+canvas.getContext('2d').drawImage(video,0,0,videoWidth,videoHeight,0,0,width,height)
+svg.setAttribute('viewBox','0 0 '+width+' '+height)
+
+{
+	const{orientation}=screen
+	const{resolve,promise}=Promise.withResolvers()
+	orientation.addEventListener('change',resolve)
+	await promise
+	orientation.removeEventListener('change',resolve)
 }
 location.reload()
 </script>
 
 <script type=module>
-const{video,canvas,svg}=window
-{
-	const{resolve,promise}=Promise.withResolvers()
-	video.addEventListener('loadedmetadata',resolve)
-	await promise
-	video.removeEventListener('loadedmetadata',resolve)
-}
 do{
-	const{videoWidth,videoHeight}=video
-	const width=800*videoWidth/Math.max(videoWidth,videoHeight)
-	const height=800*videoHeight/Math.max(videoWidth,videoHeight)
-	canvas.width=width
-	canvas.height=height
-	canvas.getContext('2d').drawImage(video,0,0,videoWidth,videoHeight,0,0,width,height)
-	const viewBox='0 0 '+width+' '+height
-	if(svg.getAttribute('viewBox')!==viewBox){
-		svg.setAttribute('viewBox',viewBox)
-		bluePath.setAttribute('d','')
-		redPath.setAttribute('d','')
-	}
 	const{resolve,promise}=Promise.withResolvers()
 	video.requestVideoFrameCallback(resolve)
 	await promise
