@@ -41,6 +41,9 @@ const{video,canvas,svg}=window
 	video.removeEventListener('play',resolve)
 }
 const{videoWidth,videoHeight}=video
+//
+console.log(videoWidth,videoHeight)
+//
 const width=800*videoWidth/Math.max(videoWidth,videoHeight)
 const height=800*videoHeight/Math.max(videoWidth,videoHeight)
 canvas.width=width
@@ -56,14 +59,6 @@ svg.setAttribute('viewBox','0 0 '+width+' '+height)
 	orientation.removeEventListener('change',resolve)
 }
 location.reload()
-</script>
-
-<script type=module>
-do{
-	const{resolve,promise}=Promise.withResolvers()
-	video.requestVideoFrameCallback(resolve)
-	await promise
-} while(true)
 </script>
 
 <script type=module>
