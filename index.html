@@ -121,7 +121,8 @@ try{
 			// 改修 ここから
 			let titleUnknown=true
 			for(const item of await response.json()){
-				if(item); else continue
+				if(item){
+				} else continue
 				const{summary}=item
 				const{title}=summary
 				if(title){
