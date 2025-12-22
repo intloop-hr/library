@@ -49,10 +49,6 @@ const{video,svg}=window
 }
 */
 do{
-	if(video.videoWidth){
-	} else continue
-	if(video.videoHeight){
-	} else continue
 	const{videoWidth,videoHeight}=video
 	const viewBox='0 0 '+videoWidth+' '+videoHeight
 	if(svg.getAttribute('viewBox')!==viewBox){
