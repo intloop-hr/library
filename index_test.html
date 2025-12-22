@@ -39,6 +39,7 @@ const{video,svg}=window
 	video.addEventListener('loadedmetadata',resolve)
 	await promise
 	video.removeEventListener('loadedmetadata',resolve)
+	console.log(event)
 }
 do{
 	const{videoWidth,videoHeight}=video
@@ -109,7 +110,7 @@ try{
 			case'978':
 			case'979':
 			const url=new URL('https:api.openbd.jp')
-			url.pathname='v1/get'
+			url.pathname='/v1/get'
 			url.searchParams.set('isbn',text)
 			const response=await fetch(url)
 			// 改修 ここから
@@ -159,7 +160,6 @@ try{
 			removeEventListener('pageshow',resolve)
 		}
 		location.reload()
-		await Promise.race('')
 	},hints)
 } catch(error){
 	if('requestIdleCallback'in window){
