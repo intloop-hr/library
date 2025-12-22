@@ -62,6 +62,9 @@ const reader=new ZXing.BrowserMultiFormatReader
 console.log('new ZXing.BrowserMultiFormatReader',reader)
 // 改修 ここまで
 try{
+	/*
+	const[,{deviceId}]=await navigator.mediaDevices.enumerateDevices()
+	*/
 	const[{deviceId}]=await reader.listVideoInputDevices()
 	const hints=new Map
 	hints.set(ZXing.DecodeHintType.TRY_HARDER,true)
