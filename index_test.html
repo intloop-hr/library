@@ -99,10 +99,10 @@ try{
 		redPath.setAttribute('d',d)
 
 		video.pause()
-		// 確認 ここから
+		/*
 		const tracks=video.srcObject?.getTracks()
 		tracks?.forEach(track=>track.stop())
-		// 確認 ここまで
+		*/
 		const codeChunks=[]
 		const messageLines=['図書の内容は以下ですか?','']
 		switch(text.slice(0,3)){
