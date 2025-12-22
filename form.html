@@ -124,11 +124,10 @@ do{
 
 <form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
 	<style>@scope{
-		*{transition-duration:.25s;transition-property:background-color,color}
 		:where(fieldset){border:unset}
 		:where(input),:where(textarea){all:unset;background-color:light-dark(#ddd,#222);border-radius:calc(.5lh - .5em);box-sizing:border-box;cursor:revert;display:block;padding-block:calc(.5lh - .5em);padding-inline:calc(1lh - 1em);min-block-size:1lh;inline-size:100%}
 
-		:where(input),:where(textarea){&:not(:where(:focus)):invalid{color:#f00;transition-duration:unset}}
+		:where(input),:where(textarea){&:not(:where(:focus)):invalid{color:#f00}}
 		:where(input){text-align:center}
 		:where(input):where([type=date]){block-size:calc(2lh - 1em)}
 		::-webkit-calendar-picker-indicator{cursor:pointer}
@@ -170,7 +169,7 @@ do{
 				:where(:scope)>:where(label)>:where(input):where([name=type]){display:none}
 				/*iOS Safariにて、:scopeの子要素:checkedを指定できない*/
 				:where(label):not(:has(:where(input):where([name=type]):where(:checked))){background-color:light-dark(#ddd,#222);cursor:pointer}
-				:where(label):has(:where(input):where([name=type]):where(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000);transition-duration:unset}
+				:where(label):has(:where(input):where([name=type]):where(:checked)){background-color:light-dark(#000,#fff);color:light-dark(#fff,#000)}
 			}</style>
 			<label><input type=radio name=type value=貸出 required>貸出</label>
 			<label><input type=radio name=type value=延長 required>延長</label>
