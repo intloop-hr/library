@@ -2,7 +2,7 @@
 <meta name=viewport content=width=device-width>
 <title>ライブラリー</title>
 <link href=style.css rel=stylesheet>
-<style>:not(*>*){@media not (prefers-color-scheme:dark){background-color:#000;color-scheme:dark}touch-action:none}</style>
+<style>&{touch-action:none;@media not (prefers-color-scheme:dark){background-color:#000;color-scheme:dark}}</style>
 
 <script src=https://cdn.jsdelivr.net/npm/quagga></script>
 
@@ -10,7 +10,9 @@
 if('withResolvers'in Promise){
 } else{
 	if('requestIdleCallback'in window){
-		await new Promise(requestIdleCallback)
+		const{promise,resolve}=Promise.withResolvers()
+		requestIdleCallback(resolve)
+		await promise
 	} else{
 		await fetch('data:,')
 	}
@@ -20,7 +22,7 @@ if('withResolvers'in Promise){
 
 <script type=module>
 do{
-	const{resolve,promise}=Promise.withResolvers()
+	const{promise,resolve}=Promise.withResolvers()
 	addEventListener('pageshow',resolve)
 	await promise
 	removeEventListener('pageshow',resolve)
@@ -33,7 +35,7 @@ location.reload()
 const{video,canvas,svg}=window
 
 {
-	const{resolve,promise}=Promise.withResolvers()
+	const{promise,resolve}=Promise.withResolvers()
 	video.addEventListener('loadedmetadata',resolve)
 	await promise
 	video.removeEventListener('loadedmetadata',resolve)
@@ -47,7 +49,7 @@ svg.setAttribute('viewBox','0 0 '+width+' '+height)
 
 {
 	const{orientation}=screen
-	const{resolve,promise}=Promise.withResolvers()
+	const{promise,resolve}=Promise.withResolvers()
 	orientation.addEventListener('change',resolve)
 	await promise
 	orientation.removeEventListener('change',resolve)
@@ -98,13 +100,13 @@ while(true){
 	const{width,height}=canvas
 	canvas.getContext('2d').drawImage(video,0,0,videoWidth,videoHeight,0,0,width,height)
 	constraints.src=canvas.toDataURL()
-	const{resolve,promise}=Promise.withResolvers()
+	const{promise,resolve}=Promise.withResolvers()
 	Quagga.decodeSingle(constraints,resolve)
 	try{
 		await promise
 	} catch(error){
 		if('requestIdleCallback'in window){
-			const{resolve,promise}=Promise.withResolvers()
+			const{promise,resolve}=Promise.withResolvers()
 			requestIdleCallback(resolve)
 			await promise
 		} else{
