@@ -7,7 +7,7 @@
 <script type=module>
 const[form]=document.forms
 do{
-	const{resolve,promise}=Promise.withResolvers()
+	const{promise,resolve}=Promise.withResolvers()
 	form.digits.addEventListener(`beforeinput`,resolve)
 	await promise
 	form.digits.removeEventListener(`beforeinput`,resolve)
@@ -49,7 +49,7 @@ form.date.max=new Date().toLocaleDateString('sv')
 </script>
 
 <script type=module>
-const{resolve,promise}=Promise.withResolvers()
+const{promise,resolve}=Promise.withResolvers()
 addEventListener('pageshow',resolve)
 await promise
 removeEventListener('pageshow',resolve)
@@ -76,7 +76,7 @@ do{
 	if(form.matches(':invalid')){
 		form.submitter.disabled||=true
 	}
-	const{resolve,promise}=Promise.withResolvers()
+	const{promise,resolve}=Promise.withResolvers()
 	form.addEventListener('input',resolve)
 	await promise
 	form.removeEventListener('input',resolve)
@@ -86,7 +86,7 @@ do{
 <script type=module>
 const[form]=document.forms
 do{
-	const{resolve,promise}=Promise.withResolvers()
+	const{promise,resolve}=Promise.withResolvers()
 	form.addEventListener('submit',resolve)
 	await promise
 	form.removeEventListener('submit',resolve)
@@ -112,7 +112,7 @@ do{
 	}
 	const message=await response.text()
 	if('requestIdleCallback'in window){
-		const{resolve,promise}=Promise.withResolvers()
+		const{promise,resolve}=Promise.withResolvers()
 		requestIdleCallback(resolve)
 		await promise
 	} else{
