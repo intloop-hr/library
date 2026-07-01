@@ -1,11 +1,13 @@
-*,::file-selector-button{@media(pointer:fine){scrollbar-width:none}font:unset;font-family:revert;font-style:revert;font-weight:revert;margin:unset;padding:unset}
-:not(*>*){@media(prefers-color-scheme:dark){background-color:#000;color-scheme:dark}line-break:loose;list-style-position:inside;overflow-wrap:break-word;text-align:justify;-webkit-text-size-adjust:none;text-underline-position:under}
-:where(:any-link):not(:where(:active)){color:unset}
-:visited{color:revert}
-:where(:any-link){text-decoration-line:unset}
+*,::file-selector-button{margin:unset;padding:unset;@media(pointer:fine){scrollbar-width:none}}
+&{line-break:strict;list-style-position:inside;overflow-wrap:break-word;text-align:justify;-webkit-text-size-adjust:none;text-underline-position:under;@media(prefers-color-scheme:dark){background-color:#000;color-scheme:dark}}
+:where(:focus-visible){outline-offset:unset}
+:where(:disabled),:where(:enabled),::file-selector-button{appearance:unset;background:unset;border:unset;box-sizing:unset;color:unset;font:unset;text-align:unset}
+
+:where(a):where(:any-link){text-decoration:unset}
+:where(a):where(:any-link):not(:where(:active)){color:unset}
 
 @font-face{font-family:\ ;src:local(noto sans jp)}
 @font-face{font-family:\ ;src:local(hiragino kaku gothic pron)}
 @font-face{font-family:\ ;src:local(arial);size-adjust:105.2%}
 @font-face{font-family:\ ;src:local(verdana);unicode-range:u+20}
-:not(*>*){font-family:\ ,sans-serif;font-feature-settings:"palt";font-kerning:none;hyphens:auto;line-height:2;-webkit-locale:"ja"}
+&{font-family:\ ,sans-serif;font-feature-settings:"palt";font-kerning:none;hyphens:auto;line-height:2;-webkit-locale:"ja"}
