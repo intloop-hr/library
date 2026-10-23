@@ -85,6 +85,7 @@ do{
 
 <script type=module>
 const[form]=document.forms
+/**/try{
 do{
 	const{promise,resolve}=Promise.withResolvers()
 	form.addEventListener('submit',resolve)
@@ -120,7 +121,10 @@ do{
 	}
 	alert(message)
 } while(true)
+/**/}catch(error){alert(error)}
 </script>
+
+<div>申し訳ありませんが、iOSのコードスキャナー（QRコードリーダー）から来られた方は、右下のSafariアイコンを押してご移動いただけますと幸いです。（コードスキャナーの仕様のためか、メッセージボックスが表示されないためです。）</div>
 
 <form action=https://script.google.com/macros/s/AKfycbx2Iksqz5JihaJKVJakdnP0E6K_15N4bzuEAvXGVaVFmA63BhQVw6pt6VuvZWYzlUWh/exec method=post>
 	<style>@scope{
