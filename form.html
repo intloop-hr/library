@@ -108,21 +108,17 @@ do{
 	try{
 		await trial
 	} catch(error){
-		/*
 		if('requestIdleCallback'in window){
 			const{promise,resolve}=Promise.withResolvers()
 			requestIdleCallback(resolve)
 			await promise
 		} else{
-			*/
 			await fetch('data:,')
-			/*
 		}
-		alert('申し訳ありませんが、iOSのコードスキャナーから来られた方は、右下のSafariアイコンを押してご移動いただけますと幸いです。\n\n（コードスキャナーの仕様のためか、メッセージボックスが表示されないためです。）\n\n'+test+'\n\n'+error)
-		*/
+		alert('申し訳ありませんが、iOSのコードスキャナーから来られた方は、右下のSafariアイコンを押してご移動いただけますと幸いです。\n\n（コードスキャナーの仕様のためか、メッセージボックスが表示されないためです。）\n\n'+options.body+'\n\n'+error)
 	}
-	// 改修 ここまで
 	const response=await trial
+	// 改修 ここまで
 	submitter.value='申請済'
 	target.classList.remove('posting')
 	if(target.classList.length){
