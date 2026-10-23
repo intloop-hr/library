@@ -104,6 +104,7 @@ do{
 	const object=Object.fromEntries(entries)
 	options.body=JSON.stringify(object)
 	// 改修 ここから
+	await fetch('data:,')
 	const trial=fetch(target.action,options)
 	try{
 		await trial
