@@ -101,31 +101,28 @@ do{
 	const options={}
 	options.method=target.method
 	const entries=new FormData(target).entries()
+	const object=Object.fromEntries(entries)
+	options.body=JSON.stringify(object)
 	// 改修 ここから
-	let test=0
+	const trial=fetch(target.action,options)
 	try{
-		// 改修 ここまで
-		const object=Object.fromEntries(entries)
-		// 改修 ここから
-		test=1
-		// 改修 ここまで
-		options.body=JSON.stringify(object)
-		// 改修 ここから
-		test=2
-		// 改修 ここまで
-		const response=await fetch(target.action,options)
-		// 改修 ここから
+		await trial
 	} catch(error){
+		/*
 		if('requestIdleCallback'in window){
 			const{promise,resolve}=Promise.withResolvers()
 			requestIdleCallback(resolve)
 			await promise
 		} else{
+			*/
 			await fetch('data:,')
+			/*
 		}
 		alert('申し訳ありませんが、iOSのコードスキャナーから来られた方は、右下のSafariアイコンを押してご移動いただけますと幸いです。\n\n（コードスキャナーの仕様のためか、メッセージボックスが表示されないためです。）\n\n'+test+'\n\n'+error)
+		*/
 	}
 	// 改修 ここまで
+	const response=await trial
 	submitter.value='申請済'
 	target.classList.remove('posting')
 	if(target.classList.length){
