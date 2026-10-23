@@ -86,56 +86,32 @@ do{
 <script type=module>
 const[form]=document.forms
 do{
+	const{promise,resolve}=Promise.withResolvers()
+	form.addEventListener('submit',resolve)
+	await promise
+	form.removeEventListener('submit',resolve)
+	if(event.target.method!='post') continue
+	event.preventDefault()
+	const{submitter,target}=event
+
+	submitter.disabled=true
+	submitter.value='申請中'
+	target.classList.add('posting')
+
+	const options={}
+	options.method=target.method
 	// 改修 ここから
 	let test=0
 	try{
 		// 改修 ここまで
-		const{promise,resolve}=Promise.withResolvers()
-		form.addEventListener('submit',resolve)
-		await promise
-		form.removeEventListener('submit',resolve)
-		if(event.target.method!='post') continue
-		event.preventDefault()
-		const{submitter,target}=event
-
-		// 改修 ここから
-		test+=1
-		// 改修 ここまで
-		submitter.disabled=true
-		submitter.value='申請中'
-		target.classList.add('posting')
-
-		// 改修 ここから
-		test+=1
-		// 改修 ここまで
-		const options={}
-		options.method=target.method
 		const entries=new FormData(target).entries()
+		// 改修 ここから
+		test=1
+		// 改修 ここまで
 		const object=Object.fromEntries(entries)
 		options.body=JSON.stringify(object)
 		const response=await fetch(target.action,options)
-		submitter.value='申請済'
-		target.classList.remove('posting')
-		if(target.classList.length){
-		} else{
-			target.removeAttribute('class')
-		}
-		// 改修 ここから
-		test+=1
-		// 改修 ここまで
-		const message=await response.text()
-		// 改修 ここから
-		test+=1
-		// 改修 ここまで
-		if('requestIdleCallback'in window){
-			const{promise,resolve}=Promise.withResolvers()
-			requestIdleCallback(resolve)
-			await promise
-		} else{
-			await fetch('data:,')
-		}
-		alert(message)
-		// 改修 ここから
+	// 改修 ここから
 	} catch(error){
 		if('requestIdleCallback'in window){
 			const{promise,resolve}=Promise.withResolvers()
@@ -147,6 +123,21 @@ do{
 		alert('申し訳ありませんが、iOSのコードスキャナー（QRコードリーダー）から来られた方は、右下のSafariアイコンを押してご移動いただけますと幸いです。\n\n（コードスキャナーの仕様のためか、メッセージボックスが表示されないためです。）\n\n'+test+'\n\n'+error)
 	}
 	// 改修 ここまで
+	submitter.value='申請済'
+	target.classList.remove('posting')
+	if(target.classList.length){
+	} else{
+		target.removeAttribute('class')
+	}
+	const message=await response.text()
+	if('requestIdleCallback'in window){
+		const{promise,resolve}=Promise.withResolvers()
+		requestIdleCallback(resolve)
+		await promise
+	} else{
+		await fetch('data:,')
+	}
+	alert(message)
 } while(true)
 </script>
 
