@@ -84,21 +84,6 @@ do{
 </script>
 
 <script type=module>
-// 改修 ここから
-try{
-	await fetch('')
-} catch(error){
-	if('requestIdleCallback'in window){
-		const{promise,resolve}=Promise.withResolvers()
-		requestIdleCallback(resolve)
-		await promise
-	} else{
-		await fetch('data:,')
-	}
-	alert(error)
-}
-// 改修 ここまで
-
 const[form]=document.forms
 do{
 	const{promise,resolve}=Promise.withResolvers()
@@ -131,7 +116,7 @@ do{
 		} else{
 			await fetch('data:,')
 		}
-		alert('申し訳ありませんが、iOSのコードスキャナーから来られた方は、右下のSafariアイコンを押してご移動いただけますと幸いです。\n\n（コードスキャナーの仕様のためか、メッセージボックスが表示されないためです。）\n\n'+options.body+'\n\n'+error)
+		alert('申し訳ありませんが、iOSのコードスキャナーから来られた方は、右下のSafariアイコンを押してご移動いただけますと幸いです。\n\n'+error)
 	}
 	const response=await trial
 	// 改修 ここまで
