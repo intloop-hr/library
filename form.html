@@ -108,12 +108,14 @@ do{
 	try{
 		const response=await trial
 		// 改修 ここまで
+
 		submitter.value='申請済'
 		target.classList.remove('posting')
 		if(target.classList.length){
 		} else{
 			target.removeAttribute('class')
 		}
+
 		const message=await response.text()
 		if('requestIdleCallback'in window){
 			const{promise,resolve}=Promise.withResolvers()
@@ -131,6 +133,7 @@ do{
 		} else{
 			target.removeAttribute('class')
 		}
+
 		if('requestIdleCallback'in window){
 			const{promise,resolve}=Promise.withResolvers()
 			requestIdleCallback(resolve)
