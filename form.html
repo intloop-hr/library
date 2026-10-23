@@ -94,10 +94,6 @@ do{
 	event.preventDefault()
 	const{submitter,target}=event
 
-	submitter.disabled=true
-	submitter.value='申請中'
-	target.classList.add('posting')
-
 	const options={}
 	options.method=target.method
 	const entries=new FormData(target).entries()
@@ -107,6 +103,13 @@ do{
 	const trial=fetch(target.action,options)
 	try{
 		await trial
+		// 改修 ここまで
+
+		submitter.disabled=true
+		submitter.value='申請中'
+		target.classList.add('posting')
+
+		// 改修 ここから
 	} catch(error){
 		if('requestIdleCallback'in window){
 			const{promise,resolve}=Promise.withResolvers()
