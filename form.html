@@ -106,7 +106,24 @@ do{
 	// 改修 ここから
 	const trial=fetch(target.action,options)
 	try{
-		await trial
+		const response=await trial
+		// 改修 ここまで
+		submitter.value='申請済'
+		target.classList.remove('posting')
+		if(target.classList.length){
+		} else{
+			target.removeAttribute('class')
+		}
+		const message=await response.text()
+		if('requestIdleCallback'in window){
+			const{promise,resolve}=Promise.withResolvers()
+			requestIdleCallback(resolve)
+			await promise
+		} else{
+			await fetch('data:,')
+		}
+		alert(message)
+		// 改修 ここから
 	} catch(error){
 		submitter.value='申請失敗'
 		target.classList.remove('posting')
@@ -123,23 +140,7 @@ do{
 		}
 		alert('申し訳ありませんが、iOSのコードスキャナーから来られた方は、右下のSafariアイコンを押してご移動いただけますと幸いです。\n\n'+error)
 	}
-	const response=await trial
 	// 改修 ここまで
-	submitter.value='申請済'
-	target.classList.remove('posting')
-	if(target.classList.length){
-	} else{
-		target.removeAttribute('class')
-	}
-	const message=await response.text()
-	if('requestIdleCallback'in window){
-		const{promise,resolve}=Promise.withResolvers()
-		requestIdleCallback(resolve)
-		await promise
-	} else{
-		await fetch('data:,')
-	}
-	alert(message)
 } while(true)
 </script>
 
